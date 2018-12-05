@@ -22,4 +22,5 @@
     <string name="button_sort">Odenar</string>
     <string name="fragment_header">Fragmento do header da app</string>
     <string name="title_activity_test1">Test1</string>
+    <string name="button_add">Add Chat</string>
 </resources>
