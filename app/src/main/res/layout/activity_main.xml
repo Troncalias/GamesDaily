@@ -8,43 +8,52 @@
     android:orientation="vertical"
     tools:context=".Activity.MainActivity">
 
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
+        android:layout_weight="1"
         android:textAlignment="center">
 
         <FrameLayout
             android:id="@+id/frame_layout_header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5">
 
             <fragment
                 android:id="@+id/fragment_header"
                 android:name="com.example.tronc.gamesdaily.Fragment.HeaderFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_marginTop="100dp"
                 android:tag="@string/fragment_header" />
         </FrameLayout>
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="50dp" />
-
-        <Button
-            android:id="@+id/buttonLogin"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-            android:text="Login" />
+            <Button
+                android:id="@+id/buttonLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Login" />
 
-        <Button
-            android:id="@+id/buttonRegister"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Registar" />
+            <Button
+                android:id="@+id/buttonRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Registar" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </FrameLayout>
