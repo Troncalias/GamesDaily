@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/loja_nomeTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add Store"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:padding="@dimen/dialog_title_padding"/>
+
+            <EditText
+                android:id="@+id/nomeLoja"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nome Loja"
+                android:inputType="textPersonName" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="@dimen/dialog_add_image_width"
+                    android:layout_height="@dimen/dialog_add_image_height"
+                    android:padding="@dimen/dialog_add_image_padding"
+                    app:srcCompat="@drawable/loja_default" />
+                <Button
+                    android:id="@+id/button_add_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_buttom_small"
+                    android:layout_toRightOf="@+id/imageView"
+                    android:text="Adicionar imagem"/>
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/descricaoLoja"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Descrição da loja"
+                android:inputType="textMultiLine"
+                android:lines="@integer/min_lines_long_edittext"
+                android:minLines="@integer/min_lines_long_edittext"
+                android:gravity="top|left"
+                android:maxLines="@integer/max_lines_long_edittext"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
+                <Button
+                    android:id="@+id/button_choose_place"
+                    android:layout_width="@dimen/dialog_choose_dataloc_button_width"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="@dimen/dialog_choose_dataloc_button_margin"
+                    android:background="@drawable/custom_buttom_small"
+                    android:text="Escolher local" />
+
+                <TextView
+                    android:id="@+id/placeTv"
+                    android:layout_width="@dimen/dialog_choose_dataloc_textview_width"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="@dimen/dialog_choose_dataloc_textview_margin"
+                    android:text="Sem local" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
+
+                <Button
+                    android:id="@+id/btn_confirm"
+                    android:layout_width="@dimen/dialog_button_confirm_width"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_buttom_small"
+                    android:text="@string/button_confirm"/>
+
+                <Button
+                    android:id="@+id/button_cancel"
+                    android:layout_width="@dimen/dialog_button_cancel_width"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_buttom_small"
+                    android:text="@string/button_cancel" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</android.support.constraint.ConstraintLayout>

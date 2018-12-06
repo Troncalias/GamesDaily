@@ -24,4 +24,14 @@
     <string name="title_activity_test1">Test1</string>
     <string name="button_add">Add Chat</string>
     <string name="button_fav">Favoritos</string>
+    <string name="pretitle_data_registo">Data:</string>
+    <string name="pretitle_email">Email:</string>
+    <string name="dialog_add_noticia_title">Add News</string>
+    <string name="hint_titulo_noticia">Título da notícia</string>
+    <string name="hint_conteudo_noticia">Conteudo da Noticia</string>
+    <string name="button_confirm">Confirmar</string>
+    <string name="button_cancel">Cancelar</string>
+    <string name="dialog_game">List</string>
+    <string name="button_close">Fechar</string>
+    <string name="button_admin">Admin</string>
 </resources>

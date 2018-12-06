@@ -3,4 +3,21 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="dialog_button_confirm_width">25dp</dimen>
+    <dimen name="dialog_button_cancel_width">25dp</dimen>
+    <dimen name="dialog_choose_dataloc_textview_margin">10dp</dimen>
+    <dimen name="dialog_choose_dataloc_textview_width">50dp</dimen>
+    <dimen name="dialog_choose_dataloc_button_margin">10dp</dimen>
+    <dimen name="dialog_choose_dataloc_button_width">50dp</dimen>
+    <dimen name="dialog_add_image_padding">10dp</dimen>
+    <dimen name="dialog_add_image_height">150dp</dimen>
+    <dimen name="dialog_add_image_width">150dp</dimen>
+    <dimen name="dialog_title_padding">20dp</dimen>
+    <dimen name="margin_start_items">15dp</dimen>
+    <dimen name="margin_end_items">15dp</dimen>
+    <dimen name="image_width_items">50dp</dimen>
+    <dimen name="image_height_items">50dp</dimen>
+    <dimen name="imageview_margin_items">10dp</dimen>
+    <dimen name="textview_padding_items">10dp</dimen>
+    <dimen name="textview_textsize_items">16dp</dimen>
 </resources>

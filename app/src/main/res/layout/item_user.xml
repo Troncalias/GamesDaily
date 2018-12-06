@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_marginStart="@dimen/margin_start_items"
+        android:layout_marginEnd="@dimen/margin_end_items"
+        android:background="@color/colorItemBackground">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/utilizador_imageView"
+                android:layout_width="@dimen/image_width_items"
+                android:layout_height="@dimen/image_height_items"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/utilizador_default"
+                android:layout_alignParentLeft="true"
+                android:scaleType="fitXY"
+                android:layout_margin="@dimen/imageview_margin_items"/>
+
+            <TextView
+                android:id="@+id/utilizador_usernameTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_toRightOf="@+id/utilizador_imageView"
+                android:padding="@dimen/textview_padding_items"
+                android:textSize="@dimen/textview_textsize_items"
+                android:textStyle="bold" />
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/dataInsercaoTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+        <TextView
+            android:id="@+id/emailTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+            <Button
+                android:id="@+id/button_remove"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/custom_buttom_small"
+                android:text="Apagar"/>
+            <Button
+                android:id="@+id/button_make_admin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/custom_buttom_small"
+                android:text="Defenir como admin"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.AdminActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+
+            <FrameLayout
+                android:id="@+id/frame_layout_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <fragment
+                    android:id="@+id/fragment_header"
+                    android:name="com.example.tronc.gamesdaily.Fragment.HeaderFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:tag="@string/fragment_header" />
+            </FrameLayout>
+
+
+            <TextView
+                android:id="@+id/subtitleTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Administração"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+            <Button
+                android:id="@+id/btn_add_game"
+                android:layout_width="250dp"
+                android:background="@drawable/custom_buttom_small"
+                android:layout_height="wrap_content"
+                android:text="Add Game" />
+            <Button
+                android:id="@+id/btn_accept_game"
+                android:layout_width="250dp"
+                android:background="@drawable/custom_buttom_small"
+                android:layout_height="wrap_content"
+                android:text="Accept Game" />
+            <Button
+                android:id="@+id/btn_add_store"
+                android:layout_width="250dp"
+                android:background="@drawable/custom_buttom_small"
+                android:layout_height="wrap_content"
+                android:text="Add Store" />
+            <Button
+                android:id="@+id/btn_accept_store"
+                android:layout_width="250dp"
+                android:background="@drawable/custom_buttom_small"
+                android:layout_height="wrap_content"
+                android:text="Accept Store" />
+            <Button
+                android:id="@+id/btn_add_news"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:text="Add News"
+                android:background="@drawable/custom_buttom_small"/>
+            <Button
+                android:id="@+id/btn_accept_news"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:text="Accept News"
+                android:background="@drawable/custom_buttom_small"/>
+            <Button
+                android:id="@+id/btn_remove_chat"
+                android:layout_width="250dp"
+                android:background="@drawable/custom_buttom_small"
+                android:layout_height="wrap_content"
+                android:text="Remove Chat" />
+            <Button
+                android:id="@+id/btn_remove_users"
+                android:layout_width="250dp"
+                android:background="@drawable/custom_buttom_small"
+                android:layout_height="wrap_content"
+                android:text="Remove User" />
+
+
+        </LinearLayout>
+    </ScrollView>
+</android.support.constraint.ConstraintLayout>
