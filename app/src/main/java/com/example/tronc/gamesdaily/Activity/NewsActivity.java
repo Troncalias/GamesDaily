@@ -76,19 +76,19 @@ public class NewsActivity extends AppCompatActivity {
             }
         });
 
-        Button bNoticias = findViewById(R.id.btn_lojas);
-        bNoticias.setOnClickListener(new View.OnClickListener() {
+        Button bLojas = findViewById(R.id.btn_lojas);
+        bLojas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(NewsActivity.this, StoresActivity.class));
             }
         });
 
         Button bFavoritos = findViewById(R.id.btn_favoritos);
-        bNoticias.setOnClickListener(new View.OnClickListener() {
+        bFavoritos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(NewsActivity.this, FavoritesActivity.class));
             }
         });
     }

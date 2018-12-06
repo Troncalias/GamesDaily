@@ -1,9 +1,8 @@
 package com.example.tronc.gamesdaily.Activity;
 
-import android.app.Activity;
-import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -15,34 +14,32 @@ import com.example.tronc.gamesdaily.Fragment.HeaderFragment;
 import com.example.tronc.gamesdaily.Models.Games;
 import com.example.tronc.gamesdaily.R;
 
+
 import java.util.ArrayList;
+import java.util.List;
 
-public class GamesActivity extends AppCompatActivity {
+public class FavoritesActivity extends AppCompatActivity {
 
-    private static Activity mRefActivity;
     private Toolbar mToolbar;
     private RecyclerView mRecyclerView;
     private GamesAdapter gAdapter;
 
-    public static String getRatingGame(int id) {
-        return new List_Games().search(id).getRating();
-    }
-
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_games);
-        mRefActivity = this;
+        setContentView(R.layout.activity_favorites);
 
         setToolbar();
         setFragments();
         setList();
 
+
     }
 
-    private void setToolbar(){
+    private void setToolbar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Games");
+        getSupportActionBar().setTitle("Favoritos");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
@@ -54,21 +51,23 @@ public class GamesActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    private void setList(){
-        ArrayList<Games> contacts = (ArrayList<Games>) new List_Games().getLista_games();
-        gAdapter = new GamesAdapter(this, contacts);
+    private void setList() {
+        List<Games> contacts = (List<Games>) new List_Games().getLista_games();
+        gAdapter = new GamesAdapter(this, (ArrayList<Games>) contacts);
         mRecyclerView = findViewById(R.id.rvGames);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        mRecyclerView.setAdapter(gAdapter);}
+        mRecyclerView.setAdapter(gAdapter);
+    }
+
 
     @Override
-    public boolean onSupportNavigateUp(){
+    public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_sub, menu);
         return true;
     }
