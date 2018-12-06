@@ -26,8 +26,9 @@
         <activity android:name=".Activity.LoginActivity" />
         <activity android:name=".Activity.NewsActivity" />
         <activity android:name=".Activity.GamesActivity" />
+        <activity android:name=".Activity.ChatActivity"/>
         <activity android:name=".Activity.StoresActivity" />
-        <activity android:name=".Activity.FavoritesActivity"></activity>
+        <activity android:name=".Activity.FavoritesActivity"/>
     </application>
 
 </manifest>
