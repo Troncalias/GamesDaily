@@ -1,6 +1,7 @@
 package com.example.tronc.gamesdaily.Activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -63,7 +64,7 @@ public class NewsActivity extends AppCompatActivity {
         bGames.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(NewsActivity.this, GamesActivity.class));
             }
         });
 
@@ -75,7 +76,15 @@ public class NewsActivity extends AppCompatActivity {
             }
         });
 
-        Button bNoticias = findViewById(R.id.btn_noticias);
+        Button bNoticias = findViewById(R.id.btn_lojas);
+        bNoticias.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        Button bFavoritos = findViewById(R.id.btn_favoritos);
         bNoticias.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,6 +119,6 @@ public class NewsActivity extends AppCompatActivity {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Game News");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
 }
