@@ -1,5 +1,6 @@
 package com.example.tronc.gamesdaily.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,10 +24,12 @@ public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.ViewHolder> 
     private ArrayList<Games> mList;
     private Context mContext;
     private ViewHolder contactView;
+    private Activity mActivity;
 
-    public GamesAdapter( Context mContext, ArrayList<Games> mList) {
+    public GamesAdapter(Context mContext, ArrayList<Games> mList, Activity activity) {
         this.mList = mList;
         this.mContext = mContext;;
+        this.mActivity = activity;
     }
 
     private Context getContext() {
@@ -71,6 +74,15 @@ public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.ViewHolder> 
         String mydatahora = mydata + " " + myhora;
         String textData = getContext().getString(R.string.pretitle_data_insercao);
         data.setText(textData + " " + mydatahora);
+
+        Button selectButton = viewHolder.selectButton;
+        selectButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                GamesActivity.openAnime(myItem, mActivity);
+
+            }
+        });
+        Button comentsButton = viewHolder.comentsButton;
     }
 
     @Override

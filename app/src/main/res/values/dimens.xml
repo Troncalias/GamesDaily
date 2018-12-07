@@ -20,4 +20,8 @@
     <dimen name="imageview_margin_items">10dp</dimen>
     <dimen name="textview_padding_items">10dp</dimen>
     <dimen name="textview_textsize_items">16dp</dimen>
+    <dimen name="dialog_open_image_padding">20dp</dimen>
+    <dimen name="dialog_open_padding">20dp</dimen>
+    <dimen name="dialog_open_margin">10dp</dimen>
+    <dimen name="button_edit_number_marginleft">5dp</dimen>
 </resources>

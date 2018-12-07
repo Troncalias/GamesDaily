@@ -40,4 +40,12 @@
     <string name="hint_titulo_game">Game Title</string>
     <string name="hint_game_publicher">Game Publicher</string>
     <string name="dialog_add_game_title">Add Game</string>
+    <string name="pretitle_game_name">Nome do Jogo</string>
+    <string name="pretitle_number_gamers">Numero de Jogadores</string>
+    <string name="button_edit">Editar:</string>
+    <string name="pretitle_descricao">Descrição</string>
+    <string name="button_activate_favorito">Adicionar Favorito</string>
+    <string name="button_avaliar">Avaliar</string>
+    <string name="button_lojas">Lojas</string>
+    <string name="pretitle_publicher">Publicadora</string>
 </resources>

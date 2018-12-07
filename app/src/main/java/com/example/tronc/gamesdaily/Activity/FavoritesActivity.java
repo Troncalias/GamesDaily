@@ -1,5 +1,6 @@
 package com.example.tronc.gamesdaily.Activity;
 
+import android.app.Activity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import java.util.List;
 
 public class FavoritesActivity extends AppCompatActivity {
 
+    private static Activity mRefActivity;
     private Toolbar mToolbar;
     private RecyclerView mRecyclerView;
     private GamesAdapter gAdapter;
@@ -29,6 +31,7 @@ public class FavoritesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorites);
+        mRefActivity = this;
 
         setToolbar();
         setFragments();
@@ -54,7 +57,7 @@ public class FavoritesActivity extends AppCompatActivity {
 
     private void setList() {
         List<Games> contacts = (List<Games>) new List_Games().getLista_games();
-        gAdapter = new GamesAdapter(this, (ArrayList<Games>) contacts);
+        gAdapter = new GamesAdapter(this.getApplicationContext(), (ArrayList<Games>) contacts, mRefActivity);
         mRecyclerView = findViewById(R.id.rvGames);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(gAdapter);
