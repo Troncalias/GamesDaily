@@ -78,7 +78,7 @@ public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.ViewHolder> 
         Button selectButton = viewHolder.selectButton;
         selectButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                GamesActivity.openAnime(myItem, mActivity);
+                GamesActivity.openGame(myItem, mActivity);
 
             }
         });

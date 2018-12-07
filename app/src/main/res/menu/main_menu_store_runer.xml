@@ -18,4 +18,8 @@
         android:icon="@drawable/ic_item_menu_main"
         android:title="@string/button_store"
         app:showAsAction="never"/>
+    <item android:id="@+id/action_logout"
+        android:icon="@drawable/ic_item_menu_main"
+        android:title="@string/button_logout"
+        app:showAsAction="never"/>
 </menu>

@@ -27,7 +27,7 @@
         <Button
             android:id="@+id/btn_orderByName"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:text="@string/button_byName"
             tools:text="By Name" />
@@ -35,7 +35,7 @@
         <Button
             android:id="@+id/btn_orderByDate"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:text="@string/button_byDate"
             tools:text="By Date" />
@@ -43,7 +43,7 @@
         <Button
             android:id="@+id/btn_orderByID"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:text="@string/button_byID"
             tools:text="By ID" />

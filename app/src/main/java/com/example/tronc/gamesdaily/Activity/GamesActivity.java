@@ -37,7 +37,7 @@ public class GamesActivity extends AppCompatActivity {
         return new List_Games().search(id).getRating();
     }
 
-    public static void openAnime(Games game, Activity mActivity) {
+    public static void openGame(Games game, Activity mActivity) {
         AlertDialog.Builder builder =  new AlertDialog.Builder(mActivity);
         View view = mActivity.getLayoutInflater().inflate(R.layout.dialog_game, null);
 
@@ -106,13 +106,13 @@ public class GamesActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         Bundle extras = getIntent().getExtras();
         if(extras.getString("KEY").equals("admin")) {
-            getMenuInflater().inflate(R.menu.sub_menu_admin, menu);
+            getMenuInflater().inflate(R.menu.admin_menu, menu);
         }else if(extras.getString("KEY").equals("admin2")){
-            getMenuInflater().inflate(R.menu.sub_menu_admin_store_runer, menu);
+            getMenuInflater().inflate(R.menu.admin_menu_store_runer, menu);
         }else if (extras.getString("KEY").equals("a")){
-            getMenuInflater().inflate(R.menu.sub_menu_store_runer, menu);
+            getMenuInflater().inflate(R.menu.main_menu_store_runer, menu);
         }else{
-            getMenuInflater().inflate(R.menu.sub_menu, menu);
+            getMenuInflater().inflate(R.menu.main_menu, menu);
         }
         return true;
     }

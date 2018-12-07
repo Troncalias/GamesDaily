@@ -48,4 +48,18 @@
     <string name="button_avaliar">Avaliar</string>
     <string name="button_lojas">Lojas</string>
     <string name="pretitle_publicher">Publicadora</string>
+    <string name="button_logout">Logout</string>
+    <string name="dialog_add_chat_title">Add Chat</string>
+    <string name="hint_titulo_chat">Titulo Chat</string>
+    <string name="hint_descricao_chat">Descricao</string>
+    <string name="procurar">Procurar</string>
+    <string name="hint_procurar">Procura...</string>
+    <string name="ordenar">Ordenar</string>
+    <string name="button_byDate">By Date</string>
+    <string name="button_byName">By Name</string>
+    <string name="button_byID">ById</string>
+    <string name="hint_titulo_store">Nome da Loja</string>
+    <string name="dialog_add_store_title">Add Store</string>
+    <string name="hint_description_store">Descricao da Loja</string>
+    <string name="hint_game_store">Dono</string>
 </resources>

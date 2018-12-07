@@ -2,14 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/action_search"
-        android:icon="@drawable/ic_item_menu_main"
-        android:title="@string/button_search"
-        app:showAsAction="never"/>
-    <item android:id="@+id/action_sort"
-        android:icon="@drawable/ic_item_menu_main"
-        android:title="@string/button_sort"
-        app:showAsAction="never"/>
     <item android:id="@+id/action_add"
         android:icon="@drawable/ic_item_menu_main"
         android:title="@string/button_add"
@@ -21,5 +13,9 @@
     <item android:id="@+id/action_store"
         android:icon="@drawable/ic_item_menu_main"
         android:title="@string/button_store"
+        app:showAsAction="never"/>
+    <item android:id="@+id/action_logout"
+        android:icon="@drawable/ic_item_menu_main"
+        android:title="@string/button_logout"
         app:showAsAction="never"/>
 </menu>
