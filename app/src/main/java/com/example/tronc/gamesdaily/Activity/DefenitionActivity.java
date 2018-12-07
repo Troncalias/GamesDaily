@@ -174,7 +174,7 @@ public class DefenitionActivity extends AppCompatActivity {
     private void setToolbar() {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle("Defenições");
+        getSupportActionBar().setTitle("Definições");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

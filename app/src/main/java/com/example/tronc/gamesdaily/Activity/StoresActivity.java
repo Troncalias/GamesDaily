@@ -2,6 +2,7 @@ package com.example.tronc.gamesdaily.Activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,6 +32,7 @@ import com.example.tronc.gamesdaily.R;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class StoresActivity extends AppCompatActivity {
 
@@ -39,6 +42,7 @@ public class StoresActivity extends AppCompatActivity {
     private static GamesAdapter gAdapter;
     private Toolbar mToolbar;
     private StoresAdapter sAdapter;
+    private Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,16 +94,72 @@ public class StoresActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()) {
             case R.id.action_search:
+                setClickMenuSearch();
                 return true;
             case R.id.action_sort:
+                setClickMenuSort();
                 return true;
             case R.id.action_add:
+                setClickMenuAddChat();
+                return true;
+            case R.id.action_admin:
+                Intent i = new Intent(StoresActivity.this, AdminActivity.class);
+                i.putExtra("KEY",extras.getString("KEY"));
+                startActivity(i);
                 return true;
             case R.id.action_definitions:
+                Intent y = new Intent(StoresActivity.this, DefenitionActivity.class);
+                y.putExtra("KEY","a");
+                startActivity(y);
                 return true;
             default:
                 return false;
         }
+    }
+
+    private void setClickMenuSort() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(StoresActivity.this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_order, null);
+
+        builder.setView(view);
+        final AlertDialog dialog = builder.show();
+
+        Button idBtn = (Button) view.findViewById(R.id.btn_orderByID);
+        Button dateBtn = (Button) view.findViewById(R.id.btn_orderByDate);
+        Button nameBtn = (Button) view.findViewById(R.id.btn_orderByName);
+        Button confirmarBtn = (Button) view.findViewById(R.id.btn_confirmar);
+        Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
+
+    }
+
+    private void setClickMenuAddChat() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(StoresActivity.this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_add_chat, null);
+
+        builder.setView(view);
+        final AlertDialog dialog = builder.show();
+
+        final EditText tituloChat = (EditText) view.findViewById(R.id.tituloChat);
+        final EditText descricao_Chat = (EditText) view.findViewById(R.id.descricaoChat);
+        Button addBtn = (Button) view.findViewById(R.id.btn_add_chat);
+        Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
+
+    }
+
+    private void setClickMenuSearch() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(StoresActivity.this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_search, null);
+
+        builder.setView(view);
+        final AlertDialog dialog = builder.show();
+
+        final EditText tituloChat = (EditText) view.findViewById(R.id.procurar);
+        Button confirmar = (Button) view.findViewById(R.id.btn_confirm);
+        Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
+
     }
 
     @Override

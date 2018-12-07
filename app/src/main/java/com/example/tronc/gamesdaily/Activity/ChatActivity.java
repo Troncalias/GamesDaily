@@ -2,6 +2,7 @@ package com.example.tronc.gamesdaily.Activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.tronc.gamesdaily.Adapter.ChatAdapter;
@@ -25,6 +27,7 @@ import com.example.tronc.gamesdaily.Models.Mensage;
 import com.example.tronc.gamesdaily.R;
 
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 public class ChatActivity extends AppCompatActivity {
     private static Activity mRefActivity;
@@ -32,6 +35,7 @@ public class ChatActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private static RecyclerView rvUtilizadores;
     private ChatAdapter gAdapter;
+    private Bundle extras;
 
     public static void openChat(Chat myItem, Activity mActivity) {
         AlertDialog.Builder builder =  new AlertDialog.Builder(mActivity);
@@ -113,16 +117,72 @@ public class ChatActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()) {
             case R.id.action_search:
+                setClickMenuSearch();
                 return true;
             case R.id.action_sort:
+                setClickMenuSort();
                 return true;
             case R.id.action_add:
+                setClickMenuAddChat();
+                return true;
+            case R.id.action_admin:
+                Intent i = new Intent(ChatActivity.this, AdminActivity.class);
+                i.putExtra("KEY",extras.getString("KEY"));
+                startActivity(i);
                 return true;
             case R.id.action_definitions:
+                Intent y = new Intent(ChatActivity.this, DefenitionActivity.class);
+                y.putExtra("KEY","a");
+                startActivity(y);
                 return true;
             default:
                 return false;
         }
+    }
+
+    private void setClickMenuSort() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(ChatActivity.this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_order, null);
+
+        builder.setView(view);
+        final AlertDialog dialog = builder.show();
+
+        Button idBtn = (Button) view.findViewById(R.id.btn_orderByID);
+        Button dateBtn = (Button) view.findViewById(R.id.btn_orderByDate);
+        Button nameBtn = (Button) view.findViewById(R.id.btn_orderByName);
+        Button confirmarBtn = (Button) view.findViewById(R.id.btn_confirmar);
+        Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
+
+    }
+
+    private void setClickMenuAddChat() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(ChatActivity.this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_add_chat, null);
+
+        builder.setView(view);
+        final AlertDialog dialog = builder.show();
+
+        final EditText tituloChat = (EditText) view.findViewById(R.id.tituloChat);
+        final EditText descricao_Chat = (EditText) view.findViewById(R.id.descricaoChat);
+        Button addBtn = (Button) view.findViewById(R.id.btn_add_chat);
+        Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
+
+    }
+
+    private void setClickMenuSearch() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(ChatActivity.this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_search, null);
+
+        builder.setView(view);
+        final AlertDialog dialog = builder.show();
+
+        final EditText tituloChat = (EditText) view.findViewById(R.id.procurar);
+        Button confirmar = (Button) view.findViewById(R.id.btn_confirm);
+        Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
+
     }
 
 }
