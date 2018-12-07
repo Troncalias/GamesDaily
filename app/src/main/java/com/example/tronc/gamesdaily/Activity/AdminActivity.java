@@ -83,6 +83,17 @@ public class AdminActivity extends AppCompatActivity {
                 AlertDialog.Builder builder =  new AlertDialog.Builder(AdminActivity.this);
                 View view = getLayoutInflater().inflate(R.layout.dialog_add_game, null);
 
+                builder.setView(view);
+                final AlertDialog dialog = builder.show();
+
+                final EditText nomeGame = (EditText) view.findViewById(R.id.tituloGame);
+                final EditText descricaoGame = (EditText) view.findViewById(R.id.descricaoGame);
+                final EditText publicherGame = (EditText) view.findViewById(R.id.publicadorGame);
+                Button button_add_image = (Button) view.findViewById(R.id.button_add_image_game);
+                Button addBtn = (Button) view.findViewById(R.id.btn_confirm);
+                Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
+
+
             }
         });
 
@@ -283,7 +294,7 @@ public class AdminActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_admin, menu);
+        getMenuInflater().inflate(R.menu.admin_menu, menu);
         return true;
     }
 }

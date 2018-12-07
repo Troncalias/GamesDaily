@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,30 +14,56 @@
             android:id="@+id/tituloTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/dialog_add_noticia_title"
+            android:text="@string/dialog_add_game_title"
             android:textAlignment="center"
             android:textStyle="bold"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:padding="10dp"/>
 
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="@dimen/dialog_add_image_width"
+                android:layout_height="@dimen/dialog_add_image_height"
+                android:padding="@dimen/dialog_add_image_padding"
+                app:srcCompat="@drawable/default_games" />
+            <Button
+                android:id="@+id/button_add_image_game"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_buttom_small"
+                android:layout_toRightOf="@+id/imageView"
+                android:text="Adicionar imagem"/>
+            </RelativeLayout>
         <EditText
-            android:id="@+id/tituloEt"
+            android:id="@+id/tituloGame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_titulo_noticia"
+            android:hint="@string/hint_titulo_game"
             android:inputType="textPersonName" />
 
         <EditText
-            android:id="@+id/conteudoEt"
+            android:id="@+id/descricaoGame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_conteudo_noticia"
+            android:hint="@string/hint_description_game"
             android:inputType="textMultiLine"
             android:lines="@integer/min_lines_long_edittext"
             android:minLines="@integer/min_lines_long_min"
             android:gravity="top|left"
             android:maxLines="@integer/max_lines_long_edittext"
+            />
+        <EditText
+            android:id="@+id/publicadorGame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_game_publicher"
+            android:inputType="textPersonName"
+            android:gravity="top|left"
             />
         <LinearLayout
             android:layout_width="match_parent"

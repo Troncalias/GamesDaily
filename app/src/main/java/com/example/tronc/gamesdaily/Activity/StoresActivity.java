@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import com.example.tronc.gamesdaily.Adapter.StoresAdapter;
 import com.example.tronc.gamesdaily.Data.List_Stores;
@@ -56,14 +57,37 @@ public class StoresActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(sAdapter);}
 
     @Override
-    public boolean onSupportNavigateUp(){
-        onBackPressed();
+    public boolean onCreateOptionsMenu(Menu menu) {
+        Bundle extras = getIntent().getExtras();
+        if(extras.getString("KEY") == "admin") {
+            getMenuInflater().inflate(R.menu.sub_menu_admin, menu);
+        }else if(extras.getString("KEY") == "admin2"){
+            getMenuInflater().inflate(R.menu.sub_menu_admin_store_runer, menu);
+        }else if (extras.getString("KEY") == "a"){
+            getMenuInflater().inflate(R.menu.sub_menu_store_runer, menu);
+        }else{
+            getMenuInflater().inflate(R.menu.sub_menu, menu);
+        }
         return true;
+
+
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_sub, menu);
-        return true;
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                return true;
+            case R.id.action_sort:
+                return true;
+            case R.id.action_add:
+                return true;
+            case R.id.action_add_store:
+                return true;
+            case R.id.action_store:
+                return true;
+            default:
+                return false;
+        }
     }
 }

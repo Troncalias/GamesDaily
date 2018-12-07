@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(LoginActivity.this, AdminActivity.class);
+                Intent i = new Intent(LoginActivity.this, NewsActivity.class);
                 i.putExtra("KEY",mUserView.getText().toString());
                 startActivity(i);
 

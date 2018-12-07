@@ -7,6 +7,7 @@ public class User {
     private String nome;
     private String dataRegisto;
     private String email;
+    private Stores store;
     private int tipo_utilizador_id;
     private byte[] imagem;
 
@@ -18,6 +19,7 @@ public class User {
         this.tipo_utilizador_id = tipo_utilizador_id;
         this.email = email;
         this.imagem = imagem;
+        this.store = null;
     }
 
     public User() {
@@ -76,4 +78,6 @@ public class User {
     public int getId() { return id; }
 
     public void setId(int id) { this.id = id; }
+
+
 }

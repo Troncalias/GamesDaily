@@ -18,8 +18,8 @@
     <string name="pretitle_rating">Rating</string>
     <string name="pretitle_data_insercao">Data Lançado</string>
     <!-- Strings related to menus -->
-    <string name="button_search">Pesquisar</string>
-    <string name="button_sort">Odenar</string>
+    <string name="button_search">Search</string>
+    <string name="button_sort">Ordenar</string>
     <string name="fragment_header">Fragmento do header da app</string>
     <string name="title_activity_test1">Test1</string>
     <string name="button_add">Add Chat</string>
@@ -34,4 +34,10 @@
     <string name="dialog_game">List</string>
     <string name="button_close">Fechar</string>
     <string name="button_admin">Admin</string>
+    <string name="button_add_store">Add Store</string>
+    <string name="button_store">Edit Store</string>
+    <string name="hint_description_game">Game Description</string>
+    <string name="hint_titulo_game">Game Title</string>
+    <string name="hint_game_publicher">Game Publicher</string>
+    <string name="dialog_add_game_title">Add Game</string>
 </resources>

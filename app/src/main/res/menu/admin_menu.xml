@@ -5,12 +5,17 @@
     <item android:id="@+id/action_search"
         android:icon="@drawable/ic_item_menu_main"
         android:title="@string/button_search"
-        app:showAsAction="never">
-
-    </item>
+        app:showAsAction="never"/>
     <item android:id="@+id/action_sort"
         android:icon="@drawable/ic_item_menu_main"
         android:title="@string/button_sort"
-        app:showAsAction="never">
-    </item>
+        app:showAsAction="never"/>
+    <item android:id="@+id/action_add"
+        android:icon="@drawable/ic_item_menu_main"
+        android:title="@string/button_add"
+        app:showAsAction="never"/>
+    <item android:id="@+id/action_admin"
+        android:icon="@drawable/ic_item_menu_main"
+        android:title="@string/button_admin"
+        app:showAsAction="never"/>
 </menu>

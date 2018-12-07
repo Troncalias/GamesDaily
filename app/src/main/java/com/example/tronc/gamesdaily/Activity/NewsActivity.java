@@ -27,6 +27,8 @@ public class NewsActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private RecyclerView mRecyclerView;
     private NewsAdapter nAdapter;
+    private Bundle extras;
+    private List<News> ListNews;
 
     public static String getRatingNews(int id) {
         return new List_News().search(id).getRating();
@@ -37,6 +39,8 @@ public class NewsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
         mRefActivity = this;
+        extras = getIntent().getExtras();
+        ListNews = (List<News>) new List_News().getList_news();
 
         setToolbar();
         setFragments();
@@ -44,8 +48,7 @@ public class NewsActivity extends AppCompatActivity {
         setList();
 
 
-        List<News> contacts = (List<News>) new List_News().getList_news();
-        nAdapter = new NewsAdapter(this, contacts);
+        nAdapter = new NewsAdapter(this, ListNews);
         mRecyclerView = findViewById(R.id.rvGames);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(nAdapter);
@@ -65,7 +68,9 @@ public class NewsActivity extends AppCompatActivity {
         bGames.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(NewsActivity.this, GamesActivity.class));
+                Intent i = new Intent(NewsActivity.this, GamesActivity.class);
+                i.putExtra("KEY",extras.getString("KEY"));
+                startActivity(i);
             }
         });
 
@@ -73,7 +78,9 @@ public class NewsActivity extends AppCompatActivity {
         bChates.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(NewsActivity.this, ChatActivity.class));
+                Intent i = new Intent(NewsActivity.this, ChatActivity.class);
+                i.putExtra("KEY",extras.getString("KEY"));
+                startActivity(i);
             }
         });
 
@@ -81,7 +88,9 @@ public class NewsActivity extends AppCompatActivity {
         bLojas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(NewsActivity.this, StoresActivity.class));
+                Intent i = new Intent(NewsActivity.this, StoresActivity.class);
+                i.putExtra("KEY",extras.getString("KEY"));
+                startActivity(i);
             }
         });
 
@@ -89,14 +98,15 @@ public class NewsActivity extends AppCompatActivity {
         bFavoritos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(NewsActivity.this, FavoritesActivity.class));
+                Intent i = new Intent(NewsActivity.this, FavoritesActivity.class);
+                i.putExtra("KEY",extras.getString("KEY"));
+                startActivity(i);
             }
         });
     }
 
     private void setList() {
-        List<News> contacts = (List<News>) new List_News().getList_news();
-        nAdapter = new NewsAdapter(this, contacts);
+        nAdapter = new NewsAdapter(this, ListNews);
         mRecyclerView = findViewById(R.id.rvGames);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(nAdapter);
@@ -110,11 +120,14 @@ public class NewsActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Bundle extras = getIntent().getExtras();
-        if(extras.getString("KEY") == "admin"){
-            getMenuInflater().inflate(R.menu.menu_admin, menu);
+        if(extras.getString("KEY") == "admin") {
+            getMenuInflater().inflate(R.menu.admin_menu, menu);
+        }else if(extras.getString("KEY") == "admin2"){
+            getMenuInflater().inflate(R.menu.admin_menu_store_runer, menu);
+        }else if (extras.getString("KEY") == "a"){
+            getMenuInflater().inflate(R.menu.main_menu_store_runer, menu);
         }else{
-            getMenuInflater().inflate(R.menu.menu_main, menu);
+            getMenuInflater().inflate(R.menu.main_menu, menu);
         }
         return true;
 
@@ -132,6 +145,10 @@ public class NewsActivity extends AppCompatActivity {
                 return true;
             case R.id.action_admin:
                 startActivity(new Intent(NewsActivity.this, AdminActivity.class));
+                return true;
+            case R.id.action_add_store:
+                return true;
+            case R.id.action_store:
                 return true;
             default:
                 return false;
