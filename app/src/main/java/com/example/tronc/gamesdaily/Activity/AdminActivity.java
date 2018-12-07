@@ -2,7 +2,6 @@ package com.example.tronc.gamesdaily.Activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -19,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.tronc.gamesdaily.R;
 import com.example.tronc.gamesdaily.Adapter.ChatRemoveAdapter;
 import com.example.tronc.gamesdaily.Adapter.GamesAcceptAdapter;
 import com.example.tronc.gamesdaily.Adapter.NewsAcceptAdapter;
@@ -36,6 +34,7 @@ import com.example.tronc.gamesdaily.Models.Games;
 import com.example.tronc.gamesdaily.Models.News;
 import com.example.tronc.gamesdaily.Models.Stores;
 import com.example.tronc.gamesdaily.Models.User;
+import com.example.tronc.gamesdaily.R;
 
 import java.util.ArrayList;
 
@@ -59,7 +58,7 @@ public class AdminActivity extends AppCompatActivity {
     private void setToolbar() {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle("");
+        getSupportActionBar().setTitle("Administração");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
@@ -93,26 +92,15 @@ public class AdminActivity extends AppCompatActivity {
             case R.id.action_logout:
                 msg = "Logout";
                 break;
+            case R.id.action_definitions:
+                msg = "Defenition";
+                break;
         }
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
         return super.onOptionsItemSelected(item);
     }
 
-    private void setClickMenuSort() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(AdminActivity.this);
-        View view = getLayoutInflater().inflate(R.layout.dialog_order, null);
-
-        builder.setView(view);
-        final AlertDialog dialog = builder.show();
-
-        Button idBtn = (Button) view.findViewById(R.id.btn_orderByID);
-        Button dateBtn = (Button) view.findViewById(R.id.btn_orderByDate);
-        Button nameBtn = (Button) view.findViewById(R.id.btn_orderByName);
-        Button confirmarBtn = (Button) view.findViewById(R.id.btn_confirmar);
-        Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
-
-    }
 
     private void setClickMenuAddChat() {
 
@@ -129,40 +117,7 @@ public class AdminActivity extends AppCompatActivity {
 
     }
 
-    private void setClickMenuSearch() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(AdminActivity.this);
-        View view = getLayoutInflater().inflate(R.layout.dialog_search, null);
-
-        builder.setView(view);
-        final AlertDialog dialog = builder.show();
-
-        final EditText tituloChat = (EditText) view.findViewById(R.id.procurar);
-        Button confirmar = (Button) view.findViewById(R.id.btn_confirm);
-        Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
-
-    }
-
-
-
-
-    private void setClickMenuAddStore() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(AdminActivity.this);
-        View view = getLayoutInflater().inflate(R.layout.dialog_add_store, null);
-
-        builder.setView(view);
-        final AlertDialog dialog = builder.show();
-
-        final EditText nomeLoja = (EditText) view.findViewById(R.id.nomeLoja);
-        final EditText descricaoLoja = (EditText) view.findViewById(R.id.descricaoLoja);
-        final EditText localLoja = (EditText) view.findViewById(R.id.placeTv);
-        Button button_escolher = (Button) view.findViewById(R.id.button_choose_place);
-        Button button_add_image = (Button) view.findViewById(R.id.button_add_image_game);
-        Button addBtn = (Button) view.findViewById(R.id.btn_confirm);
-        Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
-
-    }
 
     private void setButtonGame(){
         Button btn_add_game = (Button) findViewById(R.id.btn_add_game);
@@ -382,7 +337,7 @@ public class AdminActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.admin_menu, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 }

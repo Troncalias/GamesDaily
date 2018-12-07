@@ -123,13 +123,9 @@ public class NewsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if(extras.getString("KEY").equals("admin")) {
-            getMenuInflater().inflate(R.menu.admin_menu, menu);
-        }else if(extras.getString("KEY").equals("admin2")){
-            getMenuInflater().inflate(R.menu.admin_menu_store_runer, menu);
-        }else if (extras.getString("KEY").equals("a")){
-            getMenuInflater().inflate(R.menu.main_menu_store_runer, menu);
+            getMenuInflater().inflate(R.menu.menu_admin, menu);
         }else{
-            getMenuInflater().inflate(R.menu.main_menu, menu);
+            getMenuInflater().inflate(R.menu.menu_main, menu);
         }
         return true;
 
@@ -149,13 +145,14 @@ public class NewsActivity extends AppCompatActivity {
                 setClickMenuAddChat();
                 return true;
             case R.id.action_admin:
-                startActivity(new Intent(NewsActivity.this, AdminActivity.class));
+                Intent i = new Intent(NewsActivity.this, AdminActivity.class);
+                i.putExtra("KEY",extras.getString("KEY"));
+                startActivity(i);
                 return true;
-            case R.id.action_add_store:
-                setClickMenuAddStore();
-                return true;
-            case R.id.action_store:
-
+            case R.id.action_definitions:
+                Intent y = new Intent(NewsActivity.this, DefenitionActivity.class);
+                y.putExtra("KEY","a");
+                startActivity(y);
                 return true;
             default:
                 return false;
@@ -189,24 +186,6 @@ public class NewsActivity extends AppCompatActivity {
         final EditText tituloChat = (EditText) view.findViewById(R.id.tituloChat);
         final EditText descricao_Chat = (EditText) view.findViewById(R.id.descricaoChat);
         Button addBtn = (Button) view.findViewById(R.id.btn_add_chat);
-        Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
-
-    }
-
-    private void setClickMenuAddStore() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(NewsActivity.this);
-        View view = getLayoutInflater().inflate(R.layout.dialog_add_store, null);
-
-        builder.setView(view);
-        final AlertDialog dialog = builder.show();
-
-        final EditText nomeLoja = (EditText) view.findViewById(R.id.nomeLoja);
-        final EditText descricaoLoja = (EditText) view.findViewById(R.id.descricaoLoja);
-        final EditText localLoja = (EditText) view.findViewById(R.id.placeTv);
-        Button button_escolher = (Button) view.findViewById(R.id.button_choose_place);
-        Button button_add_image = (Button) view.findViewById(R.id.button_add_image_game);
-        Button addBtn = (Button) view.findViewById(R.id.btn_confirm);
         Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
 
     }

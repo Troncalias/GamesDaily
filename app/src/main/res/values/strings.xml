@@ -62,4 +62,16 @@
     <string name="dialog_add_store_title">Add Store</string>
     <string name="hint_description_store">Descricao da Loja</string>
     <string name="hint_game_store">Dono</string>
+    <string name="button_eddit_user">Editar Utilizador</string>
+    <string name="button_edit_store">Editar Loja</string>
+    <string name="button_add_games">Adicionar Jogos</string>
+    <string name="button_edit_games">Editar preços</string>
+    <string name="user_name">Nome</string>
+    <string name="change_image">Mudar Imagem</string>
+    <string name="edit_email">Editar Email</string>
+    <string name="edit_passe">Editar Passe</string>
+    <string name="edit_passe_confirm">Confirmar Passe</string>
+    <string name="button_definition">Defenições</string>
+    <string name="pretitle_store_name">Nome da Loja</string>
+    <string name="pretitle_morada">Morada</string>
 </resources>
