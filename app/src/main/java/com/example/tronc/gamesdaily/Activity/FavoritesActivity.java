@@ -64,18 +64,22 @@ public class FavoritesActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         Bundle extras = getIntent().getExtras();
-        if(extras.getString("KEY") == "admin") {
+        if(extras.getString("KEY").equals("admin")) {
             getMenuInflater().inflate(R.menu.sub_menu_admin, menu);
-        }else if(extras.getString("KEY") == "admin2"){
+        }else if(extras.getString("KEY").equals("admin2")){
             getMenuInflater().inflate(R.menu.sub_menu_admin_store_runer, menu);
-        }else if (extras.getString("KEY") == "a"){
+        }else if (extras.getString("KEY").equals("a")){
             getMenuInflater().inflate(R.menu.sub_menu_store_runer, menu);
         }else{
             getMenuInflater().inflate(R.menu.sub_menu, menu);
         }
         return true;
+    }
 
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     @Override
