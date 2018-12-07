@@ -1,13 +1,16 @@
 package com.example.tronc.gamesdaily.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.tronc.gamesdaily.Activity.ChatActivity;
 import com.example.tronc.gamesdaily.Models.Chat;
 import com.example.tronc.gamesdaily.R;
 
@@ -16,11 +19,13 @@ import java.util.ArrayList;
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
     private ArrayList<Chat> mList;
     private Context mContext;
+    private Activity mActivity;
     private ViewHolder contactView;
 
-    public ChatAdapter(Context mContext, ArrayList<Chat> mList) {
+    public ChatAdapter(Context mContext, ArrayList<Chat> mList, Activity activity) {
         this.mList = mList;
-        this.mContext = mContext;;
+        this.mContext = mContext;
+        this.mActivity = activity;
     }
 
     private Context getContext() {
@@ -56,6 +61,15 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
         String mydatahora = mydata + " " + myhora;
         String textData = getContext().getString(R.string.pretitle_data_insercao);
         data.setText(textData + " " + mydatahora);
+
+        Button buttao = viewHolder.Butao;
+        buttao.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ChatActivity.openChat(myItem, mActivity);
+
+            }
+        });
+
     }
 
     @Override
@@ -68,6 +82,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
         public TextView Titulo;
         public TextView Descricao;
         public TextView Data;
+        public Button Butao;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -75,6 +90,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
             Titulo = (TextView) itemView.findViewById(R.id.Title_chatTv);
             Descricao = (TextView) itemView.findViewById(R.id.descricao_ChatTv);
             Data = (TextView) itemView.findViewById(R.id.data_ChatTv);
+            Butao = (Button) itemView.findViewById(R.id.select_button);
         }
     }
 }

@@ -15,21 +15,21 @@
             android:gravity="center_horizontal">
 
             <TextView
-                android:id="@+id/loja_nomeTv"
+                android:id="@+id/user_nameTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/dialog_title_padding"
-                android:text="Add Store"
+                android:text="@string/user_name"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/nomeLoja"
+                android:id="@+id/nomeUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nome Loja"
+                android:hint="Nome do Utilizador"
                 android:inputType="textPersonName"
                 android:textColor="@android:color/white" />
 
@@ -42,51 +42,45 @@
                     android:layout_width="@dimen/dialog_add_image_width"
                     android:layout_height="@dimen/dialog_add_image_height"
                     android:padding="@dimen/dialog_add_image_padding"
-                    app:srcCompat="@drawable/loja_default" />
+                    app:srcCompat="@drawable/utilizador_default" />
                 <Button
                     android:id="@+id/button_add_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/Widget.AppCompat.Button.Colored"
                     android:layout_toRightOf="@+id/imageView"
-                    android:text="Adicionar imagem"/>
+                    android:text="@string/change_image"/>
             </RelativeLayout>
 
             <EditText
-                android:id="@+id/descricaoLoja"
+                android:id="@+id/edit_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="top|left"
-                android:hint="Descrição da loja"
+                android:hint="@string/edit_email"
                 android:inputType="textMultiLine"
-                android:lines="@integer/min_lines_long_edittext"
-                android:maxLines="@integer/max_lines_long_edittext"
-                android:minLines="@integer/min_lines_long_edittext"
+                android:lines="@integer/min_lines_small_edittext"
                 android:textColor="@android:color/white" />
 
-            <LinearLayout
+            <EditText
+                android:id="@+id/edit_pass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_horizontal">
-                <Button
-                    android:id="@+id/button_choose_place"
-                    android:layout_width="@dimen/dialog_choose_dataloc_button_width"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="@dimen/dialog_choose_dataloc_button_margin"
-                    style="@style/Widget.AppCompat.Button.Colored"
-                    android:text="Escolher local" />
+                android:gravity="top|left"
+                android:hint="@string/edit_passe"
+                android:inputType="textMultiLine"
+                android:lines="@integer/min_lines_small_edittext"
+                android:textColor="@android:color/white" />
 
-                <TextView
-                    android:id="@+id/lojaTv"
-                    android:layout_width="@dimen/dialog_choose_dataloc_textview_width"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="@dimen/dialog_choose_dataloc_textview_margin"
-                    android:text="Sem local" />
-            </LinearLayout>
-
+            <EditText
+                android:id="@+id/edit_pass_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top|left"
+                android:hint="@string/edit_passe_confirm"
+                android:inputType="textMultiLine"
+                android:lines="@integer/min_lines_small_edittext"
+                android:textColor="@android:color/white" />
 
             <LinearLayout
                 android:layout_width="match_parent"

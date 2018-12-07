@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorItemBackground"
+    android:orientation="vertical"
+    tools:context=".Activity.DefenitionActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:textAlignment="center">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+        <FrameLayout
+            android:id="@+id/frame_layout_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <fragment
+                android:id="@+id/fragment_header"
+                android:name="com.example.tronc.gamesdaily.Fragment.HeaderFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:tag="@string/fragment_header" />
+        </FrameLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+        <Button
+            android:id="@+id/btn_edit_user"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="@string/button_eddit_user" />
+
+        <Button
+            android:id="@+id/btn_edit_storeD"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="@string/button_edit_store" />
+
+        <Button
+            android:id="@+id/btn_add_gamesD"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="@string/button_add_games" />
+
+        <Button
+            android:id="@+id/btn_edit_gamesD"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="@string/button_edit_games" />
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

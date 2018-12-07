@@ -20,13 +20,13 @@ import com.example.tronc.gamesdaily.R;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 
-public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.ViewHolder> {
+public class GamesEditAdapter extends RecyclerView.Adapter<GamesEditAdapter.ViewHolder> {
     private ArrayList<Games> mList;
     private Context mContext;
     private ViewHolder contactView;
     private Activity mActivity;
 
-    public GamesAdapter(Context mContext, ArrayList<Games> mList, Activity activity) {
+    public GamesEditAdapter(Context mContext, ArrayList<Games> mList, Activity activity) {
         this.mList = mList;
         this.mContext = mContext;;
         this.mActivity = activity;
@@ -38,7 +38,7 @@ public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.ViewHolder> 
 
     @NonNull
     @Override
-    public GamesAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         Context context = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
@@ -50,7 +50,7 @@ public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull GamesAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         final Games myItem = mList.get(position);
         ImageView imageView = viewHolder.imageView;
         if(myItem.getImagem() != null){
@@ -82,13 +82,6 @@ public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.ViewHolder> 
 
             }
         });
-        Button comentsButton = viewHolder.comentsButton;
-        comentsButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                GamesActivity.openChat(myItem, mActivity);
-
-            }
-        });
     }
 
     @Override
@@ -103,7 +96,6 @@ public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.ViewHolder> 
         public TextView ratingView;
         public TextView dateView;
         public Button selectButton;
-        public Button comentsButton;
         public ImageView imageView;
 
         public ViewHolder(@NonNull View itemView) {
@@ -112,7 +104,6 @@ public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.ViewHolder> 
             nameTextView = (TextView) itemView.findViewById(R.id.game_nameTv);
             numberPlayers = (TextView) itemView.findViewById(R.id.number_playersTv);
             selectButton = (Button) itemView.findViewById(R.id.select_button);
-            comentsButton = (Button) itemView.findViewById(R.id.comentarios_button);
             ratingView = (TextView) itemView.findViewById(R.id.game_ratingTv);
             dateView = (TextView) itemView.findViewById(R.id.date_insercaoTv);
             imageView = (ImageView) itemView.findViewById(R.id.game_imageView);

@@ -1,5 +1,6 @@
 package com.example.tronc.gamesdaily.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.tronc.gamesdaily.Activity.StoresActivity;
 import com.example.tronc.gamesdaily.Models.Stores;
 import com.example.tronc.gamesdaily.R;
 
@@ -22,11 +24,13 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.ViewHolder
 
     private List<Stores> mList;
     private Context mContext;
+    private Activity mActivity;
 
 
-    public StoresAdapter( Context mContext, List<Stores> mList) {
+    public StoresAdapter( Context mContext, List<Stores> mList, Activity activity) {
         this.mList = mList;
         this.mContext = mContext;
+        this.mActivity = activity;
     }
 
     private Context getContext() {
@@ -70,6 +74,21 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.ViewHolder
         String mydatahora = mydata + " " + myhora;
         String textData = getContext().getString(R.string.pretitle_data_insercao);
         data.setText(textData + " " + mydatahora);
+
+        Button selectButton = viewHolder.selectButton;
+        selectButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                StoresActivity.openGame(myItem, mActivity);
+
+            }
+        });
+        Button slected = viewHolder.comentsButton;
+        slected.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                StoresActivity.openGames(mActivity);
+
+            }
+        });
     }
 
     @Override

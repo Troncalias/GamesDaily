@@ -68,13 +68,9 @@ public class FavoritesActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         Bundle extras = getIntent().getExtras();
         if(extras.getString("KEY").equals("admin")) {
-            getMenuInflater().inflate(R.menu.admin_menu, menu);
-        }else if(extras.getString("KEY").equals("admin2")){
-            getMenuInflater().inflate(R.menu.admin_menu_store_runer, menu);
-        }else if (extras.getString("KEY").equals("a")){
-            getMenuInflater().inflate(R.menu.main_menu_store_runer, menu);
+            getMenuInflater().inflate(R.menu.menu_admin, menu);
         }else{
-            getMenuInflater().inflate(R.menu.main_menu, menu);
+            getMenuInflater().inflate(R.menu.menu_main, menu);
         }
         return true;
     }
@@ -94,9 +90,7 @@ public class FavoritesActivity extends AppCompatActivity {
                 return true;
             case R.id.action_add:
                 return true;
-            case R.id.action_add_store:
-                return true;
-            case R.id.action_store:
+            case R.id.action_definitions:
                 return true;
             default:
                 return false;
