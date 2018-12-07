@@ -11,6 +11,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
+        android:background="@color/colorItemBackground"
         android:textAlignment="center">
 
         <android.support.v7.widget.Toolbar

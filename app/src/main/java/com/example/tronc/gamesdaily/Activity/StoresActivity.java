@@ -40,6 +40,7 @@ public class StoresActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+
     private void setFragments() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         HeaderFragment f = new HeaderFragment();

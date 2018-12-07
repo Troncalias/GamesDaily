@@ -42,6 +42,12 @@ public class ChatActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
     private void setFragments() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         HeaderFragment f = new HeaderFragment();
@@ -70,12 +76,6 @@ public class ChatActivity extends AppCompatActivity {
         }else{
             getMenuInflater().inflate(R.menu.sub_menu, menu);
         }
-        return true;
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
         return true;
     }
 

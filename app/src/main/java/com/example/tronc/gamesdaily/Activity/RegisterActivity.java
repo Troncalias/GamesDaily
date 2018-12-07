@@ -1,6 +1,8 @@
 package com.example.tronc.gamesdaily.Activity;
 
 import android.app.Activity;
+import android.app.assist.AssistStructure;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -17,6 +19,7 @@ public class RegisterActivity extends Activity {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private EditText mUserView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +28,7 @@ public class RegisterActivity extends Activity {
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 
-
+        mUserView = (EditText) findViewById(R.id.user);
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -42,7 +45,9 @@ public class RegisterActivity extends Activity {
         mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent i = new Intent(RegisterActivity.this, NewsActivity.class);
+                i.putExtra("KEY",mUserView.getText().toString());
+                startActivity(i);
             }
         });
 
