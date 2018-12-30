@@ -48,7 +48,7 @@ public class MensageAdapter extends RecyclerView.Adapter<MensageAdapter.ViewHold
         TextView textView = viewHolder.Titulo;
         TextView textView1 = viewHolder.Descricao;
         TextView data = viewHolder.Data;
-        textView.setText(myItem.getUtilizador_username());
+        textView.setText(myItem.getUser_id());
         textView1.setText(myItem.getConteudo());
 
         String mydata = myItem.getDataInsercao().split(" ")[0];

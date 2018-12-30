@@ -1,66 +1,74 @@
 package com.example.tronc.gamesdaily.Models;
 
-public class Games {
-    private int id;
-    private String nome;
-    private String Publicador;
-    private String descricao;
-    private String dataInsercao;
-    private byte[] imagem;
-    private String utilizador_adicionou;
-    private int number_jogadores;
-    private String rating;
-    private Chat chat;
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
-    public Games(int id, String nome, String rating, String publicador, String descricao, String dataInsercao, byte[] imagem, String utilizador_adicionou, int number_jogadores) {
-        this.id = id;
-        this.nome = nome;
-        this.rating = rating;
-        Publicador = publicador;
-        this.descricao = descricao;
-        this.dataInsercao = dataInsercao;
-        this.imagem = imagem;
-        this.utilizador_adicionou = utilizador_adicionou;
-        this.number_jogadores = number_jogadores;
-    }
+@Entity(tableName = "Games")
+public class Games {
+    @NonNull
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+
+    private String Name;
+    private String Publicher;
+    private String Description;
+    private String Date;
+    private byte[] Imagem;
+    private int AddBy;
+    private int NumberGamers;
+    private float Rating;
 
     public Games(){}
 
+    @Ignore
+    public Games(String name, String publicher, String description, String date, byte[] imagem, int addBy, int numberGamers, float rating) {
+        Name = name;
+        Publicher = publicher;
+        Description = description;
+        Date = date;
+        Imagem = imagem;
+        AddBy = addBy;
+        NumberGamers = numberGamers;
+        Rating = rating;
+    }
+
+    @NonNull
     public int getId() { return id; }
 
-    public void setId(int id) { this.id = id; }
+    public void setId(@NonNull int id) { this.id = id; }
 
-    public String getNome() { return nome; }
+    public String getPublicher() { return Publicher; }
 
-    public void setNome(String nome) { this.nome = nome; }
+    public void setPublicher(String publicher) { Publicher = publicher; }
 
-    public String getPublicador() { return Publicador; }
+    public String getDescription() { return Description; }
 
-    public void setPublicador(String publicador) { Publicador = publicador; }
+    public void setDescription(String description) { Description = description; }
 
-    public String getDescricao() { return descricao; }
+    public String getDate() { return Date; }
 
-    public void setDescricao(String descricao) { this.descricao = descricao; }
+    public void setDate(String date) { Date = date; }
 
-    public String getDataInsercao() { return dataInsercao; }
+    public byte[] getImagem() { return Imagem; }
 
-    public void setDataInsercao(String dataInsercao) { this.dataInsercao = dataInsercao; }
+    public void setImagem(byte[] imagem) { Imagem = imagem; }
 
-    public byte[] getImagem() { return imagem; }
+    public int getAddBy() { return AddBy; }
 
-    public void setImagem(byte[] imagem) { this.imagem = imagem; }
+    public void setAddBy(int addBy) { AddBy = addBy; }
 
-    public String getUtilizador_adicionou() { return utilizador_adicionou; }
+    public int getNumberGamers() { return NumberGamers; }
 
-    public void setUtilizador_adicionou(String utilizador_adicionou) { this.utilizador_adicionou = utilizador_adicionou; }
+    public void setNumberGamers(int numberGamers) { NumberGamers = numberGamers; }
 
-    public int getNumber_jogadores() { return number_jogadores; }
+    public float getRating() { return Rating; }
 
-    public void setNumber_jogadores(int number_jogadores) { this.number_jogadores = number_jogadores; }
+    public void setRating(float rating) { Rating = rating; }
 
-    public String getRating() { return rating; }
+    public String getName() { return Name; }
 
-    public void setRating(String rating) { this.rating = rating; }
-
-
+    public void setName(String name) { Name = name; }
 }

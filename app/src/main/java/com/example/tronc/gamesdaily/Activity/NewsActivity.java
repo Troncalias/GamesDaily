@@ -32,10 +32,6 @@ public class NewsActivity extends AppCompatActivity {
     private Bundle extras;
     private List<News> ListNews;
 
-    public static String getRatingNews(int id) {
-        return new List_News().search(id).getRating();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,7 +121,7 @@ public class NewsActivity extends AppCompatActivity {
         if(extras.getString("KEY").equals("admin")) {
             getMenuInflater().inflate(R.menu.menu_admin, menu);
         }else{
-            getMenuInflater().inflate(R.menu.menu_main, menu);
+            getMenuInflater().inflate(R.menu.menu_admin, menu);
         }
         return true;
 

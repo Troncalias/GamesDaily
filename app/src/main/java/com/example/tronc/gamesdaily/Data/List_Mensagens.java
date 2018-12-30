@@ -11,7 +11,7 @@ public class List_Mensagens extends ListActivity {
     private List<Mensage> lista_games = new ArrayList<Mensage>();
 
     public List_Mensagens() {
-        Mensage mensagem = new Mensage(001, "Troncalias", "Bem vindo a nossa aplicacao", "20/10/2019 10:00");
+        Mensage mensagem = new Mensage(001, 1, "Bem vindo a nossa aplicacao", "20/10/2019 10:00");
         lista_games.add(mensagem);
         lista_games.add(mensagem);
     }

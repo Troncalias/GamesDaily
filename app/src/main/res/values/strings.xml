@@ -3,7 +3,7 @@
     <string name="title_activity_login">Sign in</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
+    <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
@@ -18,11 +18,11 @@
     <string name="pretitle_rating">Rating</string>
     <string name="pretitle_data_insercao">Data Lançado</string>
     <!-- Strings related to menus -->
-    <string name="button_search">Search</string>
+    <string name="button_search">Procurar</string>
     <string name="button_sort">Ordenar</string>
     <string name="fragment_header">Fragmento do header da app</string>
     <string name="title_activity_test1">Test1</string>
-    <string name="button_add">Add Chat</string>
+    <string name="button_add">Adicionar Chat</string>
     <string name="button_fav">Favoritos</string>
     <string name="pretitle_data_registo">Data:</string>
     <string name="pretitle_email">Email:</string>
@@ -74,4 +74,7 @@
     <string name="button_definition">Defenições</string>
     <string name="pretitle_store_name">Nome da Loja</string>
     <string name="pretitle_morada">Morada</string>
+    <string name="Name_App">Nome na App</string>
+    <string name="name_user">UserName</string>
+    <string name="repeat_pass">Repeat Password</string>
 </resources>

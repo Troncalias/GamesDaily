@@ -2,7 +2,9 @@ package com.example.tronc.gamesdaily.Activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.arch.persistence.room.Room;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,7 +18,10 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.tronc.gamesdaily.Adapter.GamesAdapter;
+import com.example.tronc.gamesdaily.Adapter.GamesEditAdapter;
 import com.example.tronc.gamesdaily.Data.List_Games;
+import com.example.tronc.gamesdaily.Data.MyDB;
+import com.example.tronc.gamesdaily.Data.ValuesBD;
 import com.example.tronc.gamesdaily.Fragment.HeaderFragment;
 import com.example.tronc.gamesdaily.Models.Games;
 import com.example.tronc.gamesdaily.R;
@@ -33,6 +38,7 @@ public class FavoritesActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private GamesAdapter gAdapter;
     private Bundle extras;
+    private MyDB sampleDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +46,12 @@ public class FavoritesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_favorites);
         mRefActivity = this;
 
+        sampleDatabase = Room.databaseBuilder(getApplicationContext(), MyDB.class, new ValuesBD().getNamedabe()).build();
         setToolbar();
         setFragments();
-        setList();
+
+        LoadGames listGames = new LoadGames();
+        listGames.execute();
 
 
     }
@@ -68,6 +77,35 @@ public class FavoritesActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.rvGames);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(gAdapter);
+    }
+
+    public class LoadGames extends AsyncTask<Void, Void, ArrayList<Games>> {
+
+        @Override
+        protected  void onPreExecute(){
+            super.onPreExecute();
+        }
+
+        @Override
+        protected ArrayList<Games> doInBackground(Void... voids) {
+            int i = sampleDatabase.geral().getSizeGames();
+            i++;    String y1 = String.valueOf(i);
+            i++;    String y2 = String.valueOf(i);
+            Games game1 = new Games("nome" + y1, "publicador1", "descricao1", "20/10/2019 10:00", null, 1, 100,10);
+            Games game2 = new Games("nome" + y2, "publicador2", "descricao2", "20/10/2019 10:00" , null, 2,200, 10);
+            sampleDatabase.geral().addGame((game1));
+            sampleDatabase.geral().addGame((game2));
+            sampleDatabase.geral().deletGame(game2);
+            ArrayList<Games> listGames = (ArrayList<Games>) sampleDatabase.geral().loadAllGames();
+            return listGames;
+        }
+        @Override
+        protected void onPostExecute(ArrayList<Games> games){//Executa como se fosse na principal
+            gAdapter = new GamesAdapter(mRefActivity.getApplicationContext(), games, mRefActivity);
+            mRecyclerView = findViewById(R.id.rvGames);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(mRefActivity.getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+            mRecyclerView.setAdapter(gAdapter);
+        }
     }
 
 

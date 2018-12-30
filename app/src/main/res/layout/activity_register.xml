@@ -40,12 +40,27 @@
                     android:id="@+id/user"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Username"
-                    android:inputType="textEmailAddress"
+                    android:hint="@string/name_user"
+                    android:inputType="textPersonName"
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textColor="@android:color/white" />
 
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/Name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/Name_App"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@android:color/white" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -91,7 +106,7 @@
                     android:id="@+id/passwordRepeat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Repeat Password"
+                    android:hint="@string/repeat_pass"
                     android:imeActionId="6"
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"

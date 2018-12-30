@@ -2,6 +2,8 @@ package com.example.tronc.gamesdaily.Activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.arch.persistence.room.Room;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +30,8 @@ import com.example.tronc.gamesdaily.Data.List_Games;
 import com.example.tronc.gamesdaily.Data.List_News;
 import com.example.tronc.gamesdaily.Data.List_Stores;
 import com.example.tronc.gamesdaily.Data.List_Users;
+import com.example.tronc.gamesdaily.Data.MyDB;
+import com.example.tronc.gamesdaily.Data.ValuesBD;
 import com.example.tronc.gamesdaily.Fragment.HeaderFragment;
 import com.example.tronc.gamesdaily.Models.Chat;
 import com.example.tronc.gamesdaily.Models.Games;
@@ -39,6 +43,8 @@ import com.example.tronc.gamesdaily.R;
 import java.util.ArrayList;
 
 public class AdminActivity extends AppCompatActivity {
+    private MyDB sampleDatabase;
+
     private static Activity mRefActivity;
     private static RecyclerView rvUtilizadores;
     private ImageView imageView;
@@ -49,6 +55,7 @@ public class AdminActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
         mRefActivity = this;
+        sampleDatabase = Room.databaseBuilder(getApplicationContext(), MyDB.class, new ValuesBD().getNamedabe()).build();
 
         setToolbar();
         setFragments();
@@ -99,8 +106,6 @@ public class AdminActivity extends AppCompatActivity {
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
         return super.onOptionsItemSelected(item);
     }
-
-
 
     private void setClickMenuAddChat() {
 
@@ -156,18 +161,27 @@ public class AdminActivity extends AppCompatActivity {
                 Button closeBtn = (Button) view.findViewById(R.id.button_close);
                 Button searchButton = (Button) view.findViewById(R.id.button_search);
 
-                setListGamesAccept();
+                LoadGames listGames = new LoadGames();
+                listGames.execute();
             }
         });
 
 
     }
 
-    private static void setListGamesAccept(){
-        ArrayList<Games> list = (ArrayList<Games>) new List_Games().getLista_games();
-        GamesAcceptAdapter gAdapter = new GamesAcceptAdapter(mRefActivity, list);
-        rvUtilizadores.setAdapter(gAdapter);
-        rvUtilizadores.setLayoutManager(new LinearLayoutManager(mRefActivity));
+    public class LoadGames extends AsyncTask<Void, Void, ArrayList<Games>> {
+
+        @Override
+        protected ArrayList<Games> doInBackground(Void... voids) {
+            ArrayList<Games> list = (ArrayList<Games>) sampleDatabase.geral().loadAllGames();
+            return list;
+        }
+
+        protected void onPostExecute(ArrayList<Games> list){
+            GamesAcceptAdapter gAdapter = new GamesAcceptAdapter(mRefActivity, list);
+            rvUtilizadores.setAdapter(gAdapter);
+            rvUtilizadores.setLayoutManager(new LinearLayoutManager(mRefActivity));
+        }
     }
 
     private void setButtonStore(){
@@ -206,9 +220,33 @@ public class AdminActivity extends AppCompatActivity {
                 Button closeBtn = (Button) view.findViewById(R.id.button_close);
                 Button searchButton = (Button) view.findViewById(R.id.button_search);
 
-                setListStoreAccept();
+                LoadStores listStores = new LoadStores();
+                listStores.execute();
             }
         });
+    }
+
+    public class LoadStores extends AsyncTask<Void, Void, ArrayList<Stores>> {
+
+        @Override
+        protected ArrayList<Stores> doInBackground(Void... voids) {
+            int i = sampleDatabase.geral().getSizeStores();
+            i++;    String y1 = String.valueOf(i);
+            i++;    String y2 = String.valueOf(i);
+            Stores stores = new Stores("Loja " + y1, "Rua Avenida 1", "Loja de Jogos Steam", "20/10/2019 10:00", null, 02);
+            sampleDatabase.geral().addStore(stores);
+            stores = new Stores("Loja " + y2, "Rua Avenida 2", "Loja de Jogos Local", "30/1/2018 10:00", null, 01);
+            sampleDatabase.geral().addStore(stores);
+            sampleDatabase.geral().deleteStore(stores.getId());
+            ArrayList<Stores> list = (ArrayList<Stores>) sampleDatabase.geral().loadAllStores();
+            return list;
+        }
+
+        protected void onPostExecute(ArrayList<Stores> list){
+            StoresAcceptAdapter gAdapter = new StoresAcceptAdapter(mRefActivity, list);
+            rvUtilizadores.setAdapter(gAdapter);
+            rvUtilizadores.setLayoutManager(new LinearLayoutManager(mRefActivity));
+        }
     }
 
     private static void setListStoreAccept(){
@@ -316,17 +354,25 @@ public class AdminActivity extends AppCompatActivity {
                 textView.setText("Remove Users");
                 Button closeBtn = (Button) view.findViewById(R.id.button_close);
                 Button searchButton = (Button) view.findViewById(R.id.button_search);
-
-                setListUtilizadores();
+                LoadUsers list = new LoadUsers();
+                list.execute();
             }
         });
     }
 
-    private static void setListUtilizadores() {
-        ArrayList<User> list = (ArrayList<User>) new List_Users().getLista_games();
-        UserAdapter gAdapter = new UserAdapter(mRefActivity, list);
-        rvUtilizadores.setAdapter(gAdapter);
-        rvUtilizadores.setLayoutManager(new LinearLayoutManager(mRefActivity));
+    public class LoadUsers extends AsyncTask<Void, Void, ArrayList<User>> {
+
+        @Override
+        protected ArrayList<User> doInBackground(Void... voids) {
+            ArrayList<User> listUsers = (ArrayList<User>) sampleDatabase.geral().loadAllUsers();
+            return listUsers;
+        }
+
+        protected void onPostExecute(ArrayList<User> list){
+            UserAdapter gAdapter = new UserAdapter(mRefActivity, list);
+            rvUtilizadores.setAdapter(gAdapter);
+            rvUtilizadores.setLayoutManager(new LinearLayoutManager(mRefActivity));
+        }
     }
 
     @Override

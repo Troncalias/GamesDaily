@@ -1,28 +1,36 @@
 package com.example.tronc.gamesdaily.Models;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
+@Entity( tableName = "User")
 public class User {
-    private int id;
+    @NonNull
+    @PrimaryKey
     private String username;
+
+
     private String password;
     private String nome;
     private String dataRegisto;
     private String email;
-    private Stores store;
-    private int tipo_utilizador_id;
+    private int storeId;
+    private int tipo_utilizador_id = 1;
     private byte[] imagem;
 
-    public User(int id,String username, String password, String nome, String dataRegisto, String email, int tipo_utilizador_id, byte[] imagem) {
+    public User() {
+    }
+
+    @Ignore
+    public User(String username, String password, String nome, String dataRegisto, String email) {
         this.username = username;
         this.password = password;
         this.nome = nome;
         this.dataRegisto = dataRegisto;
-        this.tipo_utilizador_id = tipo_utilizador_id;
         this.email = email;
-        this.imagem = imagem;
-        this.store = null;
-    }
-
-    public User() {
     }
 
     public String getUsername() {
@@ -49,6 +57,14 @@ public class User {
         this.nome = nome;
     }
 
+    public String getDataRegisto() {
+        return dataRegisto;
+    }
+
+    public void setDataRegisto(String dataRegisto) {
+        this.dataRegisto = dataRegisto;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -57,12 +73,12 @@ public class User {
         this.email = email;
     }
 
-    public String getDataRegisto() {
-        return dataRegisto;
+    public int getStoreId() {
+        return storeId;
     }
 
-    public void setDataRegisto(String dataRegisto) {
-        this.dataRegisto = dataRegisto;
+    public void setStoreId(int storeId) {
+        this.storeId = storeId;
     }
 
     public int getTipo_utilizador_id() {
@@ -74,10 +90,4 @@ public class User {
     public byte[] getImagem() { return imagem; }
 
     public void setImagem(byte[] imagem) { this.imagem = imagem; }
-
-    public int getId() { return id; }
-
-    public void setId(int id) { this.id = id; }
-
-
 }

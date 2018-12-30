@@ -38,7 +38,7 @@ public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.ViewHolder> 
 
     @NonNull
     @Override
-    public GamesAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         Context context = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
@@ -50,7 +50,7 @@ public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull GamesAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         final Games myItem = mList.get(position);
         ImageView imageView = viewHolder.imageView;
         if(myItem.getImagem() != null){
@@ -62,14 +62,14 @@ public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.ViewHolder> 
         TextView textView1 = viewHolder.numberPlayers;
         TextView rating = viewHolder.ratingView;
         TextView data = viewHolder.dateView;
-        textView.setText(myItem.getNome());
-        textView1.setText("Jogadores: " +  myItem.getNumber_jogadores());
+        textView.setText(myItem.getName());
+        textView1.setText("Jogadores: " +  myItem.getNumberGamers());
         String textRating = getContext().getString(R.string.pretitle_rating);
-        String rate = GamesActivity.getRatingGame(myItem.getId());
+        String rate = Float.toString(myItem.getRating());
         rating.setText( textRating + " " + rate);
 
-        String mydata = myItem.getDataInsercao().split(" ")[0];
-        String myhora = myItem.getDataInsercao().split(" ")[1];
+        String mydata = myItem.getDate().split(" ")[0];
+        String myhora = myItem.getDate().split(" ")[1];
         myhora = myhora.split(":")[0] + ":" + myhora.split(":")[1];
         String mydatahora = mydata + " " + myhora;
         String textData = getContext().getString(R.string.pretitle_data_insercao);

@@ -2,9 +2,11 @@ package com.example.tronc.gamesdaily.Activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -21,9 +23,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tronc.gamesdaily.Adapter.GamesAdapter;
+import com.example.tronc.gamesdaily.Adapter.StoresAcceptAdapter;
 import com.example.tronc.gamesdaily.Adapter.StoresAdapter;
 import com.example.tronc.gamesdaily.Data.List_Games;
 import com.example.tronc.gamesdaily.Data.List_Stores;
+import com.example.tronc.gamesdaily.Data.MyDB;
+import com.example.tronc.gamesdaily.Data.ValuesBD;
 import com.example.tronc.gamesdaily.Fragment.HeaderFragment;
 import com.example.tronc.gamesdaily.Models.Games;
 import com.example.tronc.gamesdaily.Models.Stores;
@@ -40,6 +45,7 @@ public class StoresActivity extends AppCompatActivity {
     private static RecyclerView rvUtilizadores;
     private static RecyclerView mRecyclerView;
     private static GamesAdapter gAdapter;
+    private static MyDB sampleDatabase;
     private Toolbar mToolbar;
     private StoresAdapter sAdapter;
     private Bundle extras;
@@ -49,10 +55,12 @@ public class StoresActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stores);
         mRefActivity = this;
+        sampleDatabase = Room.databaseBuilder(getApplicationContext(), MyDB.class, new ValuesBD().getNamedabe()).build();
 
         setToolbar();
         setFragments();
-        setList();
+        LoadStores listStores = new LoadStores();
+        listStores.execute();
     }
 
     private void setToolbar(){
@@ -78,6 +86,30 @@ public class StoresActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.rvGames);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(sAdapter);}
+
+    public class LoadStores extends AsyncTask<Void, Void, ArrayList<Stores>> {
+
+        @Override
+        protected ArrayList<Stores> doInBackground(Void... voids) {
+            int i = sampleDatabase.geral().getSizeStores();
+            i++;    String y1 = String.valueOf(i);
+            i++;    String y2 = String.valueOf(i);
+            Stores stores = new Stores("Loja " + y1, "Rua Avenida 1", "Loja de Jogos Steam", "20/10/2019 10:00", null, 02);
+            sampleDatabase.geral().addStore(stores);
+            stores = new Stores("Loja " + y2, "Rua Avenida 2", "Loja de Jogos Local", "30/1/2018 10:00", null, 01);
+            sampleDatabase.geral().addStore(stores);
+            sampleDatabase.geral().deleteStore(stores.getId());
+            ArrayList<Stores> list = (ArrayList<Stores>) sampleDatabase.geral().loadAllStores();
+            return list;
+        }
+
+        protected void onPostExecute(ArrayList<Stores> list){
+            sAdapter = new StoresAdapter(mRefActivity.getApplicationContext(), list, mRefActivity);
+            mRecyclerView = findViewById(R.id.rvGames);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(mRefActivity, LinearLayoutManager.VERTICAL, false));
+            mRecyclerView.setAdapter(sAdapter);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -204,7 +236,9 @@ public class StoresActivity extends AppCompatActivity {
         Button closeBtn = (Button) view.findViewById(R.id.button_close);
         Button searchButton = (Button) view.findViewById(R.id.button_search);
 
-        setListMensagens(mActivity);
+        LoadGames listGames = new LoadGames(mActivity, sampleDatabase);
+        listGames.execute();
+
     }
 
     private static void setListMensagens(Activity activity) {
@@ -212,5 +246,36 @@ public class StoresActivity extends AppCompatActivity {
         GamesAdapter adapter = new GamesAdapter(activity, contacts, mRefActivity);
         rvUtilizadores.setAdapter(adapter);
         rvUtilizadores.setLayoutManager(new LinearLayoutManager(activity));
+    }
+
+    public static class LoadGames extends AsyncTask<Void, Void, ArrayList<Games>> {
+        public  Activity mActivity;
+        public MyDB sampleDatabase;
+
+        public LoadGames(Activity mActivity, MyDB database) {
+            this.sampleDatabase = database;
+            this.mActivity = mActivity;
+        }
+
+        @Override
+        protected ArrayList<Games> doInBackground(Void... voids) {
+            int i = sampleDatabase.geral().getSizeGames();
+            i++;    String y1 = String.valueOf(i);
+            i++;    String y2 = String.valueOf(i);
+            Games game1 = new Games("nome" + y1, "publicador1", "descricao1", "20/10/2019 10:00", null, 1, 100,10);
+            Games game2 = new Games("nome" + y2, "publicador2", "descricao2", "20/10/2019 10:00" , null, 2,200, 10);
+            sampleDatabase.geral().addGame((game1));
+            sampleDatabase.geral().addGame((game2));
+            sampleDatabase.geral().deletGame((game2));
+            ArrayList<Games> listGames = (ArrayList<Games>) sampleDatabase.geral().loadAllGames();
+            return listGames;
+        }
+        @Override
+        protected void onPostExecute(ArrayList<Games> games){
+
+            GamesAdapter adapter = new GamesAdapter(mActivity, games, mRefActivity);
+            rvUtilizadores.setAdapter(adapter);
+            rvUtilizadores.setLayoutManager(new LinearLayoutManager(mActivity));
+        }
     }
 }

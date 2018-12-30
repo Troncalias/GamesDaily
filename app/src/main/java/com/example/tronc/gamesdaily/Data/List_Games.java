@@ -11,9 +11,10 @@ public class List_Games extends ListActivity {
     private List<Games> lista_games = new ArrayList<Games>();
 
     public List_Games() {
-        Games game = new Games(1, "nome1" ,"10", "publicador1", "descricao1", "20/10/2019 10:00", null, "jogador1", 100);
+        //String name, String publicher, String description, String date, byte[] imagem, int addBy, int numberGamers, float rating
+        Games game = new Games("nome1" ,"publicador1", "descricao1",  "20/10/2019 10:00", null, 1, 100, 9);
         this.lista_games.add(game);
-        game = new Games(2, "nome2","10", "publicador2", "descricao2", "20/10/2019 10:00" , null, "jogador1", 200);
+        game = new Games("nome2", "publicador2", "descricao2", "20/10/2019 10:00" , null, 2, 200, 10);
         this.lista_games.add(game);
     }
 

@@ -1,15 +1,33 @@
 package com.example.tronc.gamesdaily.Models;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
+@Entity(tableName = "News")
 public class News {
 
+    @NonNull
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
     private int id;
-    private String newsName;
-    private String dataInsercao;
-    private String descricao;
-    private String rating;
 
-    public News(int id, String newsName, String dataInsercao, String descricao) {
-        this.id = id;
+    @ColumnInfo(name = "newsName")
+    private String newsName;
+
+    @ColumnInfo(name = "date")
+    private String dataInsercao;
+
+    @ColumnInfo(name = "description")
+    private String descricao;
+
+    public News() {
+    }
+
+    @Ignore
+    public News(String newsName, String dataInsercao, String descricao) {
         this.newsName = newsName;
         this.dataInsercao = dataInsercao;
         this.descricao = descricao;
@@ -47,12 +65,5 @@ public class News {
         this.descricao = descricao;
     }
 
-    public String getRating() {
-        return rating;
-    }
-
-    public void setRating(String rating) {
-        this.rating = rating;
-    }
 }
 

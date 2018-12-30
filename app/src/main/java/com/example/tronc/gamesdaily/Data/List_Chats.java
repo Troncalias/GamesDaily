@@ -12,14 +12,8 @@ public class List_Chats extends ListActivity {
     private List<Chat> lista_games = new ArrayList<Chat>();
 
     public List_Chats() {
-        //int id, String utilizador_username, String conteudo, String dataInsercao
-        Mensage mensagem = new Mensage(001, "Troncalias", "Bem vindo a nossa aplicacao", "10/11/2018");
-        //int id,String Titulo, String Descricao,ArrayList<Mensage> comentarios
-        ArrayList<Mensage> array = new ArrayList<Mensage>();
-        array.add(mensagem);
-        array.add(mensagem);
-        Chat chat1 = new Chat(001, "20/10/2019 10:00", "Bem Vindo", "Descrição das regras da app", array);
-        Chat chat2 = new Chat(002, "21/10/2019 10:00", "Truques e gliches", "Descrição para a ", array);
+        Chat chat1 = new Chat(001, 01,"20/10/2019 10:00", "Bem Vindo", "Descrição das regras da app");
+        Chat chat2 = new Chat(002, 02, "21/10/2019 10:00", "Truques e gliches", "Descrição para a ");
         lista_games.add(chat1);
         lista_games.add(chat2);
 

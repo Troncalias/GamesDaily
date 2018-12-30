@@ -2,9 +2,11 @@ package com.example.tronc.gamesdaily.Activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +26,8 @@ import com.example.tronc.gamesdaily.Adapter.GamesAdapter;
 import com.example.tronc.gamesdaily.Adapter.MensageAdapter;
 import com.example.tronc.gamesdaily.Data.List_Games;
 import com.example.tronc.gamesdaily.Data.List_Mensagens;
+import com.example.tronc.gamesdaily.Data.MyDB;
+import com.example.tronc.gamesdaily.Data.ValuesBD;
 import com.example.tronc.gamesdaily.Fragment.HeaderFragment;
 import com.example.tronc.gamesdaily.Models.Games;
 import com.example.tronc.gamesdaily.Models.Mensage;
@@ -31,20 +35,19 @@ import com.example.tronc.gamesdaily.R;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class GamesActivity extends AppCompatActivity {
 
+    private ArrayList<Games> listGames;
     private static Activity mRefActivity;
     private Toolbar mToolbar;
     private RecyclerView mRecyclerView;
     private static RecyclerView rvUtilizadores;
     private GamesAdapter gAdapter;
     private Bundle extras;
-
-    public static String getRatingGame(int id) {
-        return new List_Games().search(id).getRating();
-    }
+    private MyDB sampleDatabase;
 
     public static void openGame(Games game, Activity mActivity) {
         AlertDialog.Builder builder =  new AlertDialog.Builder(mActivity);
@@ -60,18 +63,18 @@ public class GamesActivity extends AppCompatActivity {
         }
 
         final TextView nomeTv = (TextView) view.findViewById(R.id.nomeTv);
-        nomeTv.setText(game.getNome());
+        nomeTv.setText(game.getName());
         final TextView dataInsercaoTv = (TextView) view.findViewById(R.id.dataInsercaoTv);
-        dataInsercaoTv.setText(game.getDataInsercao());
+        dataInsercaoTv.setText(game.getDate());
         final TextView ratingTv = (TextView) view.findViewById(R.id.ratingTv);
-        ratingTv.setText(game.getUtilizador_adicionou());
+        ratingTv.setText(Integer.toString(game.getAddBy()));
 
         final TextView numberOfPlayersTv = (TextView) view.findViewById(R.id.numberOfGamers);
-        numberOfPlayersTv.setText(String.valueOf(game.getNumber_jogadores()));
+        numberOfPlayersTv.setText(String.valueOf(game.getNumberGamers()));
         final TextView descricao = (TextView) view.findViewById(R.id.descricaoTv);
-        descricao.setText(game.getUtilizador_adicionou());
+        descricao.setText(Integer.toString(game.getAddBy()));
         final TextView publicadoraTv = (TextView) view.findViewById(R.id.publicherTv);
-        publicadoraTv.setText(game.getUtilizador_adicionou());
+        publicadoraTv.setText(Integer.toString(game.getAddBy()));
         Button avaliarBtn = (Button) view.findViewById(R.id.button_avaliar);
         Button favoritoBtn = (Button) view.findViewById(R.id.button_favorito);
         Button removeBtn = (Button) view.findViewById(R.id.button_cancelBt);
@@ -103,6 +106,10 @@ public class GamesActivity extends AppCompatActivity {
     }
 
 
+    private ArrayList<Games> getListGames(){
+        return this.listGames;
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_games);
@@ -110,8 +117,14 @@ public class GamesActivity extends AppCompatActivity {
 
         setToolbar();
         setFragments();
-        setList();
+        sampleDatabase = Room.databaseBuilder(getApplicationContext(), MyDB.class, new ValuesBD().getNamedabe()).build();
+    }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        LoadContent load = new LoadContent();
+        load.execute();
     }
 
     private void setToolbar(){
@@ -129,12 +142,34 @@ public class GamesActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    private void setList(){
-        ArrayList<Games> contacts = (ArrayList<Games>) new List_Games().getLista_games();
-        gAdapter = new GamesAdapter(this.getApplicationContext(), contacts, mRefActivity);
-        mRecyclerView = findViewById(R.id.rvGames);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-        mRecyclerView.setAdapter(gAdapter);}
+    public class LoadContent extends AsyncTask<Void, Void, ArrayList<Games>> {
+
+        @Override
+        protected  void onPreExecute(){
+            super.onPreExecute();
+        }
+
+        @Override
+        protected ArrayList<Games> doInBackground(Void... voids) {
+            int i = sampleDatabase.geral().getSizeGames();
+            i++;    String y1 = String.valueOf(i);
+            i++;    String y2 = String.valueOf(i);
+            Games game1 = new Games("nome" + y1, "publicador1", "descricao1", "20/10/2019 10:00", null, 1, 100,10);
+            Games game2 = new Games("nome" + y2, "publicador2", "descricao2", "20/10/2019 10:00" , null, 2,200, 10);
+            sampleDatabase.geral().addGame((game1));
+            sampleDatabase.geral().addGame((game2));
+            sampleDatabase.geral().deletGame(game2);
+            listGames = (ArrayList<Games>) sampleDatabase.geral().loadAllGames();
+            return listGames;
+        }
+        @Override
+        protected void onPostExecute(ArrayList<Games> games){//Executa como se fosse na principal
+            gAdapter = new GamesAdapter(mRefActivity.getApplicationContext(), games, mRefActivity);
+            mRecyclerView = findViewById(R.id.rvGames);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(mRefActivity.getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+            mRecyclerView.setAdapter(gAdapter);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

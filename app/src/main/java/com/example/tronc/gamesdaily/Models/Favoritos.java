@@ -1,25 +1,27 @@
 package com.example.tronc.gamesdaily.Models;
 
+
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
+@Entity(primaryKeys = {"username","games_id"},tableName = "Favoritos")
 public class Favoritos {
 
-    private int id;
+    @NonNull
     private String username;
+    @NonNull
     private int games_id;
-    private String dataInsercao;
 
-    public Favoritos(int id, String username, int games_id, String dataInsercao) {
-        this.id = id;
+    public Favoritos() {
+    }
+
+    @Ignore
+    public Favoritos(String username, int games_id) {
         this.username = username;
         this.games_id = games_id;
-        this.dataInsercao = dataInsercao;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getUsername() {
@@ -36,13 +38,5 @@ public class Favoritos {
 
     public void setGames_id(int games_id) {
         this.games_id = games_id;
-    }
-
-    public String getDataInsercao() {
-        return dataInsercao;
-    }
-
-    public void setDataInsercao(String dataInsercao) {
-        this.dataInsercao = dataInsercao;
     }
 }

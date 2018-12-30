@@ -59,14 +59,14 @@ public class GamesAcceptAdapter extends RecyclerView.Adapter<GamesAcceptAdapter.
         TextView textView1 = viewHolder.numberPlayers;
         TextView rating = viewHolder.ratingView;
         TextView data = viewHolder.dateView;
-        textView.setText(myItem.getNome());
-        textView1.setText("Jogadores: " +  myItem.getNumber_jogadores());
+        textView.setText(myItem.getName());
+        textView1.setText("Jogadores: " +  myItem.getNumberGamers());
         String textRating = getContext().getString(R.string.pretitle_rating);
-        String rate = GamesActivity.getRatingGame(myItem.getId());
+        String rate = Float.toString(myItem.getRating());
         rating.setText( textRating + " " + rate);
 
-        String mydata = myItem.getDataInsercao().split(" ")[0];
-        String myhora = myItem.getDataInsercao().split(" ")[1];
+        String mydata = myItem.getDate().split(" ")[0];
+        String myhora = myItem.getDate().split(" ")[1];
         myhora = myhora.split(":")[0] + ":" + myhora.split(":")[1];
         String mydatahora = mydata + " " + myhora;
         String textData = getContext().getString(R.string.pretitle_data_insercao);

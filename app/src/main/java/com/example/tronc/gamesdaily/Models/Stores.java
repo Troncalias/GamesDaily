@@ -1,22 +1,48 @@
 package com.example.tronc.gamesdaily.Models;
 
-public class Stores {
-    private int id;
-    private String nome;
-    private String morada;
-    private String descricao;
-    private String dataInsercao;
-    private byte[] imagem;
-    private String username;
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
-    public Stores(int id, String nome, String morada, String descricao, String dataInsercao, byte[] imagem, String username) {
-        this.id = id;
+@Entity(tableName = "Stores")
+public class Stores {
+    @NonNull
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    private int id;
+
+    @ColumnInfo(name = "name")
+    private String nome;
+
+    @ColumnInfo(name = "adress")
+    private String morada;
+
+    @ColumnInfo(name = "description")
+    private String descricao;
+
+    @ColumnInfo(name = "date")
+    private String dataInsercao;
+
+    @Ignore
+    @ColumnInfo(name = "image")
+    private byte[] imagem;
+
+    @ColumnInfo(name = "userId")
+    private int userId;
+
+    public Stores() {
+    }
+
+    @Ignore
+    public Stores(String nome, String morada, String descricao, String dataInsercao, byte[] imagem, int userId) {
         this.nome = nome;
         this.morada = morada;
         this.descricao = descricao;
         this.dataInsercao = dataInsercao;
         this.imagem = imagem;
-        this.username = username;
+        this.userId = userId;
     }
 
     public int getId() {
@@ -67,11 +93,7 @@ public class Stores {
         this.imagem = imagem;
     }
 
-    public String getUsername() {
-        return username;
-    }
+    public int getUserId() { return userId; }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    public void setUserId(int userId) { this.userId = userId; }
 }

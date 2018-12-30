@@ -17,9 +17,9 @@ public class List_Stores extends ListActivity {
 
     public List_Stores() {
 
-        Stores stores = new Stores(1, "Loja 1", "Rua Avenida 1", "Loja de Jogos Steam", "20/10/2019 10:00", null, "user 1");
+        Stores stores = new Stores("Loja 1", "Rua Avenida 1", "Loja de Jogos Steam", "20/10/2019 10:00", null, 02);
         this.lista_stores.add(stores);
-        stores = new Stores(2, "Loja 2", "Rua Avenida 2", "Loja de Jogos Local", "30/1/2018 10:00", null, "user 4");
+        stores = new Stores("Loja 2", "Rua Avenida 2", "Loja de Jogos Local", "30/1/2018 10:00", null, 01);
         this.lista_stores.add(stores);
     }
 
