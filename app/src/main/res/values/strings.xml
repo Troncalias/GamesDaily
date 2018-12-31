@@ -1,4 +1,7 @@
 <resources>
+    <!--String whid name of database-->
+    <string name="database_value">sample-db-5</string>
+
     <string name="app_name">Games&amp;News</string>
     <string name="title_activity_login">Sign in</string>
     <!-- Strings related to login -->

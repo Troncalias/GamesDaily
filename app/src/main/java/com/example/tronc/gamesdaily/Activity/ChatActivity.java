@@ -2,7 +2,9 @@ package com.example.tronc.gamesdaily.Activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.arch.persistence.room.Room;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -19,8 +21,7 @@ import android.widget.TextView;
 
 import com.example.tronc.gamesdaily.Adapter.ChatAdapter;
 import com.example.tronc.gamesdaily.Adapter.MensageAdapter;
-import com.example.tronc.gamesdaily.Data.List_Chats;
-import com.example.tronc.gamesdaily.Data.List_Mensagens;
+import com.example.tronc.gamesdaily.Data.MyDB;
 import com.example.tronc.gamesdaily.Fragment.HeaderFragment;
 import com.example.tronc.gamesdaily.Models.Chat;
 import com.example.tronc.gamesdaily.Models.Mensage;
@@ -36,6 +37,76 @@ public class ChatActivity extends AppCompatActivity {
     private static RecyclerView rvUtilizadores;
     private ChatAdapter gAdapter;
     private Bundle extras;
+    private static MyDB sampleDatabase;
+
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_chat);
+        mRefActivity = this;
+        sampleDatabase = Room.databaseBuilder(getApplicationContext(), MyDB.class, this.getString(R.string.database_value)).build();
+
+        setToolbar();
+        setFragments();
+        LoadChats listChats = new LoadChats();
+        listChats.execute();
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        //GamesActivity.LoadContent load = new GamesActivity.LoadContent();
+        //load.execute();
+    }
+
+    private void setToolbar() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("Chats");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void setFragments() {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        HeaderFragment f = new HeaderFragment();
+        fragmentTransaction.add(R.id.frame_layout_header, f);
+        fragmentTransaction.disallowAddToBackStack();
+        fragmentTransaction.commit();
+    }
+
+    /**
+    private void setList() {
+        ArrayList<Chat> contacts = (ArrayList<Chat>) new List_Chats().getLista_chates();
+        gAdapter = new ChatAdapter(this.getApplicationContext(), contacts, this);
+        mRecyclerView = findViewById(R.id.rvChat);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        mRecyclerView.setAdapter(gAdapter);
+    }**/
+
+    public class LoadChats extends AsyncTask<Void, Void, ArrayList<Chat>> {
+
+        @Override
+        protected ArrayList<Chat> doInBackground(Void... voids) {
+            int i = sampleDatabase.geral().getSizeChats();
+            i++;    String y1 = String.valueOf(i);
+            i++;    String y2 = String.valueOf(i);
+
+            //int id_game, String Data,String Titulo, String Descricao
+            Chat chat1 = new Chat(01,"20/10/2019 10:00", "Bem Vindo", "Descrição das regras da app");
+            Chat chat2 = new Chat(02, "21/10/2019 10:00", "Truques e gliches", "Descrição para a ");
+            sampleDatabase.geral().addChat(chat1);
+            sampleDatabase.geral().addChat(chat2);
+            ArrayList<Chat> listChat = (ArrayList<Chat>) sampleDatabase.geral().loadAllChats();
+            return listChat;
+        }
+
+        protected void onPostExecute(ArrayList<Chat> list){
+            gAdapter = new ChatAdapter(mRefActivity.getApplicationContext(), list, mRefActivity);
+            mRecyclerView = findViewById(R.id.rvChat);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(mRefActivity, LinearLayoutManager.VERTICAL, false));
+            mRecyclerView.setAdapter(gAdapter);
+        }
+    }
 
     public static void openChat(Chat myItem, Activity mActivity) {
         AlertDialog.Builder builder =  new AlertDialog.Builder(mActivity);
@@ -51,55 +122,50 @@ public class ChatActivity extends AppCompatActivity {
         Button closeBtn = (Button) view.findViewById(R.id.button_close);
         Button searchButton = (Button) view.findViewById(R.id.button_search);
 
-        setListMensagens();
+        LoadMensages listMensagens = new LoadMensages(mActivity, sampleDatabase);
+        listMensagens.execute();
     }
 
+    /**
     private static void setListMensagens() {
         ArrayList<Mensage> list = (ArrayList<Mensage>) new List_Mensagens().getLista_chates();
         MensageAdapter gAdapter = new MensageAdapter(mRefActivity, list);
         rvUtilizadores.setAdapter(gAdapter);
         rvUtilizadores.setLayoutManager(new LinearLayoutManager(mRefActivity));
-    }
+    }**/
 
+    public static class LoadMensages extends AsyncTask<Void, Void, ArrayList<Mensage>> {
+        public  Activity mActivity;
+        public MyDB sampleDatabase;
 
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
-        mRefActivity = this;
+        public LoadMensages(Activity mActivity, MyDB sampleDatabase) {
+            this.mActivity = mActivity;
+            this.sampleDatabase = sampleDatabase;
+        }
 
-        setToolbar();
-        setFragments();
-        setList();
-
-    }
-
-    private void setToolbar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Chats");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        @Override
+        protected ArrayList<Mensage> doInBackground(Void... voids) {
+            int i = sampleDatabase.geral().getSizeGames();
+            i++;    String y1 = String.valueOf(i);
+            i++;    String y2 = String.valueOf(i);
+            Mensage mensagem = new Mensage(001, "log", "Bem vindo a nossa aplicacao", "20/10/2019 10:00");
+            this.sampleDatabase.geral().addMensage(mensagem);
+            this.sampleDatabase.geral().addMensage(mensagem);
+            ArrayList<Mensage> listGames = (ArrayList<Mensage>) sampleDatabase.geral().loadAllMensagens(001);
+            return listGames;
+        }
+        @Override
+        protected void onPostExecute(ArrayList<Mensage> list){//Executa como se fosse na principal
+            MensageAdapter gAdapter = new MensageAdapter(mRefActivity, list);
+            rvUtilizadores.setAdapter(gAdapter);
+            rvUtilizadores.setLayoutManager(new LinearLayoutManager(mRefActivity));
+        }
     }
 
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
-    }
-
-    private void setFragments() {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        HeaderFragment f = new HeaderFragment();
-        fragmentTransaction.add(R.id.frame_layout_header, f);
-        fragmentTransaction.disallowAddToBackStack();
-        fragmentTransaction.commit();
-    }
-
-    private void setList() {
-        ArrayList<Chat> contacts = (ArrayList<Chat>) new List_Chats().getLista_chates();
-        gAdapter = new ChatAdapter(this.getApplicationContext(), contacts, this);
-        mRecyclerView = findViewById(R.id.rvChat);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        mRecyclerView.setAdapter(gAdapter);
     }
 
     @Override

@@ -16,8 +16,8 @@ public class Mensage {
     @ColumnInfo(name = "id_chat")
     private int id_chat;
 
-    @ColumnInfo(name = "user_id")
-    private int user_id;
+    @ColumnInfo(name = "username")
+    private String username;
 
     @ColumnInfo(name = "content")
     private String conteudo;
@@ -29,9 +29,9 @@ public class Mensage {
     }
 
     @Ignore
-    public Mensage(int id_chat, int user_id, String conteudo, String dataInsercao) {
+    public Mensage(int id_chat, String username, String conteudo, String dataInsercao) {
         this.id_chat = id_chat;
-        this.user_id = user_id;
+        this.username = username;
         this.conteudo = conteudo;
         this.dataInsercao = dataInsercao;
     }
@@ -43,12 +43,6 @@ public class Mensage {
     public void setId(int id) {
         this.id = id;
     }
-
-    public int getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(int user_id) { this.user_id = user_id; }
 
     public String getConteudo() {
         return conteudo;
@@ -69,4 +63,8 @@ public class Mensage {
     public int getId_chat() { return id_chat; }
 
     public void setId_chat(int id_chat) { this.id_chat = id_chat; }
+
+    public String getUsername() { return username; }
+
+    public void setUsername(String username) { this.username = username; }
 }

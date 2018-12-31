@@ -23,12 +23,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tronc.gamesdaily.Adapter.GamesAdapter;
-import com.example.tronc.gamesdaily.Adapter.StoresAcceptAdapter;
 import com.example.tronc.gamesdaily.Adapter.StoresAdapter;
-import com.example.tronc.gamesdaily.Data.List_Games;
-import com.example.tronc.gamesdaily.Data.List_Stores;
 import com.example.tronc.gamesdaily.Data.MyDB;
-import com.example.tronc.gamesdaily.Data.ValuesBD;
 import com.example.tronc.gamesdaily.Fragment.HeaderFragment;
 import com.example.tronc.gamesdaily.Models.Games;
 import com.example.tronc.gamesdaily.Models.Stores;
@@ -37,7 +33,6 @@ import com.example.tronc.gamesdaily.R;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class StoresActivity extends AppCompatActivity {
 
@@ -55,7 +50,7 @@ public class StoresActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stores);
         mRefActivity = this;
-        sampleDatabase = Room.databaseBuilder(getApplicationContext(), MyDB.class, new ValuesBD().getNamedabe()).build();
+        sampleDatabase = Room.databaseBuilder(getApplicationContext(), MyDB.class, this.getString(R.string.database_value)).build();
 
         setToolbar();
         setFragments();
@@ -78,14 +73,6 @@ public class StoresActivity extends AppCompatActivity {
         fragmentTransaction.disallowAddToBackStack();
         fragmentTransaction.commit();
     }
-
-
-    private void setList(){
-        List<Stores> contacts = (List<Stores>) new List_Stores().getLista_stores();
-        sAdapter = new StoresAdapter(this.getApplicationContext(), contacts, mRefActivity);
-        mRecyclerView = findViewById(R.id.rvGames);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        mRecyclerView.setAdapter(sAdapter);}
 
     public class LoadStores extends AsyncTask<Void, Void, ArrayList<Stores>> {
 
@@ -241,12 +228,13 @@ public class StoresActivity extends AppCompatActivity {
 
     }
 
+    /**
     private static void setListMensagens(Activity activity) {
         ArrayList<Games> contacts = (ArrayList<Games>) new List_Games().getLista_games();
         GamesAdapter adapter = new GamesAdapter(activity, contacts, mRefActivity);
         rvUtilizadores.setAdapter(adapter);
         rvUtilizadores.setLayoutManager(new LinearLayoutManager(activity));
-    }
+    }**/
 
     public static class LoadGames extends AsyncTask<Void, Void, ArrayList<Games>> {
         public  Activity mActivity;
@@ -272,7 +260,6 @@ public class StoresActivity extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(ArrayList<Games> games){
-
             GamesAdapter adapter = new GamesAdapter(mActivity, games, mRefActivity);
             rvUtilizadores.setAdapter(adapter);
             rvUtilizadores.setLayoutManager(new LinearLayoutManager(mActivity));

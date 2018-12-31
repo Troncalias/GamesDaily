@@ -18,18 +18,13 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.tronc.gamesdaily.Adapter.GamesAdapter;
-import com.example.tronc.gamesdaily.Adapter.GamesEditAdapter;
-import com.example.tronc.gamesdaily.Data.List_Games;
 import com.example.tronc.gamesdaily.Data.MyDB;
-import com.example.tronc.gamesdaily.Data.ValuesBD;
 import com.example.tronc.gamesdaily.Fragment.HeaderFragment;
 import com.example.tronc.gamesdaily.Models.Games;
 import com.example.tronc.gamesdaily.R;
 
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
 
 public class FavoritesActivity extends AppCompatActivity {
 
@@ -46,7 +41,7 @@ public class FavoritesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_favorites);
         mRefActivity = this;
 
-        sampleDatabase = Room.databaseBuilder(getApplicationContext(), MyDB.class, new ValuesBD().getNamedabe()).build();
+        sampleDatabase = Room.databaseBuilder(getApplicationContext(), MyDB.class, this.getString(R.string.database_value)).build();
         setToolbar();
         setFragments();
 
@@ -71,13 +66,14 @@ public class FavoritesActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    /**
     private void setList() {
         List<Games> contacts = (List<Games>) new List_Games().getLista_games();
         gAdapter = new GamesAdapter(this.getApplicationContext(), (ArrayList<Games>) contacts, mRefActivity);
         mRecyclerView = findViewById(R.id.rvGames);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(gAdapter);
-    }
+    }**/
 
     public class LoadGames extends AsyncTask<Void, Void, ArrayList<Games>> {
 

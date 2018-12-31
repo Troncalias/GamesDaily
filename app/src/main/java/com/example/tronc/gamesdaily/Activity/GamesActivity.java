@@ -24,10 +24,7 @@ import android.widget.TextView;
 
 import com.example.tronc.gamesdaily.Adapter.GamesAdapter;
 import com.example.tronc.gamesdaily.Adapter.MensageAdapter;
-import com.example.tronc.gamesdaily.Data.List_Games;
-import com.example.tronc.gamesdaily.Data.List_Mensagens;
 import com.example.tronc.gamesdaily.Data.MyDB;
-import com.example.tronc.gamesdaily.Data.ValuesBD;
 import com.example.tronc.gamesdaily.Fragment.HeaderFragment;
 import com.example.tronc.gamesdaily.Models.Games;
 import com.example.tronc.gamesdaily.Models.Mensage;
@@ -35,19 +32,72 @@ import com.example.tronc.gamesdaily.R;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
 
 public class GamesActivity extends AppCompatActivity {
 
-    private ArrayList<Games> listGames;
     private static Activity mRefActivity;
     private Toolbar mToolbar;
     private RecyclerView mRecyclerView;
     private static RecyclerView rvUtilizadores;
     private GamesAdapter gAdapter;
     private Bundle extras;
-    private MyDB sampleDatabase;
+    private static MyDB sampleDatabase;
+
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_games);
+        mRefActivity = this;
+
+        setToolbar();
+        setFragments();
+        sampleDatabase = Room.databaseBuilder(getApplicationContext(), MyDB.class, this.getString(R.string.database_value)).build();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        LoadContent load = new LoadContent();
+        load.execute();
+    }
+
+    private void setToolbar(){
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("Games");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void setFragments() {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        HeaderFragment f = new HeaderFragment();
+        fragmentTransaction.add(R.id.frame_layout_header, f);
+        fragmentTransaction.disallowAddToBackStack();
+        fragmentTransaction.commit();
+    }
+
+    public class LoadContent extends AsyncTask<Void, Void, ArrayList<Games>> {
+
+        @Override
+        protected ArrayList<Games> doInBackground(Void... voids) {
+            int i = sampleDatabase.geral().getSizeGames();
+            i++;    String y1 = String.valueOf(i);
+            i++;    String y2 = String.valueOf(i);
+            Games game1 = new Games("nome" + y1, "publicador1", "descricao1", "20/10/2019 10:00", null, 1, 100,10);
+            Games game2 = new Games("nome" + y2, "publicador2", "descricao2", "20/10/2019 10:00" , null, 2,200, 10);
+            sampleDatabase.geral().addGame((game1));
+            sampleDatabase.geral().addGame((game2));
+            sampleDatabase.geral().deletGame(game2);
+            ArrayList<Games> listGames = (ArrayList<Games>) sampleDatabase.geral().loadAllGames();
+            return listGames;
+        }
+        @Override
+        protected void onPostExecute(ArrayList<Games> games){//Executa como se fosse na principal
+            gAdapter = new GamesAdapter(mRefActivity.getApplicationContext(), games, mRefActivity);
+            mRecyclerView = findViewById(R.id.rvGames);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(mRefActivity.getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+            mRecyclerView.setAdapter(gAdapter);
+        }
+    }
 
     public static void openGame(Games game, Activity mActivity) {
         AlertDialog.Builder builder =  new AlertDialog.Builder(mActivity);
@@ -86,8 +136,8 @@ public class GamesActivity extends AppCompatActivity {
         View view = mActivity.getLayoutInflater().inflate(R.layout.dialog_accept, null);
 
         builder.setView(view);
-        builder.setView(view);
         final AlertDialog dialog = builder.show();
+
         rvUtilizadores = (RecyclerView) view.findViewById(R.id.rvList);
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mRefActivity, DividerItemDecoration.VERTICAL);
         rvUtilizadores.addItemDecoration(mDividerItemDecoration);
@@ -95,79 +145,43 @@ public class GamesActivity extends AppCompatActivity {
         Button closeBtn = (Button) view.findViewById(R.id.button_close);
         Button searchButton = (Button) view.findViewById(R.id.button_search);
 
-        setListMensagens();
+        LoadMensages listMensagens = new LoadMensages(mActivity, sampleDatabase);
+        listMensagens.execute();
     }
 
+    /**
     private static void setListMensagens() {
         ArrayList<Mensage> list = (ArrayList<Mensage>) new List_Mensagens().getLista_chates();
         MensageAdapter gAdapter = new MensageAdapter(mRefActivity, list);
         rvUtilizadores.setAdapter(gAdapter);
         rvUtilizadores.setLayoutManager(new LinearLayoutManager(mRefActivity));
-    }
+    }**/
 
+    public static class LoadMensages extends AsyncTask<Void, Void, ArrayList<Mensage>> {
+        public  Activity mActivity;
+        public MyDB sampleDatabase;
 
-    private ArrayList<Games> getListGames(){
-        return this.listGames;
-    }
-
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_games);
-        mRefActivity = this;
-
-        setToolbar();
-        setFragments();
-        sampleDatabase = Room.databaseBuilder(getApplicationContext(), MyDB.class, new ValuesBD().getNamedabe()).build();
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        LoadContent load = new LoadContent();
-        load.execute();
-    }
-
-    private void setToolbar(){
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Games");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    private void setFragments() {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        HeaderFragment f = new HeaderFragment();
-        fragmentTransaction.add(R.id.frame_layout_header, f);
-        fragmentTransaction.disallowAddToBackStack();
-        fragmentTransaction.commit();
-    }
-
-    public class LoadContent extends AsyncTask<Void, Void, ArrayList<Games>> {
-
-        @Override
-        protected  void onPreExecute(){
-            super.onPreExecute();
+        public LoadMensages(Activity mActivity, MyDB sampleDatabase) {
+            this.mActivity = mActivity;
+            this.sampleDatabase = sampleDatabase;
         }
 
         @Override
-        protected ArrayList<Games> doInBackground(Void... voids) {
+        protected ArrayList<Mensage> doInBackground(Void... voids) {
             int i = sampleDatabase.geral().getSizeGames();
             i++;    String y1 = String.valueOf(i);
             i++;    String y2 = String.valueOf(i);
-            Games game1 = new Games("nome" + y1, "publicador1", "descricao1", "20/10/2019 10:00", null, 1, 100,10);
-            Games game2 = new Games("nome" + y2, "publicador2", "descricao2", "20/10/2019 10:00" , null, 2,200, 10);
-            sampleDatabase.geral().addGame((game1));
-            sampleDatabase.geral().addGame((game2));
-            sampleDatabase.geral().deletGame(game2);
-            listGames = (ArrayList<Games>) sampleDatabase.geral().loadAllGames();
+            Mensage mensagem = new Mensage(001, "log", "Bem vindo a nossa aplicacao", "20/10/2019 10:00");
+            this.sampleDatabase.geral().addMensage(mensagem);
+            this.sampleDatabase.geral().addMensage(mensagem);
+            ArrayList<Mensage> listGames = (ArrayList<Mensage>) sampleDatabase.geral().loadAllMensagens(001);
             return listGames;
         }
         @Override
-        protected void onPostExecute(ArrayList<Games> games){//Executa como se fosse na principal
-            gAdapter = new GamesAdapter(mRefActivity.getApplicationContext(), games, mRefActivity);
-            mRecyclerView = findViewById(R.id.rvGames);
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(mRefActivity.getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-            mRecyclerView.setAdapter(gAdapter);
+        protected void onPostExecute(ArrayList<Mensage> list){//Executa como se fosse na principal
+            MensageAdapter gAdapter = new MensageAdapter(mRefActivity, list);
+            rvUtilizadores.setAdapter(gAdapter);
+            rvUtilizadores.setLayoutManager(new LinearLayoutManager(mRefActivity));
         }
     }
 

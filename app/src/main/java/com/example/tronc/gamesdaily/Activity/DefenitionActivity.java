@@ -18,11 +18,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.tronc.gamesdaily.Adapter.GamesAdapter;
 import com.example.tronc.gamesdaily.Adapter.GamesEditAdapter;
-import com.example.tronc.gamesdaily.Data.List_Games;
 import com.example.tronc.gamesdaily.Data.MyDB;
-import com.example.tronc.gamesdaily.Data.ValuesBD;
 import com.example.tronc.gamesdaily.Fragment.HeaderFragment;
 import com.example.tronc.gamesdaily.Models.Games;
 import com.example.tronc.gamesdaily.R;
@@ -46,7 +43,7 @@ public class DefenitionActivity extends AppCompatActivity {
             setContentView(R.layout.activity_definitions1);
             setButtons1();**/
 
-        sampleDatabase = Room.databaseBuilder(getApplicationContext(), MyDB.class, new ValuesBD().getNamedabe()).build();
+        sampleDatabase = Room.databaseBuilder(getApplicationContext(), MyDB.class, this.getString(R.string.database_value)).build();
         setToolbar();
         setFragments();
     }

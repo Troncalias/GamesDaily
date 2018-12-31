@@ -10,41 +10,35 @@ import java.util.ArrayList;
 
 @Entity(tableName = "Chats")
 public class Chat {
-    private String Titulo;
-
-    @ColumnInfo(name = "Descricao")
-    private String Descricao;
-
-    @ColumnInfo(name = "data_criacao")
-    private String dataCriação;
-
-    @ColumnInfo(name = "id_game")
-    private int id_game;
 
     @NonNull
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private int id;
 
+    private String Titulo;
+    private String Descricao;
+    private String dataCriação;
+    private int id_game;
+
     public Chat(){
 
     }
 
     @Ignore
-    public Chat(int id, int id_game, String Data,String Titulo, String Descricao) {
+    public Chat(int id_game, String Data,String Titulo, String Descricao) {
         this.Titulo = Titulo;
         this.Descricao = Descricao;
         this.id_game = id_game;
-        this.id = id;
         this.dataCriação = Data;
     }
 
     @Ignore
-    public Chat(int id, String Data,String Titulo, String Descricao) {
+    public Chat(String Data,String Titulo, String Descricao) {
         this.Titulo = Titulo;
         this.Descricao = Descricao;
-        this.id = id;
         this.dataCriação = Data;
+        this.id_game = -1;
     }
 
     public int getId_game() {

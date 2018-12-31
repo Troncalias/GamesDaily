@@ -25,13 +25,8 @@ import com.example.tronc.gamesdaily.Adapter.GamesAcceptAdapter;
 import com.example.tronc.gamesdaily.Adapter.NewsAcceptAdapter;
 import com.example.tronc.gamesdaily.Adapter.StoresAcceptAdapter;
 import com.example.tronc.gamesdaily.Adapter.UserAdapter;
-import com.example.tronc.gamesdaily.Data.List_Chats;
-import com.example.tronc.gamesdaily.Data.List_Games;
 import com.example.tronc.gamesdaily.Data.List_News;
-import com.example.tronc.gamesdaily.Data.List_Stores;
-import com.example.tronc.gamesdaily.Data.List_Users;
 import com.example.tronc.gamesdaily.Data.MyDB;
-import com.example.tronc.gamesdaily.Data.ValuesBD;
 import com.example.tronc.gamesdaily.Fragment.HeaderFragment;
 import com.example.tronc.gamesdaily.Models.Chat;
 import com.example.tronc.gamesdaily.Models.Games;
@@ -55,7 +50,7 @@ public class AdminActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
         mRefActivity = this;
-        sampleDatabase = Room.databaseBuilder(getApplicationContext(), MyDB.class, new ValuesBD().getNamedabe()).build();
+        sampleDatabase = Room.databaseBuilder(getApplicationContext(), MyDB.class, this.getString(R.string.database_value)).build();
 
         setToolbar();
         setFragments();
@@ -84,44 +79,6 @@ public class AdminActivity extends AppCompatActivity {
         setButtonChats();
         setButtonUsers();
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        String msg = " ";
-        switch (item.getItemId()) {
-            case R.id.action_add:
-                msg = "Add Chat";
-                setClickMenuAddChat();
-                break;
-            case R.id.action_admin:
-                msg = "Admin";
-                break;
-            case R.id.action_logout:
-                msg = "Logout";
-                break;
-            case R.id.action_definitions:
-                msg = "Defenition";
-                break;
-        }
-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void setClickMenuAddChat() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(AdminActivity.this);
-        View view = getLayoutInflater().inflate(R.layout.dialog_add_chat, null);
-
-        builder.setView(view);
-        final AlertDialog dialog = builder.show();
-
-        final EditText tituloChat = (EditText) view.findViewById(R.id.tituloChat);
-        final EditText descricao_Chat = (EditText) view.findViewById(R.id.descricaoChat);
-        Button addBtn = (Button) view.findViewById(R.id.btn_add_chat);
-        Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
-
-    }
-
 
 
     private void setButtonGame(){
@@ -249,13 +206,6 @@ public class AdminActivity extends AppCompatActivity {
         }
     }
 
-    private static void setListStoreAccept(){
-        ArrayList<Stores> list = (ArrayList<Stores>) new List_Stores().getLista_stores();
-        StoresAcceptAdapter gAdapter = new StoresAcceptAdapter(mRefActivity, list);
-        rvUtilizadores.setAdapter(gAdapter);
-        rvUtilizadores.setLayoutManager(new LinearLayoutManager(mRefActivity));
-    }
-
     private void setButtonNews() {
         Button btn_add_noticia = (Button) findViewById(R.id.btn_add_news);
         btn_add_noticia.setOnClickListener(new View.OnClickListener() {
@@ -324,16 +274,34 @@ public class AdminActivity extends AppCompatActivity {
                 Button closeBtn = (Button) view.findViewById(R.id.button_close);
                 Button searchButton = (Button) view.findViewById(R.id.button_search);
 
-                setListChats();
+                LoadChats listChats = new LoadChats();
+                listChats.execute();
             }
         });
     }
 
-    private static void setListChats() {
-        ArrayList<Chat> list = (ArrayList<Chat>) new List_Chats().getLista_chates();
-        ChatRemoveAdapter gAdapter = new ChatRemoveAdapter(mRefActivity, list);
-        rvUtilizadores.setAdapter(gAdapter);
-        rvUtilizadores.setLayoutManager(new LinearLayoutManager(mRefActivity));
+    public class LoadChats extends AsyncTask<Void, Void, ArrayList<Chat>> {
+
+        @Override
+        protected ArrayList<Chat> doInBackground(Void... voids) {
+            int i = sampleDatabase.geral().getSizeChats();
+            i++;    String y1 = String.valueOf(i);
+            i++;    String y2 = String.valueOf(i);
+
+            //int id_game, String Data,String Titulo, String Descricao
+            Chat chat1 = new Chat(01,"20/10/2019 10:00", "Bem Vindo", "Descrição das regras da app");
+            Chat chat2 = new Chat(02, "21/10/2019 10:00", "Truques e gliches", "Descrição para a ");
+            sampleDatabase.geral().addChat(chat1);
+            sampleDatabase.geral().addChat(chat2);
+            ArrayList<Chat> listChat = (ArrayList<Chat>) sampleDatabase.geral().loadAllChats();
+            return listChat;
+        }
+
+        protected void onPostExecute(ArrayList<Chat> list){
+            ChatRemoveAdapter gAdapter = new ChatRemoveAdapter(mRefActivity, list);
+            rvUtilizadores.setAdapter(gAdapter);
+            rvUtilizadores.setLayoutManager(new LinearLayoutManager(mRefActivity));
+        }
     }
 
     private void setButtonUsers() {
@@ -354,6 +322,7 @@ public class AdminActivity extends AppCompatActivity {
                 textView.setText("Remove Users");
                 Button closeBtn = (Button) view.findViewById(R.id.button_close);
                 Button searchButton = (Button) view.findViewById(R.id.button_search);
+
                 LoadUsers list = new LoadUsers();
                 list.execute();
             }
@@ -386,5 +355,44 @@ public class AdminActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        String msg = " ";
+        switch (item.getItemId()) {
+            case R.id.action_add:
+                msg = "Add Chat";
+                setClickMenuAddChat();
+                break;
+            case R.id.action_admin:
+                msg = "Admin";
+                break;
+            case R.id.action_logout:
+                msg = "Logout";
+                break;
+            case R.id.action_definitions:
+                msg = "Defenition";
+                break;
+        }
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void setClickMenuAddChat() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(AdminActivity.this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_add_chat, null);
+
+        builder.setView(view);
+        final AlertDialog dialog = builder.show();
+
+        final EditText tituloChat = (EditText) view.findViewById(R.id.tituloChat);
+        final EditText descricao_Chat = (EditText) view.findViewById(R.id.descricaoChat);
+        Button addBtn = (Button) view.findViewById(R.id.btn_add_chat);
+        Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
+
+    }
+
 }
 
