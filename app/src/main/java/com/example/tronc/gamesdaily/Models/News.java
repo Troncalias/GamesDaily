@@ -23,11 +23,9 @@ public class News {
     @ColumnInfo(name = "description")
     private String descricao;
 
-    public News() {
-    }
 
-    @Ignore
-    public News(String newsName, String dataInsercao, String descricao) {
+    public News(int id, String newsName, String dataInsercao, String descricao) {
+        this.id = id;
         this.newsName = newsName;
         this.dataInsercao = dataInsercao;
         this.descricao = descricao;

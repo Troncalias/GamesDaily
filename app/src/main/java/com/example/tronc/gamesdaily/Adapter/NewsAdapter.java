@@ -6,17 +6,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.tronc.gamesdaily.Activity.GamesActivity;
+
 import com.example.tronc.gamesdaily.Models.News;
 import com.example.tronc.gamesdaily.R;
 
 import java.util.List;
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     private List<News> mList;
     private Context mContext;
@@ -24,7 +22,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
 
     public NewsAdapter(Context mContext, List<News> mList) {
         this.mList = mList;
-        this.mContext = mContext;;
+        this.mContext = mContext;
     }
 
     private Context getContext() {
@@ -53,10 +51,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
         TextView data = viewHolder.dateView;
         textView.setText(myItem.getNewsName());
         textView1.setText(myItem.getDescricao());
-        String mydata = myItem.getDataInsercao().split(" ")[0];
-        String myhora = myItem.getDataInsercao().split(" ")[1];
-        myhora = myhora.split(":")[0] + ":" + myhora.split(":")[1];
-        String mydatahora = mydata + " " + myhora;
+        String mydata = myItem.getDataInsercao();
+        String mydatahora = mydata;
         String textData = getContext().getString(R.string.pretitle_data_insercao);
         data.setText(textData + " " + mydatahora);
     }
@@ -81,4 +77,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
 
         }
     }
+
+
 }

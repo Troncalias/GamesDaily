@@ -2,6 +2,7 @@ package com.example.tronc.gamesdaily.Activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -14,24 +15,40 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.telecom.Call;
+import android.text.Html;
+import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 
 import com.example.tronc.gamesdaily.Adapter.NewsAdapter;
 import com.example.tronc.gamesdaily.Data.List_News;
 import com.example.tronc.gamesdaily.Fragment.HeaderFragment;
+import com.example.tronc.gamesdaily.Models.AppNewsContainer;
 import com.example.tronc.gamesdaily.Models.Chat;
 import com.example.tronc.gamesdaily.Models.News;
 import com.example.tronc.gamesdaily.Models.Stores;
 import com.example.tronc.gamesdaily.R;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 
-public class NewsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+public class NewsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener , Callback<AppNewsContainer>{
     private static Activity mRefActivity;
     private Toolbar mToolbar;
     private RecyclerView mRecyclerView;
@@ -39,6 +56,10 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
     private Bundle extras;
     private List<News> ListNews;
     private DrawerLayout drawer;
+    private Context contexto;
+
+    private List<Integer> ids = new ArrayList<>();
+    private int idPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,20 +67,16 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_news);
         mRefActivity = this;
         extras = getIntent().getExtras();
-        ListNews = (List<News>) new List_News().getList_news();
 
         setToolbar();
         setFragments();
-        setList();
+
         setDrawer();
 
 
-        nAdapter = new NewsAdapter(this, ListNews);
-        mRecyclerView = findViewById(R.id.rvGames);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        mRecyclerView.setAdapter(nAdapter);
-
-
+        ListNews = (List<News>) new List_News().getList_news();
+        ids.add(730);
+        ids.add(440);
     }
 
     private void setDrawer() {
@@ -227,5 +244,82 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onBackPressed();
         }
+    }
+
+    private Retrofit getRetrofit() {
+
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .build();
+
+        return new Retrofit.Builder().baseUrl("https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build();
+    }
+
+    private SteamNews getApi() {
+        return getRetrofit().create(SteamNews.class);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        getNews();
+    }
+
+    private void getNews() {
+        if (!ids.isEmpty()) {
+            getApi().getListOfNews(ids.get(idPosition), 3, 1).enqueue(this);
+            idPosition++;
+        }
+    }
+
+
+    @Override
+    public void onResponse(retrofit2.Call<AppNewsContainer> call, Response<AppNewsContainer> response) {
+        AppNewsContainer appNewsContainer = response.body();
+
+
+        for (int i = 0; i <= 2; i++) {
+            String Name = String.valueOf(appNewsContainer.getAppnews().getNewsitems("").get(i).getTitle());
+            CharSequence content = String.valueOf(appNewsContainer.getAppnews().getNewsitems("").get(i).getContents());
+            String data = getDate(appNewsContainer.getAppnews().getNewsitems("").get(i).getDate());
+
+            News news = new News(i, Name, data, stripHtml((String) content));
+            ListNews.add(news);
+        }
+
+        if (idPosition < ids.size()) {
+            getNews();
+        } else {
+            setList();
+        }
+    }
+
+    @Override
+    public void onFailure(retrofit2.Call<AppNewsContainer> call, Throwable t) {
+        Toast.makeText(contexto, "ERRO GET LIST", Toast.LENGTH_SHORT).show();
+    }
+
+    public String stripHtml(String html) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            return Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY).toString();
+        } else {
+            return Html.fromHtml(html).toString();
+        }
+    }
+
+    private String getDate(long time) {
+        Calendar cal = Calendar.getInstance(Locale.UK);
+        cal.setTimeInMillis(time * 1000);
+        String date = DateFormat.format("dd-MM-yyyy", cal).toString();
+        return date;
     }
 }
