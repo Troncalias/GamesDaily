@@ -80,4 +80,6 @@
     <string name="Name_App">Nome na App</string>
     <string name="name_user">UserName</string>
     <string name="repeat_pass">Repeat Password</string>
+    <string name="navigation_open">Open drawer</string>
+    <string name="navigation_close">Close drawer</string>
 </resources>

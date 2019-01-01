@@ -3,7 +3,12 @@ package com.example.tronc.gamesdaily.Activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,18 +24,21 @@ import android.widget.EditText;
 import com.example.tronc.gamesdaily.Adapter.NewsAdapter;
 import com.example.tronc.gamesdaily.Data.List_News;
 import com.example.tronc.gamesdaily.Fragment.HeaderFragment;
+import com.example.tronc.gamesdaily.Models.Chat;
 import com.example.tronc.gamesdaily.Models.News;
+import com.example.tronc.gamesdaily.Models.Stores;
 import com.example.tronc.gamesdaily.R;
 
 import java.util.List;
 
-public class NewsActivity extends AppCompatActivity {
+public class NewsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static Activity mRefActivity;
     private Toolbar mToolbar;
     private RecyclerView mRecyclerView;
     private NewsAdapter nAdapter;
     private Bundle extras;
     private List<News> ListNews;
+    private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +50,8 @@ public class NewsActivity extends AppCompatActivity {
 
         setToolbar();
         setFragments();
-        setButtons();
         setList();
+        setDrawer();
 
 
         nAdapter = new NewsAdapter(this, ListNews);
@@ -51,6 +59,18 @@ public class NewsActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(nAdapter);
 
+
+    }
+
+    private void setDrawer() {
+        drawer = findViewById(R.id.drawer_layout);
+        NavigationView navView = findViewById(R.id.nav_viewer);
+        navView.setNavigationItemSelectedListener( this);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, mToolbar,
+                R.string.navigation_open, R.string.navigation_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
     }
 
     private void setFragments() {
@@ -61,47 +81,6 @@ public class NewsActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    private void setButtons() {
-        Button bGames = findViewById(R.id.btn_jogos);
-        bGames.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(NewsActivity.this, GamesActivity.class);
-                i.putExtra("KEY",extras.getString("KEY"));
-                startActivity(i);
-            }
-        });
-
-        Button bChates = findViewById(R.id.btn_chates);
-        bChates.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(NewsActivity.this, ChatActivity.class);
-                i.putExtra("KEY",extras.getString("KEY"));
-                startActivity(i);
-            }
-        });
-
-        Button bLojas = findViewById(R.id.btn_lojas);
-        bLojas.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(NewsActivity.this, StoresActivity.class);
-                i.putExtra("KEY",extras.getString("KEY"));
-                startActivity(i);
-            }
-        });
-
-        Button bFavoritos = findViewById(R.id.btn_favoritos);
-        bFavoritos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(NewsActivity.this, FavoritesActivity.class);
-                i.putExtra("KEY",extras.getString("KEY"));
-                startActivity(i);
-            }
-        });
-    }
 
     private void setList() {
         nAdapter = new NewsAdapter(this, ListNews);
@@ -118,9 +97,9 @@ public class NewsActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if(extras.getString("KEY").equals("admin")) {
+        if (extras.getString("KEY").equals("admin")) {
             getMenuInflater().inflate(R.menu.menu_admin, menu);
-        }else{
+        } else {
             getMenuInflater().inflate(R.menu.menu_admin, menu);
         }
         return true;
@@ -129,7 +108,7 @@ public class NewsActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_search:
                 setClickMenuSearch();
@@ -142,12 +121,12 @@ public class NewsActivity extends AppCompatActivity {
                 return true;
             case R.id.action_admin:
                 Intent i = new Intent(NewsActivity.this, AdminActivity.class);
-                i.putExtra("KEY",extras.getString("KEY"));
+                i.putExtra("KEY", extras.getString("KEY"));
                 startActivity(i);
                 return true;
             case R.id.action_definitions:
                 Intent y = new Intent(NewsActivity.this, DefenitionActivity.class);
-                y.putExtra("KEY","a");
+                y.putExtra("KEY", "a");
                 startActivity(y);
                 return true;
             default:
@@ -205,5 +184,48 @@ public class NewsActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Game News");
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()){
+            case R.id.nav_games:
+                Intent i = new Intent(NewsActivity.this, GamesActivity.class);
+                i.putExtra("KEY", extras.getString("KEY"));
+                startActivity(i);
+                break;
+            case R.id.nav_chat:
+                Intent e = new Intent(NewsActivity.this, ChatActivity.class);
+                e.putExtra("KEY", extras.getString("KEY"));
+                startActivity(e);
+                break;
+            case R.id.nav_store:
+                Intent x = new Intent(NewsActivity.this, StoresActivity.class);
+                x.putExtra("KEY", extras.getString("KEY"));
+                startActivity(x);
+                break;
+            case R.id.nav_fav:
+                Intent g = new Intent(NewsActivity.this, FavoritesActivity.class);
+                g.putExtra("KEY", extras.getString("KEY"));
+                startActivity(g);
+                break;
+            case R.id.nav_exit:
+                Intent j = new Intent(NewsActivity.this, MainActivity.class);
+                j.putExtra("KEY", extras.getString("KEY"));
+                startActivity(j);
+                break;
+        }
+
+        return false;
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorItemBackground"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_games"
+            android:icon="@drawable/ic_games"
+            android:title="Jogos"/>
+        <item android:id="@+id/nav_chat"
+            android:icon="@drawable/ic_chat"
+            android:title="Chat"/>
+        <item android:id="@+id/nav_store"
+            android:icon="@drawable/ic_store"
+            android:title="Store"/>
+        <item android:id="@+id/nav_fav"
+            android:icon="@drawable/ic_favorite"
+            android:title="Favoritos"/>
+        <item android:id="@+id/nav_exit"
+            android:icon="@drawable/ic_exit"
+            android:title="Logout"/>
+
+    </group>
+</menu>
