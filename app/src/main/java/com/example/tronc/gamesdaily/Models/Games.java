@@ -20,11 +20,12 @@ public class Games {
     private int AddBy;
     private int NumberGamers;
     private float Rating;
+    private boolean Acepted;
 
     public Games(){}
 
     @Ignore
-    public Games(String name, String publicher, String description, String date, byte[] imagem, int addBy, int numberGamers, float rating) {
+    public Games(String name, String publicher, String description, String date, byte[] imagem, int addBy, int numberGamers, float rating, boolean acepted) {
         Name = name;
         Publicher = publicher;
         Description = description;
@@ -33,6 +34,7 @@ public class Games {
         AddBy = addBy;
         NumberGamers = numberGamers;
         Rating = rating;
+        Acepted = acepted;
     }
 
     @NonNull
@@ -71,4 +73,9 @@ public class Games {
     public String getName() { return Name; }
 
     public void setName(String name) { Name = name; }
+
+    public boolean isAcepted() { return Acepted; }
+
+    public void setAcepted(boolean acepted) { Acepted = acepted; }
+
 }

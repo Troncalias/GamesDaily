@@ -36,12 +36,14 @@ import java.util.ArrayList;
 public class GamesActivity extends AppCompatActivity {
 
     private static Activity mRefActivity;
+    private static MyDB sampleDatabase;
+    private static MensageAdapter mAdapter;
+
     private Toolbar mToolbar;
     private RecyclerView mRecyclerView;
     private static RecyclerView rvUtilizadores;
     private GamesAdapter gAdapter;
     private Bundle extras;
-    private static MyDB sampleDatabase;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,12 +84,16 @@ public class GamesActivity extends AppCompatActivity {
             int i = sampleDatabase.geral().getSizeGames();
             i++;    String y1 = String.valueOf(i);
             i++;    String y2 = String.valueOf(i);
-            Games game1 = new Games("nome" + y1, "publicador1", "descricao1", "20/10/2019 10:00", null, 1, 100,10);
-            Games game2 = new Games("nome" + y2, "publicador2", "descricao2", "20/10/2019 10:00" , null, 2,200, 10);
-            sampleDatabase.geral().addGame((game1));
-            sampleDatabase.geral().addGame((game2));
-            sampleDatabase.geral().deletGame(game2);
-            ArrayList<Games> listGames = (ArrayList<Games>) sampleDatabase.geral().loadAllGames();
+            Games game1 = new Games("nome" + y1, "publicador1", "descricao1", "20/10/2019 10:00", null, 1, 100, 10, true);
+            Games game2 = new Games("nome" + y2, "publicador2", "descricao2", "20/10/2019 10:00" , null, 2,200, 10, false);
+            sampleDatabase.geral().addGame(game1);
+            sampleDatabase.geral().addGame(game2);
+
+            /**
+             ArrayList<Games> listGames = (ArrayList<Games>) sampleDatabase.geral().loadAllGames();
+             sampleDatabase.geral().deletGame(listGames.get(listGames.size()-1));**/
+            ArrayList<Games> listGames = (ArrayList<Games>) sampleDatabase.geral().loadAllGamesAcepted(true);
+
             return listGames;
         }
         @Override
@@ -145,7 +151,7 @@ public class GamesActivity extends AppCompatActivity {
         Button closeBtn = (Button) view.findViewById(R.id.button_close);
         Button searchButton = (Button) view.findViewById(R.id.button_search);
 
-        LoadMensages listMensagens = new LoadMensages(mActivity, sampleDatabase);
+        LoadMensages listMensagens = new LoadMensages(mActivity, sampleDatabase, mAdapter);
         listMensagens.execute();
     }
 
@@ -160,10 +166,12 @@ public class GamesActivity extends AppCompatActivity {
     public static class LoadMensages extends AsyncTask<Void, Void, ArrayList<Mensage>> {
         public  Activity mActivity;
         public MyDB sampleDatabase;
+        public MensageAdapter mAdapter;
 
-        public LoadMensages(Activity mActivity, MyDB sampleDatabase) {
+        public LoadMensages(Activity mActivity, MyDB sampleDatabase, MensageAdapter mAdapter) {
             this.mActivity = mActivity;
             this.sampleDatabase = sampleDatabase;
+            this.mAdapter = mAdapter;
         }
 
         @Override
@@ -179,8 +187,8 @@ public class GamesActivity extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(ArrayList<Mensage> list){//Executa como se fosse na principal
-            MensageAdapter gAdapter = new MensageAdapter(mRefActivity, list);
-            rvUtilizadores.setAdapter(gAdapter);
+            mAdapter = new MensageAdapter(mRefActivity, list);
+            rvUtilizadores.setAdapter(mAdapter);
             rvUtilizadores.setLayoutManager(new LinearLayoutManager(mRefActivity));
         }
     }

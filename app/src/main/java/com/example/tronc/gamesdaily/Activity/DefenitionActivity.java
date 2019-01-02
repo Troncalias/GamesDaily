@@ -180,12 +180,12 @@ public class DefenitionActivity extends AppCompatActivity {
             int i = sampleDatabase.geral().getSizeGames();
             i++;    String y1 = String.valueOf(i);
             i++;    String y2 = String.valueOf(i);
-            Games game1 = new Games("nome" + y1, "publicador1", "descricao1", "20/10/2019 10:00", null, 1, 100,10);
-            Games game2 = new Games("nome" + y2, "publicador2", "descricao2", "20/10/2019 10:00" , null, 2,200, 10);
+            Games game1 = new Games("nome" + y1, "publicador1", "descricao1", "20/10/2019 10:00", null, 1, 100, 10, true);
+            Games game2 = new Games("nome" + y2, "publicador2", "descricao2", "20/10/2019 10:00" , null, 2,200, 10, false);
             sampleDatabase.geral().addGame((game1));
             sampleDatabase.geral().addGame((game2));
             sampleDatabase.geral().deletGame(game2);
-            ArrayList<Games> listGames = (ArrayList<Games>) sampleDatabase.geral().loadAllGames();
+            ArrayList<Games> listGames = (ArrayList<Games>) sampleDatabase.geral().loadAllGamesAcepted(false);
             return listGames;
         }
         @Override

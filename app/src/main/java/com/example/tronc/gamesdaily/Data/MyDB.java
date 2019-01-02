@@ -39,8 +39,8 @@ public abstract class MyDB extends RoomDatabase {
         @Query("SELECT * FROM User WHERE username=:user")
         public List<User> getUserByName(String user);
 
-        @Query("DELETE FROM User WHERE username=:userName")
-        public void deletUser(String userName);
+        @Delete
+        void deletUser(User user);
 
         @Query("SELECT COUNT(username) FROM User")
         public int getSizeUsers();
@@ -58,14 +58,18 @@ public abstract class MyDB extends RoomDatabase {
         @Query("SELECT * FROM Games")
         public List<Games> loadAllGames();
 
+        @Query("SELECT * FROM Games WHERE Acepted=:value")
+        public List<Games> loadAllGamesAcepted(boolean value);
+
         @Query("SELECT COUNT(id) FROM Games")
         public int getSizeGames();
 
-        @Update
-        public void deletGame(Games game);
+        @Delete
+        void deletGame(Games game);
 
         /**
-         *
+         *  Funções que controlam o acesso a base de dados
+         *  para a tabela Stores
          *
          **/
         @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -79,6 +83,9 @@ public abstract class MyDB extends RoomDatabase {
 
         @Query("SELECT * FROM Stores")
         public List<Stores> loadAllStores();
+
+        @Query("SELECT * FROM Stores WHERE acepted=:value")
+        public List<Stores> loadAllStoresAcepted(boolean value);
 
         @Query("DELETE FROM Stores WHERE id = :idstore")
         void deleteStore(int idstore);

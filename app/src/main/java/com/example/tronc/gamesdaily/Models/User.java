@@ -18,7 +18,7 @@ public class User {
     private String dataRegisto;
     private String email;
     private int storeId;
-    private int tipo_utilizador_id = 1;
+    private int tipo_utilizador_id;
     private byte[] imagem;
 
     public User() {
@@ -31,6 +31,7 @@ public class User {
         this.nome = nome;
         this.dataRegisto = dataRegisto;
         this.email = email;
+        this.tipo_utilizador_id= 1;
     }
 
     public String getUsername() {

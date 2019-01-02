@@ -12,7 +12,13 @@ public class List_News extends ListActivity {
 
 
     public List_News() {
+        News news = new News("NEWS 1", "20/10/2018 10:00", "noticia numero 1");
+        this.list_news.add(news);
+        news = new News("NEWS 2", "20/10/2018 10:00", "noticia numero 2");
+        this.list_news.add(news);
     }
+
+
 
 
     public List<News> getList_news() {

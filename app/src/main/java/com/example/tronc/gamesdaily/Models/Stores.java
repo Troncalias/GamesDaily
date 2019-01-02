@@ -13,36 +13,26 @@ public class Stores {
     @ColumnInfo(name = "id")
     private int id;
 
-    @ColumnInfo(name = "name")
     private String nome;
-
-    @ColumnInfo(name = "adress")
     private String morada;
-
-    @ColumnInfo(name = "description")
     private String descricao;
-
-    @ColumnInfo(name = "date")
     private String dataInsercao;
-
-    @Ignore
-    @ColumnInfo(name = "image")
     private byte[] imagem;
-
-    @ColumnInfo(name = "userId")
     private int userId;
+    private boolean acepted=false;
 
     public Stores() {
     }
 
     @Ignore
-    public Stores(String nome, String morada, String descricao, String dataInsercao, byte[] imagem, int userId) {
+    public Stores(String nome, String morada, String descricao, String dataInsercao, byte[] imagem, int userId, boolean acepted) {
         this.nome = nome;
         this.morada = morada;
         this.descricao = descricao;
         this.dataInsercao = dataInsercao;
         this.imagem = imagem;
         this.userId = userId;
+        this.acepted = acepted;
     }
 
     public int getId() {
@@ -96,4 +86,8 @@ public class Stores {
     public int getUserId() { return userId; }
 
     public void setUserId(int userId) { this.userId = userId; }
+
+    public boolean isAcepted() { return acepted; }
+
+    public void setAcepted(boolean acepted) { this.acepted = acepted; }
 }

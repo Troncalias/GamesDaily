@@ -81,12 +81,12 @@ public class StoresActivity extends AppCompatActivity {
             int i = sampleDatabase.geral().getSizeStores();
             i++;    String y1 = String.valueOf(i);
             i++;    String y2 = String.valueOf(i);
-            Stores stores = new Stores("Loja " + y1, "Rua Avenida 1", "Loja de Jogos Steam", "20/10/2019 10:00", null, 02);
+            Stores stores = new Stores("Loja " + y1, "Rua Avenida 1", "Loja de Jogos Steam", "20/10/2019 10:00", null, 02, true);
             sampleDatabase.geral().addStore(stores);
-            stores = new Stores("Loja " + y2, "Rua Avenida 2", "Loja de Jogos Local", "30/1/2018 10:00", null, 01);
+            stores = new Stores("Loja " + y2, "Rua Avenida 2", "Loja de Jogos Local", "30/1/2018 10:00", null, 01, false);
             sampleDatabase.geral().addStore(stores);
             sampleDatabase.geral().deleteStore(stores.getId());
-            ArrayList<Stores> list = (ArrayList<Stores>) sampleDatabase.geral().loadAllStores();
+            ArrayList<Stores> list = (ArrayList<Stores>) sampleDatabase.geral().loadAllStoresAcepted(true);
             return list;
         }
 
@@ -250,12 +250,12 @@ public class StoresActivity extends AppCompatActivity {
             int i = sampleDatabase.geral().getSizeGames();
             i++;    String y1 = String.valueOf(i);
             i++;    String y2 = String.valueOf(i);
-            Games game1 = new Games("nome" + y1, "publicador1", "descricao1", "20/10/2019 10:00", null, 1, 100,10);
-            Games game2 = new Games("nome" + y2, "publicador2", "descricao2", "20/10/2019 10:00" , null, 2,200, 10);
+            Games game1 = new Games("nome" + y1, "publicador1", "descricao1", "20/10/2019 10:00", null, 1, 100, 10, true);
+            Games game2 = new Games("nome" + y2, "publicador2", "descricao2", "20/10/2019 10:00" , null, 2,200, 10, false);
             sampleDatabase.geral().addGame((game1));
             sampleDatabase.geral().addGame((game2));
             sampleDatabase.geral().deletGame((game2));
-            ArrayList<Games> listGames = (ArrayList<Games>) sampleDatabase.geral().loadAllGames();
+            ArrayList<Games> listGames = (ArrayList<Games>) sampleDatabase.geral().loadAllGamesAcepted(true);
             return listGames;
         }
         @Override

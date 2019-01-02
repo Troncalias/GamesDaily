@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "999c2ef6aa52336ac25546366404a829",
+    "identityHash": "b715444bb174794e758461f83bf0ad50",
     "entities": [
       {
         "tableName": "Games",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `Name` TEXT, `Publicher` TEXT, `Description` TEXT, `Date` TEXT, `Imagem` BLOB, `AddBy` INTEGER NOT NULL, `NumberGamers` INTEGER NOT NULL, `Rating` REAL NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `Name` TEXT, `Publicher` TEXT, `Description` TEXT, `Date` TEXT, `Imagem` BLOB, `AddBy` INTEGER NOT NULL, `NumberGamers` INTEGER NOT NULL, `Rating` REAL NOT NULL, `Acepted` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -60,6 +60,12 @@
             "fieldPath": "Rating",
             "columnName": "Rating",
             "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "Acepted",
+            "columnName": "Acepted",
+            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -136,7 +142,7 @@
       },
       {
         "tableName": "Stores",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `adress` TEXT, `description` TEXT, `date` TEXT, `userId` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nome` TEXT, `morada` TEXT, `descricao` TEXT, `dataInsercao` TEXT, `imagem` BLOB, `userId` INTEGER NOT NULL, `acepted` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -146,31 +152,43 @@
           },
           {
             "fieldPath": "nome",
-            "columnName": "name",
+            "columnName": "nome",
             "affinity": "TEXT",
             "notNull": false
           },
           {
             "fieldPath": "morada",
-            "columnName": "adress",
+            "columnName": "morada",
             "affinity": "TEXT",
             "notNull": false
           },
           {
             "fieldPath": "descricao",
-            "columnName": "description",
+            "columnName": "descricao",
             "affinity": "TEXT",
             "notNull": false
           },
           {
             "fieldPath": "dataInsercao",
-            "columnName": "date",
+            "columnName": "dataInsercao",
             "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "imagem",
+            "columnName": "imagem",
+            "affinity": "BLOB",
             "notNull": false
           },
           {
             "fieldPath": "userId",
             "columnName": "userId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "acepted",
+            "columnName": "acepted",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -335,7 +353,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"999c2ef6aa52336ac25546366404a829\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"b715444bb174794e758461f83bf0ad50\")"
     ]
   }
 }

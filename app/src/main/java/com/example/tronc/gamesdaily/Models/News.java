@@ -24,7 +24,14 @@ public class News {
     private String descricao;
 
 
-    public News(int id, String newsName, String dataInsercao, String descricao) {
+    public News(String newsName, String dataInsercao, String descricao) {
+        this.newsName = newsName;
+        this.dataInsercao = dataInsercao;
+        this.descricao = descricao;
+    }
+
+    @Ignore
+    public News(@NonNull int id, String newsName, String dataInsercao, String descricao) {
         this.id = id;
         this.newsName = newsName;
         this.dataInsercao = dataInsercao;

@@ -130,7 +130,7 @@ public class AdminActivity extends AppCompatActivity {
 
         @Override
         protected ArrayList<Games> doInBackground(Void... voids) {
-            ArrayList<Games> list = (ArrayList<Games>) sampleDatabase.geral().loadAllGames();
+            ArrayList<Games> list = (ArrayList<Games>) sampleDatabase.geral().loadAllGamesAcepted(false);
             return list;
         }
 
@@ -190,12 +190,12 @@ public class AdminActivity extends AppCompatActivity {
             int i = sampleDatabase.geral().getSizeStores();
             i++;    String y1 = String.valueOf(i);
             i++;    String y2 = String.valueOf(i);
-            Stores stores = new Stores("Loja " + y1, "Rua Avenida 1", "Loja de Jogos Steam", "20/10/2019 10:00", null, 02);
+            Stores stores = new Stores("Loja " + y1, "Rua Avenida 1", "Loja de Jogos Steam", "20/10/2019 10:00", null, 02, true);
             sampleDatabase.geral().addStore(stores);
-            stores = new Stores("Loja " + y2, "Rua Avenida 2", "Loja de Jogos Local", "30/1/2018 10:00", null, 01);
+            stores = new Stores("Loja " + y2, "Rua Avenida 2", "Loja de Jogos Local", "30/1/2018 10:00", null, 01, true);
             sampleDatabase.geral().addStore(stores);
             sampleDatabase.geral().deleteStore(stores.getId());
-            ArrayList<Stores> list = (ArrayList<Stores>) sampleDatabase.geral().loadAllStores();
+            ArrayList<Stores> list = (ArrayList<Stores>) sampleDatabase.geral().loadAllStoresAcepted(false);
             return list;
         }
 

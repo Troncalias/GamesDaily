@@ -29,6 +29,7 @@ public class RegisterActivity extends Activity {
     private MyDB sampleDatabase;
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
+    private EditText mPasswordConfirm;
     private View mProgressView;
     private View mLoginFormView;
     private EditText mUserName;
@@ -44,6 +45,7 @@ public class RegisterActivity extends Activity {
         mUserName = (EditText) findViewById(R.id.Name);
         mUserView = (EditText) findViewById(R.id.user);
         mPasswordView = (EditText) findViewById(R.id.password);
+        mPasswordConfirm = (EditText) findViewById(R.id.passwordRepeat);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -58,8 +60,17 @@ public class RegisterActivity extends Activity {
         mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RegistUser regist = new RegistUser(mUserView.getText().toString(), mUserName.getText().toString(),mPasswordView.getText().toString(), mEmailView.getText().toString());
-                regist.execute();
+                if(mPasswordView.getText().toString().equals(mPasswordConfirm.getText().toString())){
+                    RegistUser regist = new RegistUser(mUserView.getText().toString(), mUserName.getText().toString(),mPasswordView.getText().toString(), mEmailView.getText().toString());
+                    regist.execute();
+                }else{
+                    Context context = getApplicationContext();
+                    CharSequence text = "Password não iguais!";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
             }
         });
 
@@ -73,45 +84,49 @@ public class RegisterActivity extends Activity {
         private String pass;
         private String email;
         private String username;
+        private boolean existed;
 
         public RegistUser(String name, String username,String pass, String email) {
             this.name = name;
             this.pass = pass;
             this.email = email;
             this.username = username;
+            this.existed = true;
         }
 
         @Override
         protected ArrayList<User> doInBackground(Void... voids) {
+            ArrayList<User> listUsers = (ArrayList<User>) sampleDatabase.geral().loadAllUsers();
             ArrayList<User> list = (ArrayList<User>) sampleDatabase.geral().getUserByName(name);
 
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date hoje = new Date();
+            String data = dateFormat.format(hoje);
+
+            if(listUsers.size() == 0){
+                sampleDatabase.geral().addUser(new User("admin","admin","admin",data,"admin@gmail.com"));
+            }
+
             if(list.size() ==0){
-                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                Date hoje = new Date();
-                String data = dateFormat.format(hoje);
                 User user = new User(name, pass, username, data, email);
-                sampleDatabase.geral().addUser(user);}
+                sampleDatabase.geral().addUser(user);
+                list = (ArrayList<User>) sampleDatabase.geral().getUserByName(name);
+                this.existed = false;}
             return list;
         }
 
         protected void onPostExecute(ArrayList<User> list){
-            if(list.size()==0){
-                Context context = getApplicationContext();
-                CharSequence text = "Size" + list.size();
-                int duration = Toast.LENGTH_SHORT;
-
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-                Intent i = new Intent(RegisterActivity.this, NewsActivity.class);
-                i.putExtra("KEY",String.valueOf(name));
-                startActivity(i);
-            }else{
+            if(this.existed){
                 Context context = getApplicationContext();
                 CharSequence text = "Username já existe!";
                 int duration = Toast.LENGTH_SHORT;
 
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
+            }else{
+                Intent i = new Intent(RegisterActivity.this, NewsActivity.class);
+                i.putExtra("KEY",String.valueOf(name));
+                startActivity(i);
             }
         }
     }

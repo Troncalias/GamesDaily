@@ -70,13 +70,34 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
 
         setToolbar();
         setFragments();
-
         setDrawer();
 
 
         ListNews = (List<News>) new List_News().getList_news();
         ids.add(730);
         ids.add(440);
+
+        getNews();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    private void setToolbar() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("Game News");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+    }
+
+    private void setFragments() {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        HeaderFragment f = new HeaderFragment();
+        fragmentTransaction.add(R.id.frame_layout_header, f);
+        fragmentTransaction.disallowAddToBackStack();
+        fragmentTransaction.commit();
     }
 
     private void setDrawer() {
@@ -90,15 +111,7 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
     }
 
-    private void setFragments() {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        HeaderFragment f = new HeaderFragment();
-        fragmentTransaction.add(R.id.frame_layout_header, f);
-        fragmentTransaction.disallowAddToBackStack();
-        fragmentTransaction.commit();
-    }
-
-
+    //Lista original
     private void setList() {
         nAdapter = new NewsAdapter(this, ListNews);
         mRecyclerView = findViewById(R.id.rvGames);
@@ -106,6 +119,92 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
         mRecyclerView.setAdapter(nAdapter);
     }
 
+    //Uso da API
+
+    /**
+     * Uso da API
+     * Inicia aqui ao correr a função getAPI
+     */
+    private void getNews() {
+        if (!ids.isEmpty()) {
+            getApi().getListOfNews(ids.get(idPosition), 3, 1).enqueue(this);
+            idPosition++;
+        }
+    }
+
+    /**
+     *
+     * @return
+     */
+    private SteamNews getApi() {
+        return getRetrofit().create(SteamNews.class);
+    }
+
+
+    private Retrofit getRetrofit() {
+
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .build();
+
+        return new Retrofit.Builder().baseUrl("https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build();
+    }
+
+
+    @Override
+    public void onResponse(retrofit2.Call<AppNewsContainer> call, Response<AppNewsContainer> response) {
+        AppNewsContainer appNewsContainer = response.body();
+
+
+        for (int i = 0; i <= 2; i++) {
+            String Name = String.valueOf(appNewsContainer.getAppnews().getNewsitems("").get(i).getTitle());
+            CharSequence content = String.valueOf(appNewsContainer.getAppnews().getNewsitems("").get(i).getContents());
+            String data = getDate(appNewsContainer.getAppnews().getNewsitems("").get(i).getDate());
+
+            News news = new News(i, Name, data, stripHtml((String) content));
+            ListNews.add(news);
+        }
+
+        if (idPosition < ids.size()) {
+            getNews();
+        } else {
+            setList();
+        }
+    }
+
+    @Override
+    public void onFailure(retrofit2.Call<AppNewsContainer> call, Throwable t) {
+        Toast.makeText(contexto, "ERRO GET LIST", Toast.LENGTH_SHORT).show();
+    }
+
+    public String stripHtml(String html) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            return Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY).toString();
+        } else {
+            return Html.fromHtml(html).toString();
+        }
+    }
+
+    private String getDate(long time) {
+        Calendar cal = Calendar.getInstance(Locale.UK);
+        cal.setTimeInMillis(time * 1000);
+        String date = DateFormat.format("dd-MM-yyyy", cal).toString();
+        return date;
+    }
+
+
+    /**
+     * Barra de menu
+     * @return
+     */
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
@@ -117,7 +216,7 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
         if (extras.getString("KEY").equals("admin")) {
             getMenuInflater().inflate(R.menu.menu_admin, menu);
         } else {
-            getMenuInflater().inflate(R.menu.menu_admin, menu);
+            getMenuInflater().inflate(R.menu.menu_main, menu);
         }
         return true;
 
@@ -196,12 +295,6 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private void setToolbar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Game News");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -236,7 +329,6 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
         return false;
     }
 
-
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -246,80 +338,4 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private Retrofit getRetrofit() {
-
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(interceptor)
-                .readTimeout(60, TimeUnit.SECONDS)
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .build();
-
-        return new Retrofit.Builder().baseUrl("https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
-                .build();
-    }
-
-    private SteamNews getApi() {
-        return getRetrofit().create(SteamNews.class);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        getNews();
-    }
-
-    private void getNews() {
-        if (!ids.isEmpty()) {
-            getApi().getListOfNews(ids.get(idPosition), 3, 1).enqueue(this);
-            idPosition++;
-        }
-    }
-
-
-    @Override
-    public void onResponse(retrofit2.Call<AppNewsContainer> call, Response<AppNewsContainer> response) {
-        AppNewsContainer appNewsContainer = response.body();
-
-
-        for (int i = 0; i <= 2; i++) {
-            String Name = String.valueOf(appNewsContainer.getAppnews().getNewsitems("").get(i).getTitle());
-            CharSequence content = String.valueOf(appNewsContainer.getAppnews().getNewsitems("").get(i).getContents());
-            String data = getDate(appNewsContainer.getAppnews().getNewsitems("").get(i).getDate());
-
-            News news = new News(i, Name, data, stripHtml((String) content));
-            ListNews.add(news);
-        }
-
-        if (idPosition < ids.size()) {
-            getNews();
-        } else {
-            setList();
-        }
-    }
-
-    @Override
-    public void onFailure(retrofit2.Call<AppNewsContainer> call, Throwable t) {
-        Toast.makeText(contexto, "ERRO GET LIST", Toast.LENGTH_SHORT).show();
-    }
-
-    public String stripHtml(String html) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            return Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY).toString();
-        } else {
-            return Html.fromHtml(html).toString();
-        }
-    }
-
-    private String getDate(long time) {
-        Calendar cal = Calendar.getInstance(Locale.UK);
-        cal.setTimeInMillis(time * 1000);
-        String date = DateFormat.format("dd-MM-yyyy", cal).toString();
-        return date;
-    }
 }
