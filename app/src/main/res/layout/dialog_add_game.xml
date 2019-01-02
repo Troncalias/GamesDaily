@@ -77,7 +77,7 @@
             android:gravity="center_horizontal">
 
             <Button
-                android:id="@+id/btn_add_noticia"
+                android:id="@+id/btn_add_game_Admin"
                 android:layout_width="25dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -85,7 +85,7 @@
                 android:text="@string/button_confirm"/>
 
             <Button
-                android:id="@+id/button_cancel"
+                android:id="@+id/button_cancel_game_Admin"
                 android:layout_width="25dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

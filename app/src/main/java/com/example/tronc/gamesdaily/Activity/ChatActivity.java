@@ -87,16 +87,7 @@ public class ChatActivity extends AppCompatActivity {
 
         @Override
         protected ArrayList<Chat> doInBackground(Void... voids) {
-            int i = sampleDatabase.geral().getSizeChats();
-            i++;    String y1 = String.valueOf(i);
-            i++;    String y2 = String.valueOf(i);
-
-            //int id_game, String Data,String Titulo, String Descricao
-            Chat chat1 = new Chat(01,"20/10/2019 10:00", "Bem Vindo", "Descrição das regras da app");
-            Chat chat2 = new Chat(02, "21/10/2019 10:00", "Truques e gliches", "Descrição para a ");
-            sampleDatabase.geral().addChat(chat1);
-            sampleDatabase.geral().addChat(chat2);
-            ArrayList<Chat> listChat = (ArrayList<Chat>) sampleDatabase.geral().loadAllChats();
+            ArrayList<Chat> listChat = (ArrayList<Chat>) sampleDatabase.geral().loadAllChatsNormal(-1);
             return listChat;
         }
 

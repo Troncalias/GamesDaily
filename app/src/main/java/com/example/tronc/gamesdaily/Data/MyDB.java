@@ -39,11 +39,11 @@ public abstract class MyDB extends RoomDatabase {
         @Query("SELECT * FROM User WHERE username=:user")
         public List<User> getUserByName(String user);
 
-        @Delete
-        void deletUser(User user);
+        @Update
+        void updateUser(User user);
 
-        @Query("SELECT COUNT(username) FROM User")
-        public int getSizeUsers();
+        @Delete
+        void deleteUser(User user);
 
         /**
          *  Funções que controlam o acesso a base de dados
@@ -65,7 +65,10 @@ public abstract class MyDB extends RoomDatabase {
         public int getSizeGames();
 
         @Delete
-        void deletGame(Games game);
+        void deleteGame(Games game);
+
+        @Update
+        void updateGame(Games game);
 
         /**
          *  Funções que controlam o acesso a base de dados
@@ -87,8 +90,11 @@ public abstract class MyDB extends RoomDatabase {
         @Query("SELECT * FROM Stores WHERE acepted=:value")
         public List<Stores> loadAllStoresAcepted(boolean value);
 
-        @Query("DELETE FROM Stores WHERE id = :idstore")
-        void deleteStore(int idstore);
+        @Delete
+        void deleteStore(Stores store);
+
+        @Update
+        void updateStores(Stores store);
 
         /**
          *  Funções que controlam o acesso a base de dados
@@ -117,11 +123,14 @@ public abstract class MyDB extends RoomDatabase {
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         public void addChat(Chat chat);
 
-        @Query("SELECT * FROM Chats")
-        public List<Chat> loadAllChats();
+        @Query("SELECT * FROM Chats WHERE id_game=:id")
+        public List<Chat> loadAllChatsNormal(int id);
 
         @Query("SELECT COUNT(id) FROM Chats")
         public int getSizeChats();
+
+        @Delete
+        void deleteChat(Chat chat);
 
         /**
          *  Funções que controlam o acesso a base de dados
@@ -133,7 +142,20 @@ public abstract class MyDB extends RoomDatabase {
         @Query("SELECT * FROM Mensagens WHERE id_chat=:id_chat")
         public List<Mensage> loadAllMensagens(int id_chat);
 
-        @Query("SELECT COUNT(id) FROM Chats WHERE id_game=:id_chat")
+        @Query("SELECT COUNT(id) FROM Mensagens WHERE id_chat=:id_chat")
         public int getSizeMensagensChatEspecifico(int id_chat);
+
+
+        /**
+         *  Funções que controlam o acesso a base de dados
+         *  para a tabela News especificas da App
+         */
+        /**
+        @Insert(onConflict = OnConflictStrategy.REPLACE)
+        public void addNews(News news);
+
+        @Query("SELECT * FROM News")
+        public List<News> loadAllNews();
+        **/
     }
 }

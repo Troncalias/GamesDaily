@@ -12,10 +12,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.tronc.gamesdaily.Activity.AdminActivity;
 import com.example.tronc.gamesdaily.Models.Stores;
 import com.example.tronc.gamesdaily.R;
 
 import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 public class StoresAcceptAdapter extends RecyclerView.Adapter<StoresAcceptAdapter.ViewHolder> {
@@ -69,6 +71,20 @@ public class StoresAcceptAdapter extends RecyclerView.Adapter<StoresAcceptAdapte
         String mydatahora = mydata + " " + myhora;
         String textData = getContext().getString(R.string.pretitle_data_insercao);
         data.setText(textData + " " + mydatahora);
+
+        Button confirmar = viewHolder.selectButton;
+        confirmar.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                AdminActivity.DecisionStores(myItem, true);
+            }
+        });
+
+        Button negar = viewHolder.comentsButton;
+        negar.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                AdminActivity.DecisionStores(myItem, false);
+            }
+        });
     }
 
     @Override
@@ -77,6 +93,11 @@ public class StoresAcceptAdapter extends RecyclerView.Adapter<StoresAcceptAdapte
     }
 
 
+    public void setList(ArrayList<Stores> list){
+        mList.clear();
+        mList.addAll(list);
+        notifyDataSetChanged();
+    }
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView nameTextView;
         public TextView moradaView;

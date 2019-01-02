@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.tronc.gamesdaily.Activity.AdminActivity;
 import com.example.tronc.gamesdaily.Models.User;
 import com.example.tronc.gamesdaily.R;
 
@@ -71,12 +72,36 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         dataInsercaoTv.setText(textData + " " + mydatahora);
 
         Button removeButton = viewHolder.removeButton;
+        removeButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(!myItem.getUsername().equals("admin")){
+                    AdminActivity.RemoveUser(myItem);
+                }
+            }
+        });
+
         Button makeAdminButton = viewHolder.makeAdminButton;
+        if(myItem.getTipo_utilizador_id() == 2){
+            makeAdminButton.setText("Defenir como user");
+        }else{
+            makeAdminButton.setText("Defenir como admin");
+        }
+        makeAdminButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                AdminActivity.MakeAdmin(myItem);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return mList.size();
+    }
+
+    public void setList(ArrayList<User> list){
+        mList.clear();
+        mList.addAll(list);
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

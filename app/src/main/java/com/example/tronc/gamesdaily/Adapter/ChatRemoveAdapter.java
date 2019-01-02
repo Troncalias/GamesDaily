@@ -6,8 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.tronc.gamesdaily.Activity.AdminActivity;
 import com.example.tronc.gamesdaily.Models.Chat;
 import com.example.tronc.gamesdaily.R;
 
@@ -45,17 +47,25 @@ public class ChatRemoveAdapter extends RecyclerView.Adapter<ChatRemoveAdapter.Vi
         final Chat myItem = mList.get(position);
 
         TextView textView = viewHolder.Titulo;
-        TextView textView1 = viewHolder.Descricao;
-        TextView data = viewHolder.Data;
         textView.setText(myItem.getTitulo());
+
+        TextView textView1 = viewHolder.Descricao;
         textView1.setText(myItem.getDescricao());
 
+        TextView data = viewHolder.Data;
         String mydata = myItem.getDataCriação().split(" ")[0];
         String myhora = myItem.getDataCriação().split(" ")[1];
         myhora = myhora.split(":")[0] + ":" + myhora.split(":")[1];
         String mydatahora = mydata + " " + myhora;
         String textData = getContext().getString(R.string.pretitle_data_insercao);
         data.setText(textData + " " + mydatahora);
+
+        Button remover = viewHolder.Remover;
+        remover.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                AdminActivity.RemoveChat(myItem);
+            }
+        });
     }
 
     @Override
@@ -63,11 +73,17 @@ public class ChatRemoveAdapter extends RecyclerView.Adapter<ChatRemoveAdapter.Vi
         return mList.size();
     }
 
+    public void setList(ArrayList<Chat> list){
+        mList.clear();
+        mList.addAll(list);
+        notifyDataSetChanged();
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView Titulo;
         public TextView Descricao;
         public TextView Data;
+        public Button Remover;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -75,6 +91,7 @@ public class ChatRemoveAdapter extends RecyclerView.Adapter<ChatRemoveAdapter.Vi
             Titulo = (TextView) itemView.findViewById(R.id.Title_chatTv);
             Descricao = (TextView) itemView.findViewById(R.id.descricao_ChatTv);
             Data = (TextView) itemView.findViewById(R.id.data_ChatTv);
+            Remover = (Button) itemView.findViewById(R.id.select_button);
         }
     }
 }

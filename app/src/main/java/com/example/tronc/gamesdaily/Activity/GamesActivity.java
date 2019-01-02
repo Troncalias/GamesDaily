@@ -81,14 +81,6 @@ public class GamesActivity extends AppCompatActivity {
 
         @Override
         protected ArrayList<Games> doInBackground(Void... voids) {
-            int i = sampleDatabase.geral().getSizeGames();
-            i++;    String y1 = String.valueOf(i);
-            i++;    String y2 = String.valueOf(i);
-            Games game1 = new Games("nome" + y1, "publicador1", "descricao1", "20/10/2019 10:00", null, 1, 100, 10, true);
-            Games game2 = new Games("nome" + y2, "publicador2", "descricao2", "20/10/2019 10:00" , null, 2,200, 10, false);
-            sampleDatabase.geral().addGame(game1);
-            sampleDatabase.geral().addGame(game2);
-
             /**
              ArrayList<Games> listGames = (ArrayList<Games>) sampleDatabase.geral().loadAllGames();
              sampleDatabase.geral().deletGame(listGames.get(listGames.size()-1));**/
@@ -124,14 +116,14 @@ public class GamesActivity extends AppCompatActivity {
         final TextView dataInsercaoTv = (TextView) view.findViewById(R.id.dataInsercaoTv);
         dataInsercaoTv.setText(game.getDate());
         final TextView ratingTv = (TextView) view.findViewById(R.id.ratingTv);
-        ratingTv.setText(Integer.toString(game.getAddBy()));
+        ratingTv.setText(Float.toString(game.getRating()));
 
         final TextView numberOfPlayersTv = (TextView) view.findViewById(R.id.numberOfGamers);
         numberOfPlayersTv.setText(String.valueOf(game.getNumberGamers()));
         final TextView descricao = (TextView) view.findViewById(R.id.descricaoTv);
-        descricao.setText(Integer.toString(game.getAddBy()));
+        descricao.setText(game.getDescription());
         final TextView publicadoraTv = (TextView) view.findViewById(R.id.publicherTv);
-        publicadoraTv.setText(Integer.toString(game.getAddBy()));
+        publicadoraTv.setText(game.getPublicher());
         Button avaliarBtn = (Button) view.findViewById(R.id.button_avaliar);
         Button favoritoBtn = (Button) view.findViewById(R.id.button_favorito);
         Button removeBtn = (Button) view.findViewById(R.id.button_cancelBt);

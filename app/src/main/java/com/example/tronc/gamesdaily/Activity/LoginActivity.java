@@ -83,8 +83,10 @@ public class LoginActivity extends AppCompatActivity {
             Date hoje = new Date();
             String data = dateFormat.format(hoje);
 
-            if (listUsers.size() == 0) {
-                sampleDatabase.geral().addUser(new User("admin", "admin", "admin", data, "admin@gmail.com"));
+            if(listUsers.size() == 0){
+                User user = new User("admin","admin","admin",data,"admin@gmail.com");
+                user.setTipo_utilizador_id(2);
+                sampleDatabase.geral().addUser(user);
             }
 
             ArrayList<User> list = (ArrayList<User>) sampleDatabase.geral().getUserByName(name);
@@ -106,7 +108,8 @@ public class LoginActivity extends AppCompatActivity {
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
                 Intent i = new Intent(LoginActivity.this, NewsActivity.class);
-                i.putExtra("KEY", String.valueOf(user.get(0).getUsername()));
+                i.putExtra("KEY",user.get(0).getUsername());
+                i.putExtra("Type",user.get(0).getTipo_utilizador_id());
                 startActivity(i);
                 lat.cancel(false);
             } else {

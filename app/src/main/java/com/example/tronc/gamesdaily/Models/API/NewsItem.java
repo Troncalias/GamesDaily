@@ -1,4 +1,4 @@
-package com.example.tronc.gamesdaily.Models;
+package com.example.tronc.gamesdaily.Models.API;
 
 
 import android.os.Parcel;

@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b715444bb174794e758461f83bf0ad50",
+    "identityHash": "a00050f56fec7d241426541ed80e54ac",
     "entities": [
       {
         "tableName": "Games",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `Name` TEXT, `Publicher` TEXT, `Description` TEXT, `Date` TEXT, `Imagem` BLOB, `AddBy` INTEGER NOT NULL, `NumberGamers` INTEGER NOT NULL, `Rating` REAL NOT NULL, `Acepted` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `Name` TEXT, `Publicher` TEXT, `Description` TEXT, `Date` TEXT, `Imagem` BLOB, `NumberGamers` INTEGER NOT NULL, `Rating` REAL NOT NULL, `Acepted` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -43,12 +43,6 @@
             "columnName": "Imagem",
             "affinity": "BLOB",
             "notNull": false
-          },
-          {
-            "fieldPath": "AddBy",
-            "columnName": "AddBy",
-            "affinity": "INTEGER",
-            "notNull": true
           },
           {
             "fieldPath": "NumberGamers",
@@ -142,7 +136,7 @@
       },
       {
         "tableName": "Stores",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nome` TEXT, `morada` TEXT, `descricao` TEXT, `dataInsercao` TEXT, `imagem` BLOB, `userId` INTEGER NOT NULL, `acepted` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nome` TEXT, `morada` TEXT, `descricao` TEXT, `dataInsercao` TEXT, `imagem` BLOB, `username` TEXT, `acepted` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -181,10 +175,10 @@
             "notNull": false
           },
           {
-            "fieldPath": "userId",
-            "columnName": "userId",
-            "affinity": "INTEGER",
-            "notNull": true
+            "fieldPath": "username",
+            "columnName": "username",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "acepted",
@@ -353,7 +347,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"b715444bb174794e758461f83bf0ad50\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"a00050f56fec7d241426541ed80e54ac\")"
     ]
   }
 }

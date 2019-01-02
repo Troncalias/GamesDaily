@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.tronc.gamesdaily.Activity.AdminActivity;
 import com.example.tronc.gamesdaily.Activity.GamesActivity;
 import com.example.tronc.gamesdaily.Models.Games;
 import com.example.tronc.gamesdaily.R;
@@ -22,11 +23,10 @@ import java.util.ArrayList;
 public class GamesAcceptAdapter extends RecyclerView.Adapter<GamesAcceptAdapter.ViewHolder> {
     private ArrayList<Games> mList;
     private Context mContext;
-    private GamesAdapter.ViewHolder contactView;
 
     public GamesAcceptAdapter(Context mContext, ArrayList<Games> mList) {
         this.mList = mList;
-        this.mContext = mContext;;
+        this.mContext = mContext;
     }
 
     private Context getContext() {
@@ -71,6 +71,20 @@ public class GamesAcceptAdapter extends RecyclerView.Adapter<GamesAcceptAdapter.
         String mydatahora = mydata + " " + myhora;
         String textData = getContext().getString(R.string.pretitle_data_insercao);
         data.setText(textData + " " + mydatahora);
+
+        Button confirmar = viewHolder.selectButton;
+        confirmar.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                AdminActivity.DecisionGame(myItem, true);
+            }
+        });
+
+        Button negar = viewHolder.comentsButton;
+        negar.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                AdminActivity.DecisionGame(myItem, false);
+            }
+        });
     }
 
     @Override
@@ -78,6 +92,11 @@ public class GamesAcceptAdapter extends RecyclerView.Adapter<GamesAcceptAdapter.
         return mList.size();
     }
 
+    public void setList(ArrayList<Games> list){
+        mList.clear();
+        mList.addAll(list);
+        notifyDataSetChanged();
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView nameTextView;

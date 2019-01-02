@@ -1,6 +1,6 @@
 package com.example.tronc.gamesdaily.Activity;
 
-import com.example.tronc.gamesdaily.Models.AppNewsContainer;
+import com.example.tronc.gamesdaily.Models.API.AppNewsContainer;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

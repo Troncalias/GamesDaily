@@ -2,8 +2,10 @@ package com.example.tronc.gamesdaily.Activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -16,7 +18,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.telecom.Call;
 import android.text.Html;
 import android.text.format.DateFormat;
 import android.view.Menu;
@@ -29,15 +30,17 @@ import android.widget.Toast;
 
 import com.example.tronc.gamesdaily.Adapter.NewsAdapter;
 import com.example.tronc.gamesdaily.Data.List_News;
+import com.example.tronc.gamesdaily.Data.MyDB;
 import com.example.tronc.gamesdaily.Fragment.HeaderFragment;
-import com.example.tronc.gamesdaily.Models.AppNewsContainer;
+import com.example.tronc.gamesdaily.Models.API.AppNewsContainer;
 import com.example.tronc.gamesdaily.Models.Chat;
 import com.example.tronc.gamesdaily.Models.News;
-import com.example.tronc.gamesdaily.Models.Stores;
 import com.example.tronc.gamesdaily.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -50,6 +53,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NewsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener , Callback<AppNewsContainer>{
+    private MyDB sampleDatabase;
     private static Activity mRefActivity;
     private Toolbar mToolbar;
     private RecyclerView mRecyclerView;
@@ -68,6 +72,7 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_news);
         mRefActivity = this;
         extras = getIntent().getExtras();
+        sampleDatabase = Room.databaseBuilder(getApplicationContext(), MyDB.class, this.getString(R.string.database_value)).build();
 
         setToolbar();
         setFragments();
@@ -79,11 +84,6 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
         ids.add(440);
 
         getNews();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     private void setToolbar() {
@@ -134,14 +134,9 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    /**
-     *
-     * @return
-     */
     private SteamNews getApi() {
         return getRetrofit().create(SteamNews.class);
     }
-
 
     private Retrofit getRetrofit() {
 
@@ -159,7 +154,6 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
                 .client(client)
                 .build();
     }
-
 
     @Override
     public void onResponse(retrofit2.Call<AppNewsContainer> call, Response<AppNewsContainer> response) {
@@ -215,7 +209,7 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (extras.getString("KEY").equals("admin")) {
+        if (extras.getInt("Type") == 2) {
             getMenuInflater().inflate(R.menu.menu_admin, menu);
         } else {
             getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -268,6 +262,9 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    /**
+     * Função que executa quando o utlizador deseja realizar a adição de uma chat na app
+     */
     private void setClickMenuAddChat() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(NewsActivity.this);
@@ -278,9 +275,56 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
 
         final EditText tituloChat = (EditText) view.findViewById(R.id.tituloChat);
         final EditText descricao_Chat = (EditText) view.findViewById(R.id.descricaoChat);
-        Button addBtn = (Button) view.findViewById(R.id.btn_add_chat);
-        Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
 
+        Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        Button addBtn = (Button) view.findViewById(R.id.btn_add_chat);
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                AddChat addchat = new AddChat(tituloChat.getText().toString(), descricao_Chat.getText().toString(), dialog);
+                addchat.execute();
+            }
+        });
+    }
+
+    public class AddChat extends AsyncTask<Void, Void, Boolean> {
+        public String titulo;
+        public String descricao;
+        public AlertDialog dialog;
+
+        public AddChat(String t, String d, AlertDialog di) {
+            titulo = t;
+            descricao = d;
+            dialog = di;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+
+            java.text.DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date hoje = new Date();
+            String data = dateFormat.format(hoje);
+
+            //int id_game, String Data,String Titulo, String Descricao
+            Chat chat = new Chat(-1, data, titulo, descricao);
+            sampleDatabase.geral().addChat(chat);
+            return true;
+        }
+
+        protected void onPostExecute(Boolean bool){
+            Context context = getApplicationContext();
+            CharSequence text = "Chat Adicionado";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+            dialog.dismiss();
+        }
     }
 
     private void setClickMenuSearch() {
@@ -293,7 +337,21 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
 
         final EditText tituloChat = (EditText) view.findViewById(R.id.procurar);
         Button confirmar = (Button) view.findViewById(R.id.btn_confirm);
+        confirmar.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                /**
+                 * Realizar o sort
+                 * (Por Fazer)
+                 */
+            }
+        });
         Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
 
     }
 

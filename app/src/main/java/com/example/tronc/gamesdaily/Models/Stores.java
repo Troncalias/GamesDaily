@@ -18,20 +18,20 @@ public class Stores {
     private String descricao;
     private String dataInsercao;
     private byte[] imagem;
-    private int userId;
+    private String username;
     private boolean acepted=false;
 
     public Stores() {
     }
 
     @Ignore
-    public Stores(String nome, String morada, String descricao, String dataInsercao, byte[] imagem, int userId, boolean acepted) {
+    public Stores(String nome, String morada, String descricao, String dataInsercao, byte[] imagem, String username, boolean acepted) {
         this.nome = nome;
         this.morada = morada;
         this.descricao = descricao;
         this.dataInsercao = dataInsercao;
         this.imagem = imagem;
-        this.userId = userId;
+        this.username = username;
         this.acepted = acepted;
     }
 
@@ -83,11 +83,11 @@ public class Stores {
         this.imagem = imagem;
     }
 
-    public int getUserId() { return userId; }
-
-    public void setUserId(int userId) { this.userId = userId; }
-
     public boolean isAcepted() { return acepted; }
 
     public void setAcepted(boolean acepted) { this.acepted = acepted; }
+
+    public String getUsername() { return username; }
+
+    public void setUsername(String username) { this.username = username; }
 }
