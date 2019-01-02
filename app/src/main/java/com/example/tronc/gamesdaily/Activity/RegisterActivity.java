@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tronc.gamesdaily.AsyncTasks.LoadingAsyncTask;
 import com.example.tronc.gamesdaily.Data.MyDB;
 import com.example.tronc.gamesdaily.Models.User;
 import com.example.tronc.gamesdaily.R;
@@ -116,17 +117,20 @@ public class RegisterActivity extends Activity {
         }
 
         protected void onPostExecute(ArrayList<User> list){
+            LoadingAsyncTask lat = new LoadingAsyncTask(RegisterActivity.this, getResources().getString(R.string.msg_async_task_loading_login));
+            lat.execute();
             if(this.existed){
                 Context context = getApplicationContext();
                 CharSequence text = "Username já existe!";
                 int duration = Toast.LENGTH_SHORT;
-
+                lat.cancel(false);
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
             }else{
                 Intent i = new Intent(RegisterActivity.this, NewsActivity.class);
                 i.putExtra("KEY",String.valueOf(name));
                 startActivity(i);
+                lat.cancel(false);
             }
         }
     }

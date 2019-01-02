@@ -82,4 +82,5 @@
     <string name="repeat_pass">Repeat Password</string>
     <string name="navigation_open">Open drawer</string>
     <string name="navigation_close">Close drawer</string>
+    <string name="msg_async_task_loading_login">A autenticar</string>
 </resources>

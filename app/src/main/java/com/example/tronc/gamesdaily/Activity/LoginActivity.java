@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tronc.gamesdaily.AsyncTasks.LoadingAsyncTask;
 import com.example.tronc.gamesdaily.Data.MyDB;
 import com.example.tronc.gamesdaily.Models.User;
 import com.example.tronc.gamesdaily.R;
@@ -55,8 +56,10 @@ public class LoginActivity extends AppCompatActivity {
         Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 ConfirmUser confirm = new ConfirmUser(mUserView.getText().toString(), mPasswordView.getText().toString());
                 confirm.execute();
+
             }
         });
 
@@ -80,16 +83,22 @@ public class LoginActivity extends AppCompatActivity {
             Date hoje = new Date();
             String data = dateFormat.format(hoje);
 
-            if(listUsers.size() == 0){
-                sampleDatabase.geral().addUser(new User("admin","admin","admin",data,"admin@gmail.com"));
+            if (listUsers.size() == 0) {
+                sampleDatabase.geral().addUser(new User("admin", "admin", "admin", data, "admin@gmail.com"));
             }
 
             ArrayList<User> list = (ArrayList<User>) sampleDatabase.geral().getUserByName(name);
             return list;
         }
 
-        protected void onPostExecute(ArrayList<User> user){
-            if(user.size() != 0 && user.get(0).getPassword().equals(pass)){
+        protected void onPostExecute(ArrayList<User> user) {
+
+            LoadingAsyncTask lat = new LoadingAsyncTask(LoginActivity.this, getResources().getString(R.string.msg_async_task_loading_login));
+            lat.execute();
+
+
+            if (user.size() != 0 && user.get(0).getPassword().equals(pass)) {
+
                 Context context = getApplicationContext();
                 CharSequence text = "Bem Vindo " + user.get(0).getUsername();
                 int duration = Toast.LENGTH_SHORT;
@@ -97,13 +106,14 @@ public class LoginActivity extends AppCompatActivity {
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
                 Intent i = new Intent(LoginActivity.this, NewsActivity.class);
-                i.putExtra("KEY",String.valueOf(user.get(0).getUsername()));
+                i.putExtra("KEY", String.valueOf(user.get(0).getUsername()));
                 startActivity(i);
-            }else{
+                lat.cancel(false);
+            } else {
                 Context context = getApplicationContext();
                 CharSequence text = "Username e/ou palavra passe incorretas!";
                 int duration = Toast.LENGTH_SHORT;
-
+                lat.cancel(false);
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
             }
