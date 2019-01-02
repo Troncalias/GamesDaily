@@ -95,6 +95,7 @@ public class StoresActivity extends AppCompatActivity {
             mRecyclerView = findViewById(R.id.rvGames);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(mRefActivity, LinearLayoutManager.VERTICAL, false));
             mRecyclerView.setAdapter(sAdapter);
+            mRecyclerView.addItemDecoration(new DividerItemDecoration(mRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
         }
     }
 

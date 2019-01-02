@@ -19,8 +19,8 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/action_add"
-        android:icon="@drawable/ic_item_menu_main"
+        android:icon="@drawable/baseline_add_white_24dp"
         android:title="@string/button_add"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
 
 </menu>

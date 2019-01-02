@@ -105,6 +105,7 @@ public class ChatActivity extends AppCompatActivity {
             mRecyclerView = findViewById(R.id.rvChat);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(mRefActivity, LinearLayoutManager.VERTICAL, false));
             mRecyclerView.setAdapter(gAdapter);
+            mRecyclerView.addItemDecoration(new DividerItemDecoration(mRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
         }
     }
 

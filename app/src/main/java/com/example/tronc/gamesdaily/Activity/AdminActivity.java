@@ -368,9 +368,6 @@ public class AdminActivity extends AppCompatActivity {
             case R.id.action_admin:
                 msg = "Admin";
                 break;
-            case R.id.action_logout:
-                msg = "Logout";
-                break;
             case R.id.action_definitions:
                 msg = "Defenition";
                 break;
