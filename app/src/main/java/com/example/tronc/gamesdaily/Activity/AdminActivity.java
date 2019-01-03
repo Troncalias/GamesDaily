@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.content.Intent;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
@@ -42,6 +45,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class AdminActivity extends AppCompatActivity {
+    /**
+     *  Constante que guarda o ID do request do imagepicker
+     */
+    private final int IMAGE_PICKER_REQUEST = 100;
     private MyDB sampleDatabase;
     private static MyDB sampleDatabaseStatic;
     private static GamesAcceptAdapter gAdapterGames;
@@ -107,6 +114,13 @@ public class AdminActivity extends AppCompatActivity {
                 final EditText descricaoGame = (EditText) view.findViewById(R.id.descricaoGame);
                 final EditText publicherGame = (EditText) view.findViewById(R.id.publicadorGame);
                 Button button_add_image = (Button) view.findViewById(R.id.button_add_image_game);
+                button_add_image.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        openGallery();
+
+                    }
+                });
 
                 final Button addBtn = (Button) view.findViewById(R.id.btn_add_game_Admin);
                 Button cancelBtn = (Button) view.findViewById(R.id.button_cancel_game_Admin);
@@ -264,6 +278,15 @@ public class AdminActivity extends AppCompatActivity {
         }
     }
 
+    private void openGallery() {
+
+
+        MainActivity.requestStoragePermissions(AdminActivity.this);
+
+        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(gallery, IMAGE_PICKER_REQUEST);
+    }
+
     private void setButtonStore(){
         Button btn_add_store = (Button) findViewById(R.id.btn_add_store);
         btn_add_store.setOnClickListener(new View.OnClickListener() {
@@ -279,7 +302,15 @@ public class AdminActivity extends AppCompatActivity {
                 final TextView localizacaoLoja = (TextView) view.findViewById(R.id.lojaTv);
 
                 imageView = (ImageView) view.findViewById(R.id.imageView);
-                Button button_add_image = (Button) view.findViewById(R.id.button_add_image);
+                final Button button_add_image = (Button) view.findViewById(R.id.button_add_image);
+
+                button_add_image.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        openGallery();
+
+                    }
+                });
 
                 Button addBtn = (Button) view.findViewById(R.id.btn_confirm);
                 addBtn.setOnClickListener(new View.OnClickListener() {
