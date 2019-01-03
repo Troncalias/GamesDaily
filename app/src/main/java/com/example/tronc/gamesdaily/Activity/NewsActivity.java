@@ -35,6 +35,7 @@ import com.example.tronc.gamesdaily.Fragment.HeaderFragment;
 import com.example.tronc.gamesdaily.Models.API.AppNewsContainer;
 import com.example.tronc.gamesdaily.Models.Chat;
 import com.example.tronc.gamesdaily.Models.News;
+import com.example.tronc.gamesdaily.Notifications.MyNotification;
 import com.example.tronc.gamesdaily.R;
 
 import java.text.SimpleDateFormat;
@@ -313,6 +314,7 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
             //int id_game, String Data,String Titulo, String Descricao
             Chat chat = new Chat(-1, data, titulo, descricao);
             sampleDatabase.geral().addChat(chat);
+
             return true;
         }
 
@@ -321,6 +323,7 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
             CharSequence text = "Chat Adicionado";
             int duration = Toast.LENGTH_SHORT;
 
+            MyNotification.addChatNotification(NewsActivity.this, titulo, descricao, getString(R.string.notification_add_chat_title), getApplicationContext());
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
             dialog.dismiss();

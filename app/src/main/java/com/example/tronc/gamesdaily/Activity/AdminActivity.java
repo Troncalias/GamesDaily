@@ -34,6 +34,7 @@ import com.example.tronc.gamesdaily.Models.Games;
 import com.example.tronc.gamesdaily.Models.News;
 import com.example.tronc.gamesdaily.Models.Stores;
 import com.example.tronc.gamesdaily.Models.User;
+import com.example.tronc.gamesdaily.Notifications.MyNotification;
 import com.example.tronc.gamesdaily.R;
 
 import java.text.SimpleDateFormat;
@@ -196,6 +197,7 @@ public class AdminActivity extends AppCompatActivity {
             CharSequence text = "Jogo Adicionado";
             int duration = Toast.LENGTH_SHORT;
 
+            MyNotification.addGameNotification(AdminActivity.this, Titulo, Descricao, getString(R.string.notification_add_jogo_title), getApplicationContext());
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
             Dialog.dismiss();
@@ -356,6 +358,8 @@ public class AdminActivity extends AppCompatActivity {
             CharSequence text = "Store Adicionado";
             int duration = Toast.LENGTH_SHORT;
 
+            MyNotification.addStoreNotification(AdminActivity.this, Titulo, Descricao, getString(R.string.notification_add_loja_title), getApplicationContext());
+
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
             Dialog.dismiss();
@@ -381,6 +385,7 @@ public class AdminActivity extends AppCompatActivity {
             gAdapterStores = new StoresAcceptAdapter(mRefActivity, list);
             rvUtilizadores.setAdapter(gAdapterStores);
             rvUtilizadores.setLayoutManager(new LinearLayoutManager(mRefActivity));
+
         }
     }
 

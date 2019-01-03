@@ -83,4 +83,7 @@
     <string name="navigation_open">Open drawer</string>
     <string name="navigation_close">Close drawer</string>
     <string name="msg_async_task_loading_login">A autenticar</string>
+    <string name="notification_add_chat_title">Novo chat adicionado.</string>
+    <string name="notification_add_jogo_title">Novo jogo adicionado.</string>
+    <string name="notification_add_loja_title">Nova loja adicionada.</string>
 </resources>
