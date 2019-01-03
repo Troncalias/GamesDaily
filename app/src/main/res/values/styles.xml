@@ -26,4 +26,10 @@
         <item name="android:background">@color/colorPrimary</item>
     </style>
 
+    <style name="confirmationDialog" parent="Theme.AppCompat.Dialog">
+        <item name="colorAccent">@color/colorItemBackground</item>
+        <item name="android:textColorPrimary">@color/whiteLetter</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
 </resources>

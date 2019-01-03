@@ -86,4 +86,7 @@
     <string name="notification_add_chat_title">Novo chat adicionado.</string>
     <string name="notification_add_jogo_title">Novo jogo adicionado.</string>
     <string name="notification_add_loja_title">Nova loja adicionada.</string>
+    <string name="msg_no_internet">É necessária conexão à internet para utilizar esta app</string>
+    <string name="title_no_internet">Conexão à internet perdida</string>
+    <string name="button_retry">Voltar a tentar</string>
 </resources>
