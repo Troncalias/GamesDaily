@@ -410,7 +410,7 @@ public class AdminActivity extends AppCompatActivity {
             int i = sampleDatabase.geral().getSizeStores();
             i++;    String y1 = String.valueOf(i);
             i++;    String y2 = String.valueOf(i);
-            Stores stores = new Stores("Loja " + y1, "Paços de Ferreira", "Loja de Jogos Steam", "20/10/2019 10:00", null, "admin", false);
+            Stores stores = new Stores("Loja " + y1, "Rua de Lagoas, Lousada", "Loja de Jogos Steam", "20/10/2019 10:00", null, "admin", false);
             sampleDatabase.geral().addStore(stores);
             stores = new Stores("Loja " + y2, "Rua Caminhos de S. Tiago, Ferreira", "Loja de Jogos Local", "30/1/2018 10:00", null, "admin", false);
             sampleDatabase.geral().addStore(stores);

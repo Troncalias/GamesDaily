@@ -188,7 +188,7 @@ public class GamesActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Bundle extras = getIntent().getExtras();
+        extras = getIntent().getExtras();
         if(extras.getString("KEY").equals("admin")) {
             getMenuInflater().inflate(R.menu.menu_admin, menu);
         }else{

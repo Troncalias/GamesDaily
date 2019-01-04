@@ -92,8 +92,10 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.ViewHolder
         Button mapa = viewHolder.mapaButton;
         mapa.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                String nome = myItem.getNome();
+                String descricao = myItem.getDescricao();
                 String morada = myItem.getMorada();
-                StoresActivity.openMap(morada);
+                StoresActivity.openMap(morada, nome, descricao);
             }
         });
     }

@@ -26,6 +26,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     private String morada;
+    private String nome;
+    private String descricao;
     private SupportMapFragment mMapFragment;
     private GoogleMap mGoogleMaps;
     private Toolbar mToolbar;
@@ -38,16 +40,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         setToolbar();
 
-        Intent iin= getIntent();
+        Intent iin = getIntent();
         Bundle b = iin.getExtras();
 
-        String data = b.getString("morada");
-
-        if(b!=null)
-        {
-            String j =(String) b.get("morada");
-            morada = j;
-        }
+        String m = b.getString("morada");
+        morada = m;
+        String n = b.getString("nome");
+        nome = n;
+        String d = b.getString("descricao");
+        descricao = d;
 
         mMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mMapFragment.getMapAsync(this);
@@ -83,15 +84,17 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void addMarker(GoogleMap mGoogleMaps) throws IOException {
         Geocoder geoAddress = new Geocoder(this);
         List<Address> addressList = geoAddress.getFromLocationName(morada, 1);
-        LatLng latlng = new LatLng(addressList.get(0).getLatitude(), addressList.get(0).getLongitude());
+        if (!addressList.isEmpty()) {
+            LatLng latlng = new LatLng(addressList.get(0).getLatitude(), addressList.get(0).getLongitude());
+            MarkerOptions marker = new MarkerOptions()
+                    .position(latlng)
+                    .title(nome)
+                    .snippet(descricao);
 
-        MarkerOptions marker = new MarkerOptions()
-                .position(latlng)
-                .title("ESTG")
-                .snippet("Escola ESTGF");
+            mGoogleMaps.addMarker(marker);
+            mGoogleMaps.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 18));
+        }
 
-        mGoogleMaps.addMarker(marker);
-        mGoogleMaps.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 18));
     }
 
     public void MarkerClick(GoogleMap mGoogleMaps) {

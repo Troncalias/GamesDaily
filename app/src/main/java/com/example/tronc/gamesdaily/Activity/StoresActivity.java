@@ -233,16 +233,12 @@ public class StoresActivity extends AppCompatActivity {
 
     }
 
-    public static void openMap(String m) {
-       /** AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-        TextView text = (TextView) findViewById(R.id.tv1);
-        TextView morada
-        String s = (TextView) edit.getText().toString();
+    public static void openMap(String m, String n, String d) {
 
-        final TextView dataInsercaoTv = findViewById(R.id.moradaTv);
-        dataInsercaoTv.toString(); */
         Intent x = new Intent(mContext, MapsActivity.class);
         x.putExtra("morada", m);
+        x.putExtra("nome", n);
+        x.putExtra("descricao", d);
         mContext.startActivity(x);
     }
 
