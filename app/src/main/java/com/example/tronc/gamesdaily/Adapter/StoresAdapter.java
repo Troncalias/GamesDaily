@@ -76,6 +76,7 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.ViewHolder
         data.setText(textData + " " + mydatahora);
 
         Button selectButton = viewHolder.selectButton;
+
         selectButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 StoresActivity.openGame(myItem, mActivity);
@@ -86,10 +87,18 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.ViewHolder
         slected.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 StoresActivity.openGames(mActivity);
-
+            }
+        });
+        Button mapa = viewHolder.mapaButton;
+        mapa.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String morada = myItem.getMorada();
+                StoresActivity.openMap(morada);
             }
         });
     }
+
+
 
     @Override
     public int getItemCount() {
@@ -104,6 +113,7 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.ViewHolder
         public TextView dateView;
         public Button selectButton;
         public Button comentsButton;
+        public Button mapaButton;
         public ImageView imageView;
 
         public ViewHolder(@NonNull View itemView) {
@@ -113,6 +123,7 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.ViewHolder
             moradaView = (TextView) itemView.findViewById(R.id.morada);
             selectButton = (Button) itemView.findViewById(R.id.select_button);
             comentsButton = (Button) itemView.findViewById(R.id.comentarios_button);
+            mapaButton = (Button) itemView.findViewById(R.id.mapa_button);
             descricaoView = (TextView) itemView.findViewById(R.id.descricao);
             dateView = (TextView) itemView.findViewById(R.id.date_insercao);
             imageView = (ImageView) itemView.findViewById(R.id.loja_imageView);

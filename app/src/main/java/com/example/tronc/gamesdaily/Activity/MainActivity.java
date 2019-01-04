@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
      * Para verificar se o user esta ligado a Internet pinga o server 8.8.8.8
      * @return false se nao esta ligado e true se esta ligado
      */
-    public static boolean isOnline() {
+   /* public static boolean isOnline() {
         Runtime runtime = Runtime.getRuntime();
         try {
             Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
@@ -76,26 +76,22 @@ public class MainActivity extends AppCompatActivity {
         catch (InterruptedException e) { e.printStackTrace(); }
 
         return false;
+    }*/
+
+    private boolean isOnline() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
 
-    /**
-     * Retorna a main activity se o utilizador não tiver internet
-     *
-     * @param activity
-     */
-    public static void returnToMainActivity(final Activity activity) {
-        Intent intent = new Intent(activity, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        activity.startActivity(intent);
-    }
 
     /**
      * Define e apresenta o dialog a informar que a internet não está disponível
      *
      * @param activity
      */
-    public static void setNoInternetDialog(final Activity activity) {
+    public void setNoInternetDialog(final Activity activity) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.confirmationDialog);
         builder.setMessage(activity.getString(R.string.msg_no_internet));

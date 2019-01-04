@@ -3,6 +3,7 @@ package com.example.tronc.gamesdaily.Activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.arch.persistence.room.Room;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -44,6 +45,7 @@ public class StoresActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private StoresAdapter sAdapter;
     private Bundle extras;
+    private static Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,7 @@ public class StoresActivity extends AppCompatActivity {
         setContentView(R.layout.activity_stores);
         mRefActivity = this;
         sampleDatabase = Room.databaseBuilder(getApplicationContext(), MyDB.class, this.getString(R.string.database_value)).build();
+        mContext = this;
 
         setToolbar();
         setFragments();
@@ -58,7 +61,7 @@ public class StoresActivity extends AppCompatActivity {
         listStores.execute();
     }
 
-    private void setToolbar(){
+    private void setToolbar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("LOJAS");
@@ -88,7 +91,7 @@ public class StoresActivity extends AppCompatActivity {
             return list;
         }
 
-        protected void onPostExecute(ArrayList<Stores> list){
+        protected void onPostExecute(ArrayList<Stores> list) {
             sAdapter = new StoresAdapter(mRefActivity.getApplicationContext(), list, mRefActivity);
             mRecyclerView = findViewById(R.id.rvGames);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(mRefActivity, LinearLayoutManager.VERTICAL, false));
@@ -100,16 +103,16 @@ public class StoresActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         Bundle extras = getIntent().getExtras();
-        if(extras.getString("KEY").equals("admin")) {
+        if (extras.getString("KEY").equals("admin")) {
             getMenuInflater().inflate(R.menu.menu_admin, menu);
-        }else{
+        } else {
             getMenuInflater().inflate(R.menu.menu_main, menu);
         }
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_search:
                 setClickMenuSearch();
@@ -122,12 +125,12 @@ public class StoresActivity extends AppCompatActivity {
                 return true;
             case R.id.action_admin:
                 Intent i = new Intent(StoresActivity.this, AdminActivity.class);
-                i.putExtra("KEY",extras.getString("KEY"));
+                i.putExtra("KEY", extras.getString("KEY"));
                 startActivity(i);
                 return true;
             case R.id.action_definitions:
                 Intent y = new Intent(StoresActivity.this, DefenitionActivity.class);
-                y.putExtra("KEY","a");
+                y.putExtra("KEY", "a");
                 startActivity(y);
                 return true;
             default:
@@ -187,13 +190,13 @@ public class StoresActivity extends AppCompatActivity {
     }
 
     public static void openGame(Stores stores, Activity mActivity) {
-        AlertDialog.Builder builder =  new AlertDialog.Builder(mActivity);
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
         View view = mActivity.getLayoutInflater().inflate(R.layout.dialog_store, null);
 
         builder.setView(view);
         final AlertDialog dialog = builder.show();
         final ImageView imageView = view.findViewById(R.id.imageView);
-        if(stores.getImagem() != null){
+        if (stores.getImagem() != null) {
             ByteArrayInputStream imageStream = new ByteArrayInputStream(stores.getImagem());
             Bitmap theImage = BitmapFactory.decodeStream(imageStream);
             imageView.setImageBitmap(theImage);
@@ -203,12 +206,15 @@ public class StoresActivity extends AppCompatActivity {
         nomeTv.setText(stores.getNome());
         final TextView dataInsercaoTv = (TextView) view.findViewById(R.id.moradaTv);
         dataInsercaoTv.setText(stores.getMorada());
+
+
         final TextView ratingTv = (TextView) view.findViewById(R.id.descricaoTv);
         ratingTv.setText(stores.getDescricao());
     }
 
+
     public static void openGames(Activity mActivity) {
-        AlertDialog.Builder builder =  new AlertDialog.Builder(mActivity);
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
         View view = mActivity.getLayoutInflater().inflate(R.layout.dialog_accept, null);
 
         builder.setView(view);
@@ -227,16 +233,30 @@ public class StoresActivity extends AppCompatActivity {
 
     }
 
+    public static void openMap(String m) {
+       /** AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+        TextView text = (TextView) findViewById(R.id.tv1);
+        TextView morada
+        String s = (TextView) edit.getText().toString();
+
+        final TextView dataInsercaoTv = findViewById(R.id.moradaTv);
+        dataInsercaoTv.toString(); */
+        Intent x = new Intent(mContext, MapsActivity.class);
+        x.putExtra("morada", m);
+        mContext.startActivity(x);
+    }
+
     /**
-    private static void setListMensagens(Activity activity) {
-        ArrayList<Games> contacts = (ArrayList<Games>) new List_Games().getLista_games();
-        GamesAdapter adapter = new GamesAdapter(activity, contacts, mRefActivity);
-        rvUtilizadores.setAdapter(adapter);
-        rvUtilizadores.setLayoutManager(new LinearLayoutManager(activity));
-    }**/
+     * private static void setListMensagens(Activity activity) {
+     * ArrayList<Games> contacts = (ArrayList<Games>) new List_Games().getLista_games();
+     * GamesAdapter adapter = new GamesAdapter(activity, contacts, mRefActivity);
+     * rvUtilizadores.setAdapter(adapter);
+     * rvUtilizadores.setLayoutManager(new LinearLayoutManager(activity));
+     * }
+     **/
 
     public static class LoadGames extends AsyncTask<Void, Void, ArrayList<Games>> {
-        public  Activity mActivity;
+        public Activity mActivity;
         public MyDB sampleDatabase;
 
         public LoadGames(Activity mActivity, MyDB database) {
@@ -249,8 +269,9 @@ public class StoresActivity extends AppCompatActivity {
             ArrayList<Games> listGames = (ArrayList<Games>) sampleDatabase.geral().loadAllGamesAcepted(true);
             return listGames;
         }
+
         @Override
-        protected void onPostExecute(ArrayList<Games> games){
+        protected void onPostExecute(ArrayList<Games> games) {
             GamesAdapter adapter = new GamesAdapter(mActivity, games, mRefActivity);
             rvUtilizadores.setAdapter(adapter);
             rvUtilizadores.setLayoutManager(new LinearLayoutManager(mActivity));
