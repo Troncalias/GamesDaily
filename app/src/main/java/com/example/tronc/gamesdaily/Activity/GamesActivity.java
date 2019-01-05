@@ -76,7 +76,7 @@ public class GamesActivity extends AppCompatActivity {
     private void setToolbar(){
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Games");
+        getSupportActionBar().setTitle("Jogos");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

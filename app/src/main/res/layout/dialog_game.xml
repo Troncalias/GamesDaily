@@ -36,6 +36,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textStyle="bold"
+                    android:textColor="@android:color/white"
                     android:text="@string/pretitle_game_name" />
 
                 <TextView
@@ -44,6 +45,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textAlignment="viewEnd"
+                    android:textColor="@android:color/white"
                     android:text="" />
             </LinearLayout>
 
@@ -62,6 +64,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textStyle="bold"
+                    android:textColor="@android:color/white"
                     android:text="@string/pretitle_data_insercao" />
 
                 <TextView
@@ -70,6 +73,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textAlignment="viewEnd"
+                    android:textColor="@android:color/white"
                     android:text="" />
             </LinearLayout>
 
@@ -87,6 +91,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@android:color/white"
                     android:textStyle="bold"
                     android:text="@string/pretitle_rating" />
 
@@ -95,6 +100,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@android:color/white"
                     android:textAlignment="viewEnd"
                     android:text="" />
             </LinearLayout>
@@ -115,6 +121,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textStyle="bold"
+                    android:textColor="@android:color/white"
                     android:text="@string/pretitle_number_gamers" />
 
                 <TextView
@@ -123,6 +130,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textAlignment="viewEnd"
+                    android:textColor="@android:color/white"
                     android:text="" />
 
             </LinearLayout>
@@ -141,12 +149,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
+                    android:textColor="@android:color/white"
                     android:text="@string/pretitle_descricao" />
 
                 <TextView
                     android:id="@+id/descricaoTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
                     android:text="" />
             </LinearLayout>
 
@@ -164,12 +174,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
+                    android:textColor="@android:color/white"
                     android:text="@string/pretitle_publicher" />
 
                 <TextView
                     android:id="@+id/publicherTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
                     android:text="" />
             </LinearLayout>
 

@@ -66,7 +66,7 @@ public class StoresActivity extends AppCompatActivity {
     private void setToolbar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("LOJAS");
+        getSupportActionBar().setTitle("Lojas");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

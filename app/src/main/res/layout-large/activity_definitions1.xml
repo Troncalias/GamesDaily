@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorItemBackground"
-    android:orientation="vertical"
     tools:context=".Activity.DefenitionActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:textAlignment="center"
-        >
+        android:textAlignment="center">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -45,7 +44,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
@@ -57,25 +55,12 @@
                 android:text="Edit User" />
 
             <Button
-                android:id="@+id/btn_edit_storeD"
+                android:id="@+id/btn_add_storeD"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:text="Edit Store" />
+                android:text="@string/button_add_store" />
 
-            <Button
-                android:id="@+id/btn_add_gamesD"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:text="Add Games" />
-
-            <Button
-                android:id="@+id/btn_edit_gamesD"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:text="Edit Games" />
         </LinearLayout>
 
 

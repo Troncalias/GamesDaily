@@ -46,7 +46,7 @@ public class MyNotification {
         PendingIntent resultPendingIntent = PendingIntent.getActivity(c, 0, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder novaNoti = new NotificationCompat.Builder(c, CHANNEL_1_ID)
-                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setSmallIcon(R.mipmap.ic_launcher_gamesdaily)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .setContentTitle(NotTitle)
@@ -68,7 +68,7 @@ public class MyNotification {
         PendingIntent resultPendingIntent = PendingIntent.getActivity(c, 0, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder novaNoti = new NotificationCompat.Builder(c, CHANNEL_1_ID)
-                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setSmallIcon(R.mipmap.ic_launcher_gamesdaily)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .setContentTitle(NotTitle)
@@ -90,7 +90,7 @@ public class MyNotification {
         PendingIntent resultPendingIntent = PendingIntent.getActivity(c, 0, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder novaNoti = new NotificationCompat.Builder(c, CHANNEL_1_ID)
-                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setSmallIcon(R.mipmap.ic_launcher_gamesdaily)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .setContentTitle(NotTitle)
