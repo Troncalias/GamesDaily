@@ -56,14 +56,6 @@
             android:gravity="center_horizontal">
 
             <Button
-                android:id="@+id/btn_confirmar"
-                android:layout_width="25dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:text="@string/button_confirm"/>
-
-            <Button
                 android:id="@+id/button_cancel"
                 android:layout_width="25dp"
                 android:layout_height="wrap_content"

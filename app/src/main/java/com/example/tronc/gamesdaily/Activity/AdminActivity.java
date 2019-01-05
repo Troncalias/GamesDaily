@@ -50,9 +50,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class AdminActivity extends AppCompatActivity {
-    /**
-     *  Constante que guarda o ID do request do imagepicker
-     */
     private final int IMAGE_PICKER_REQUEST = 100;
     private MyDB sampleDatabase;
     private static MyDB sampleDatabaseStatic;
@@ -65,17 +62,8 @@ public class AdminActivity extends AppCompatActivity {
     private static RecyclerView rvUtilizadores;
     private static Bundle extras;
 
-    /**
-     * Variavel que indica se uma imagem foi escolhida
-     */
     private boolean imageIsSet;
-    /**
-     * Variavel que guarda a imagem escolhida pelo utilizador ao adicionar anime ou loja
-     */
     private Uri imageUri;
-    /**
-     * Variavel que guarda a imagem no seu estado original
-     */
     private ImageView imageView;
     private Toolbar mToolbar;
 

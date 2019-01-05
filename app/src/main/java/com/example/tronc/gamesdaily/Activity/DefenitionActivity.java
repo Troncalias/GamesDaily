@@ -615,12 +615,13 @@ public class DefenitionActivity extends AppCompatActivity {
                         if(Estado){
                             Estado = false;
                             gAdapterGames.reversAdd(false);
-                            //Carregar lista de jogos associados
+                            define.setText("Associados");
                             GamesAssociados list = new GamesAssociados();
                             list.execute();
                         }else{
                             Estado = true;
                             gAdapterGames.reversAdd(true);
+                            define.setText("Excluidos");
                             GamesNaoAssociados list = new GamesNaoAssociados();
                             list.execute();
                         }

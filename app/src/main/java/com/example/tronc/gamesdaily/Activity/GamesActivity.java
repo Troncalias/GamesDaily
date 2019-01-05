@@ -493,8 +493,6 @@ public class GamesActivity extends AppCompatActivity {
                 order.execute();
             }
         });
-
-        Button confirmarBtn = (Button) view.findViewById(R.id.btn_confirmar);
         Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

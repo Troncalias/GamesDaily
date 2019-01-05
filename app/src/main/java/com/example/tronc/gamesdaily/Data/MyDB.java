@@ -68,9 +68,6 @@ public abstract class MyDB extends RoomDatabase {
         @Query("SELECT * FROM Games WHERE Acepted=:value ORDER BY Name")
         public List<Games> loadAllGamesOrderName(boolean value);
 
-        @Query("SELECT COUNT(id) FROM Games")
-        public int getSizeGames();
-
         @Delete
         void deleteGame(Games game);
 
@@ -85,17 +82,14 @@ public abstract class MyDB extends RoomDatabase {
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         public void addStore(Stores store);
 
-        @Query("SELECT COUNT(id) FROM Stores")
-        public int getSizeStores();
-
         @Query("SELECT * FROM Stores WHERE username=:usernam")
         public List<Stores> getStoresByUser(String usernam);
 
-        @Query("SELECT * FROM Stores")
-        public List<Stores> loadAllStores();
-
         @Query("SELECT * FROM Stores WHERE acepted=:value")
         public List<Stores> loadAllStoresAcepted(boolean value);
+
+        @Query("SELECT * FROM Stores WHERE acepted=:value ORDER BY nome")
+        public List<Stores> loadAllStoresAceptedOrder(boolean value);
 
         @Delete
         void deleteStore(Stores store);
@@ -113,8 +107,8 @@ public abstract class MyDB extends RoomDatabase {
         @Query("SELECT * FROM Chats WHERE id_game=:id")
         public List<Chat> loadAllChatsNormal(int id);
 
-        @Query("SELECT COUNT(id) FROM Chats")
-        public int getSizeChats();
+        @Query("SELECT * FROM Chats WHERE id_game=:id ORDER BY Titulo")
+        public List<Chat> loadAllChatsNormalOrder(int id);
 
         @Delete
         void deleteChat(Chat chat);
@@ -128,9 +122,6 @@ public abstract class MyDB extends RoomDatabase {
 
         @Query("SELECT * FROM Mensagens WHERE id_chat=:id_chat")
         public List<Mensage> loadAllMensagens(int id_chat);
-
-        @Query("SELECT COUNT(id) FROM Mensagens WHERE id_chat=:id_chat")
-        public int getSizeMensagensChatEspecifico(int id_chat);
 
         /**
          *  Funções que controlam o acesso a base de dados
@@ -151,9 +142,6 @@ public abstract class MyDB extends RoomDatabase {
 
         @Query("SELECT * FROM Favoritos WHERE username=:name")
         public List<Favoritos> loadFavesByUser(String name);
-
-        @Query("SELECT * FROM Favoritos WHERE games_id=:game")
-        public List<Favoritos> loadFavesByGame(int game);
 
         @Query("SELECT * FROM Favoritos WHERE username = :username AND games_id = :id")
         public List<Favoritos> getIfExistFavorito(String username, int id);

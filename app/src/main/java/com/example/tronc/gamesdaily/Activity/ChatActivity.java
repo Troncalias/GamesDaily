@@ -268,17 +268,61 @@ public class ChatActivity extends AppCompatActivity {
     private void setClickMenuSort() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(ChatActivity.this);
-        View view = getLayoutInflater().inflate(R.layout.dialog_order, null);
+        View view = getLayoutInflater().inflate(R.layout.dialog_order_simpler, null);
 
         builder.setView(view);
         final AlertDialog dialog = builder.show();
 
-        Button idBtn = (Button) view.findViewById(R.id.btn_orderByRating);
         Button dateBtn = (Button) view.findViewById(R.id.btn_orderStanderd);
+        dateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrderBy order = new OrderBy("Standerd", dialog);
+                order.execute();
+            }
+        });
         Button nameBtn = (Button) view.findViewById(R.id.btn_orderByName);
-        Button confirmarBtn = (Button) view.findViewById(R.id.btn_confirmar);
-        Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
+        nameBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrderBy order = new OrderBy("Name", dialog);
+                order.execute();
+            }
+        });
 
+        Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+    }
+
+    public class OrderBy extends AsyncTask<Void, Void, ArrayList<Chat>> {
+        public String name;
+        public AlertDialog dialog;
+
+        public OrderBy(String name, AlertDialog dialog) {
+            this.name = name;
+            this.dialog = dialog;
+        }
+
+        @Override
+        protected ArrayList<Chat> doInBackground(Void... voids) {
+            ArrayList<Chat> listGames;
+            if(name.equals("Name")){
+                listGames = (ArrayList<Chat>) sampleDatabase.geral().loadAllChatsNormalOrder(-1);
+            }else {
+                listGames = (ArrayList<Chat>) sampleDatabase.geral().loadAllChatsNormal(-1);
+            }
+            return listGames;
+        }
+        @Override
+        protected void onPostExecute(ArrayList<Chat> games){
+            dialog.dismiss();
+            gAdapterChat.setList(games);
+        }
     }
 
     private void setClickMenuAddChat() {

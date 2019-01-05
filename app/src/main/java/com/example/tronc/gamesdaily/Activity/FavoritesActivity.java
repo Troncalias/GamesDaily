@@ -159,12 +159,76 @@ public class FavoritesActivity extends AppCompatActivity {
         builder.setView(view);
         final AlertDialog dialog = builder.show();
 
-        Button idBtn = (Button) view.findViewById(R.id.btn_orderByRating);
         Button dateBtn = (Button) view.findViewById(R.id.btn_orderStanderd);
+        dateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrderBy order = new OrderBy("Standerd", dialog);
+                order.execute();
+            }
+        });
         Button nameBtn = (Button) view.findViewById(R.id.btn_orderByName);
-        Button confirmarBtn = (Button) view.findViewById(R.id.btn_confirmar);
-        Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
+        nameBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrderBy order = new OrderBy("Name", dialog);
+                order.execute();
+            }
+        });
+        Button idBtn = (Button) view.findViewById(R.id.btn_orderByRating);
+        idBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrderBy order = new OrderBy("Rating", dialog);
+                order.execute();
+            }
+        });
 
+        Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+
+    }
+
+    public class OrderBy extends AsyncTask<Void, Void, ArrayList<Games>> {
+        public String name;
+        public AlertDialog dialog;
+
+        public OrderBy(String name, AlertDialog dialog) {
+            this.name = name;
+            this.dialog = dialog;
+        }
+
+        @Override
+        protected ArrayList<Games> doInBackground(Void... voids) {
+            ArrayList<Games> list;
+            if(name.equals("Name")){
+                list = (ArrayList<Games>) sampleDatabase.geral().loadAllGamesOrderName(true);
+            }else{
+                list = (ArrayList<Games>) sampleDatabase.geral().loadAllGamesAcepted(true);
+            }
+            ArrayList<Favoritos> listf = (ArrayList<Favoritos>) sampleDatabase.geral().loadFavesByUser(user);
+            ArrayList<Games> listGames = new ArrayList<Games>();
+
+            for(int i=0; i<list.size(); i++){
+                for(int y=0; y<listf.size(); y++){
+                    if(list.get(i).getId() == listf.get(y).getGames_id()){
+                        listGames.add(list.get(i));
+                    }
+                }
+            }
+
+            return listGames;
+        }
+        @Override
+        protected void onPostExecute(ArrayList<Games> games){
+            dialog.dismiss();
+            gAdapter.setList(games);
+        }
     }
 
     private void setClickMenuAddChat() {

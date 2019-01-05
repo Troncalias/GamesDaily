@@ -78,6 +78,8 @@ public class GamesStoresAdapter extends RecyclerView.Adapter<GamesStoresAdapter.
         Button confirmar = viewHolder.selectButton;
         if(add == false){
             confirmar.setText("Remove");
+        }else{
+            confirmar.setText("Adicionar");
         }
         confirmar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

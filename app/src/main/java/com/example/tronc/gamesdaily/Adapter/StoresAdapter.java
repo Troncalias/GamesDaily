@@ -18,6 +18,7 @@ import com.example.tronc.gamesdaily.Models.Stores;
 import com.example.tronc.gamesdaily.R;
 
 import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.ViewHolder>{
@@ -107,6 +108,11 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.ViewHolder
         return mList.size();
     }
 
+    public void setList(ArrayList<Stores> list){
+        mList.clear();
+        mList.addAll(list);
+        notifyDataSetChanged();
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView nameTextView;
