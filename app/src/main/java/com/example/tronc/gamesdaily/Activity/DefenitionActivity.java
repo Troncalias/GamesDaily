@@ -28,7 +28,6 @@ import android.widget.Toast;
 
 import com.example.tronc.gamesdaily.Adapter.ChatRemoveAdapter;
 import com.example.tronc.gamesdaily.Adapter.GamesAcceptAdapter;
-import com.example.tronc.gamesdaily.Adapter.GamesEditAdapter;
 import com.example.tronc.gamesdaily.Adapter.StoresAcceptAdapter;
 import com.example.tronc.gamesdaily.Adapter.UserAdapter;
 import com.example.tronc.gamesdaily.Data.MyDB;
@@ -57,6 +56,8 @@ public class DefenitionActivity extends AppCompatActivity {
     private static Activity mRefActivity;
     private static RecyclerView rvUtilizadores;
     private static Bundle extras;
+    private static boolean aVereficar;
+    private static Context mContext;
 
     /**
      * Variavel que indica se uma imagem foi escolhida
@@ -83,6 +84,7 @@ public class DefenitionActivity extends AppCompatActivity {
         extras = getIntent().getExtras();
         user = extras.getString("KEY");
         sampleDatabase = Room.databaseBuilder(getApplicationContext(), MyDB.class, this.getString(R.string.database_value)).build();
+        mContext = this;
 
         LoadStats loading = new LoadStats(extras.getString("KEY"));
         loading.execute();
@@ -107,9 +109,13 @@ public class DefenitionActivity extends AppCompatActivity {
         protected void onPostExecute(ArrayList<Stores> list){//Executa como se fosse na principal
             if(list.size() == 0){
                 steType1();
-            }else{
+                aVereficar = false;
+            }else if(list.get(0).isAcepted()){
                 stores = list.get(0);
                 steType2();
+            }else{
+                steType1();
+                aVereficar = true;
             }
 
         }
@@ -150,6 +156,9 @@ public class DefenitionActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    /**
+     * Pro Fazer
+     */
     private void setButtonEditUser() {
         Button editUser = (Button) findViewById(R.id.btn_edit_user);
         editUser.setOnClickListener(new View.OnClickListener() {
@@ -208,7 +217,16 @@ public class DefenitionActivity extends AppCompatActivity {
                 final AlertDialog dialog = builder.show();
                 final EditText nomeLoja = (EditText) view.findViewById(R.id.nomeLoja);
                 final EditText descricaoLoja = (EditText) view.findViewById(R.id.descricaoLoja);
-                final TextView localizacaoLoja = (TextView) view.findViewById(R.id.lojaTv);
+                final EditText ruaLoja = (EditText) view.findViewById(R.id.ruaLoja);
+                final EditText localidadeLoja = (EditText) view.findViewById(R.id.localidadeLoja);
+                final Button verefy = (Button) view.findViewById(R.id.button_verefy_place);
+                verefy.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String morada = ruaLoja.getText().toString() + ", " + localidadeLoja.getText().toString();
+                        openMap(morada, "Tets", "Description");
+                    }
+                });
 
                 imageView = (ImageView) view.findViewById(R.id.imageView);
                 final Button button_add_image = (Button) view.findViewById(R.id.button_add_image);
@@ -223,8 +241,10 @@ public class DefenitionActivity extends AppCompatActivity {
                 Button addBtn = (Button) view.findViewById(R.id.btn_confirm);
                 addBtn.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        AddStore listSotre = new AddStore(nomeLoja.getText().toString(), descricaoLoja.getText().toString(), localizacaoLoja.getText().toString(), dialog);
+                        String morada = ruaLoja.getText().toString() + ", " + localidadeLoja.getText().toString();
+                        AddStore listSotre = new AddStore(nomeLoja.getText().toString(), descricaoLoja.getText().toString(), morada, dialog);
                         listSotre.execute();
+
                     }
                 });
 
@@ -242,13 +262,13 @@ public class DefenitionActivity extends AppCompatActivity {
     public class AddStore extends AsyncTask<Void, Void, Boolean> {
         public String Titulo;
         public String Descricao;
-        public String Publicher;
+        public String Localizacao;
         public AlertDialog Dialog;
 
-        public AddStore(String titulo, String descricao, String publicher, AlertDialog dialog) {
+        public AddStore(String titulo, String descricao, String localizacao, AlertDialog dialog) {
             Titulo = titulo;
             Descricao = descricao;
-            Publicher = publicher;
+            Localizacao = localizacao;
             Dialog = dialog;
         }
 
@@ -264,10 +284,10 @@ public class DefenitionActivity extends AppCompatActivity {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 byte[] imageBytes = baos.toByteArray();
-                store = new Stores(Titulo, Descricao, Publicher, data, imageBytes, user, false);
+                store = new Stores(Titulo, Localizacao, Descricao, data, imageBytes, user, false);
                 sampleDatabase.geral().addStore(store);
             }else{
-                store = new Stores(Titulo, Descricao, Publicher, data, null, user, false);
+                store = new Stores(Titulo, Localizacao, Descricao, data, null, user, false);
                 sampleDatabase.geral().addStore(store);
             }
 
@@ -286,6 +306,9 @@ public class DefenitionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Pro Fazer
+     */
     private void setButtonEditStore() {
         final Button editStore = (Button) findViewById(R.id.btn_edit_storeD);
         editStore.setOnClickListener(new View.OnClickListener() {
@@ -418,6 +441,9 @@ public class DefenitionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Pro Fazer
+     */
     private void setButtonEditGames() {
         Button editGames = (Button) findViewById(R.id.btn_edit_gamesD);
         editGames.setOnClickListener(new View.OnClickListener() {
@@ -478,6 +504,16 @@ public class DefenitionActivity extends AppCompatActivity {
             }
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+
+    public static void openMap(String m, String n, String d) {
+
+        Intent x = new Intent(mContext, MapsActivity.class);
+        x.putExtra("morada", m);
+        x.putExtra("nome", n);
+        x.putExtra("descricao", d);
+        mContext.startActivity(x);
     }
 
     @Override

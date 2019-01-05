@@ -50,33 +50,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_horizontal"
-                android:padding="@dimen/dialog_open_padding"
-                android:layout_margin="@dimen/dialog_open_margin">
-
-
-                <TextView
-                    android:id="@+id/pretitle_moradaTv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    style="@style/Widget.AppCompat.Button.Colored"
-                    android:text="@string/pretitle_morada" />
-
-                <TextView
-                    android:id="@+id/moradaTv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAlignment="viewEnd"
-                    android:text="" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center_horizontal"
                 android:padding="@dimen/dialog_open_padding"
@@ -96,6 +69,41 @@
                     android:layout_height="wrap_content"
                     android:text="" />
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                android:padding="@dimen/dialog_open_padding"
+                android:layout_margin="@dimen/dialog_open_margin">
+
+
+                <Button
+                    android:id="@+id/pretitle_moradaTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:text="@string/pretitle_morada" />
+
+                <TextView
+                    android:id="@+id/moradaTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="viewEnd"
+                    android:text="" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/button_cancelBt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:text="@string/button_close" />
 
         </LinearLayout>
     </ScrollView>

@@ -8,23 +8,18 @@
         android:title="@string/button_definition"
         app:showAsAction="always" />
     <item
-        android:id="@+id/action_search"
-        android:icon="@drawable/baseline_search_white_24dp"
-        android:title="@string/button_search"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/action_sort"
         android:icon="@drawable/outline_reorder_white_24dp"
         android:title="@string/button_sort"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_add"
-        android:icon="@drawable/ic_item_menu_main"
+        android:icon="@drawable/baseline_add_white_24dp"
         android:title="@string/button_add"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_admin"
-        android:icon="@drawable/ic_item_menu_main"
+        android:icon="@drawable/baseline_perm_identity_white_24dp"
         android:title="@string/button_admin"
         app:showAsAction="never" />
 </menu>

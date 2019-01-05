@@ -125,7 +125,7 @@ public class AdminActivity extends AppCompatActivity {
 
                 builder.setView(view);
                 final AlertDialog dialog = builder.show();
-
+                imageIsSet = false;
                 final EditText nomeGame = (EditText) view.findViewById(R.id.tituloGame);
                 final EditText descricaoGame = (EditText) view.findViewById(R.id.descricaoGame);
                 final EditText publicherGame = (EditText) view.findViewById(R.id.publicadorGame);
@@ -301,48 +301,6 @@ public class AdminActivity extends AppCompatActivity {
     }
 
     private void setButtonStore(){
-        /**
-        Button btn_add_store = (Button) findViewById(R.id.btn_add_store);
-        btn_add_store.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                AlertDialog.Builder builder =  new AlertDialog.Builder(AdminActivity.this);
-                View view = getLayoutInflater().inflate(R.layout.dialog_add_store, null);
-
-                builder.setView(view);
-                final AlertDialog dialog = builder.show();
-                final EditText nomeLoja = (EditText) view.findViewById(R.id.nomeLoja);
-                final EditText descricaoLoja = (EditText) view.findViewById(R.id.descricaoLoja);
-                final TextView localizacaoLoja = (TextView) view.findViewById(R.id.lojaTv);
-
-                imageView = (ImageView) view.findViewById(R.id.imageView);
-                final Button button_add_image = (Button) view.findViewById(R.id.button_add_image);
-
-                button_add_image.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        openGallery();
-
-                    }
-                });
-
-                Button addBtn = (Button) view.findViewById(R.id.btn_confirm);
-                addBtn.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        AddStore listSotre = new AddStore(nomeLoja.getText().toString(), descricaoLoja.getText().toString(), localizacaoLoja.getText().toString(), dialog);
-                        listSotre.execute();
-                    }
-                });
-
-                Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
-                cancelBtn.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        imageIsSet = false;
-                        dialog.dismiss();
-                    }
-                });
-            }
-        });**/
-
         Button btn_accept_store = (Button) findViewById(R.id.btn_accept_store);
         btn_accept_store.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -664,43 +622,8 @@ public class AdminActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_limpo, menu);
         return true;
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        String msg = " ";
-        switch (item.getItemId()) {
-            case R.id.action_add:
-                msg = "Add Chat";
-                setClickMenuAddChat();
-                break;
-            case R.id.action_admin:
-                msg = "Admin";
-                break;
-            case R.id.action_definitions:
-                msg = "Defenition";
-                break;
-        }
-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void setClickMenuAddChat() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(AdminActivity.this);
-        View view = getLayoutInflater().inflate(R.layout.dialog_add_chat, null);
-
-        builder.setView(view);
-        final AlertDialog dialog = builder.show();
-
-        final EditText tituloChat = (EditText) view.findViewById(R.id.tituloChat);
-        final EditText descricao_Chat = (EditText) view.findViewById(R.id.descricaoChat);
-        Button addBtn = (Button) view.findViewById(R.id.btn_add_chat);
-        Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
-
     }
 
 }

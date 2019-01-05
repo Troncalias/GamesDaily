@@ -70,7 +70,7 @@
                 android:orientation="horizontal"
                 android:gravity="center_horizontal">
                 <Button
-                    android:id="@+id/button_choose_place"
+                    android:id="@+id/button_verefy_place"
                     android:layout_width="@dimen/dialog_choose_dataloc_button_width"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

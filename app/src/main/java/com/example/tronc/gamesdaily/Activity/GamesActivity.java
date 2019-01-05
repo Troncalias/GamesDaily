@@ -156,7 +156,6 @@ public class GamesActivity extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
-        Button AccessStoresBtn = (Button) view.findViewById(R.id.button_lojas);
     }
 
     public static void openChat(Games games, final Activity mActivity) {
@@ -432,8 +431,6 @@ public class GamesActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()) {
-            case R.id.action_search:
-                return true;
             case R.id.action_sort:
                 setClickMenuSort();
                 return true;

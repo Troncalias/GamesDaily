@@ -1,5 +1,6 @@
 package com.example.tronc.gamesdaily.Activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -7,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.example.tronc.gamesdaily.Notifications.MyNotification;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -31,13 +34,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private SupportMapFragment mMapFragment;
     private GoogleMap mGoogleMaps;
     private Toolbar mToolbar;
+    private static Context mContext;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
+        mContext = this;
         setToolbar();
 
         Intent iin = getIntent();
@@ -93,7 +97,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             mGoogleMaps.addMarker(marker);
             mGoogleMaps.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 18));
+        }else{
+            Toast toast = Toast.makeText(mContext, "Os valores que introduziu para o mapa foram rejeitados\nPorfavor edite estes", Toast.LENGTH_SHORT);
+            toast.show();
         }
+
 
     }
 

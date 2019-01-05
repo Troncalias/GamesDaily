@@ -116,9 +116,6 @@ public class StoresActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_search:
-                setClickMenuSearch();
-                return true;
             case R.id.action_sort:
                 setClickMenuSort();
                 return true;
@@ -191,7 +188,7 @@ public class StoresActivity extends AppCompatActivity {
         return true;
     }
 
-    public static void openGame(Stores stores, Activity mActivity) {
+    public static void openGame(final Stores stores, Activity mActivity) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
         View view = mActivity.getLayoutInflater().inflate(R.layout.dialog_store, null);
 
@@ -208,10 +205,27 @@ public class StoresActivity extends AppCompatActivity {
         nomeTv.setText(stores.getNome());
         final TextView dataInsercaoTv = (TextView) view.findViewById(R.id.moradaTv);
         dataInsercaoTv.setText(stores.getMorada());
-
-
         final TextView ratingTv = (TextView) view.findViewById(R.id.descricaoTv);
         ratingTv.setText(stores.getDescricao());
+
+        final Button loadmap = (Button) view.findViewById(R.id.pretitle_moradaTv);
+        loadmap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nome = stores.getNome();
+                String descricao = stores.getDescricao();
+                String morada = stores.getMorada();
+                StoresActivity.openMap(morada, nome, descricao);
+            }
+        });
+
+        final Button close = (Button) view.findViewById(R.id.button_cancelBt);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 
 
@@ -243,15 +257,6 @@ public class StoresActivity extends AppCompatActivity {
         x.putExtra("descricao", d);
         mContext.startActivity(x);
     }
-
-    /**
-     * private static void setListMensagens(Activity activity) {
-     * ArrayList<Games> contacts = (ArrayList<Games>) new List_Games().getLista_games();
-     * GamesAdapter adapter = new GamesAdapter(activity, contacts, mRefActivity);
-     * rvUtilizadores.setAdapter(adapter);
-     * rvUtilizadores.setLayoutManager(new LinearLayoutManager(activity));
-     * }
-     **/
 
     public static class LoadGames extends AsyncTask<Void, Void, ArrayList<Games>> {
         public Activity mActivity;

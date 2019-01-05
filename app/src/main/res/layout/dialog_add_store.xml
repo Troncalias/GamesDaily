@@ -64,28 +64,36 @@
                 android:minLines="@integer/min_lines_long_edittext"
                 android:textColor="@android:color/white" />
 
-            <LinearLayout
+
+            <EditText
+                android:id="@+id/ruaLoja"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center_horizontal">
-                <Button
-                    android:id="@+id/button_choose_place"
-                    android:layout_width="@dimen/dialog_choose_dataloc_button_width"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="@dimen/dialog_choose_dataloc_button_margin"
-                    style="@style/Widget.AppCompat.Button.Colored"
-                    android:text="Escolher local" />
+                android:gravity="center_horizontal"
+                android:layout_weight="1"
+                android:layout_margin="@dimen/dialog_choose_dataloc_textview_margin"
+                android:hint="Rua da Loja" />
 
-                <TextView
-                    android:id="@+id/lojaTv"
-                    android:layout_width="@dimen/dialog_choose_dataloc_textview_width"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="@dimen/dialog_choose_dataloc_textview_margin"
-                    android:text="Sem local" />
-            </LinearLayout>
+            <EditText
+                android:id="@+id/localidadeLoja"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                android:layout_weight="1"
+                android:layout_margin="@dimen/dialog_choose_dataloc_textview_margin"
+                android:hint="Localidade da Loja "/>
+
+            <Button
+                android:id="@+id/button_verefy_place"
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="@dimen/dialog_choose_dataloc_button_margin"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:text="Verificar Local" />
 
 
             <LinearLayout

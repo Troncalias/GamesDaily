@@ -56,10 +56,13 @@ public class GamesAcceptAdapter extends RecyclerView.Adapter<GamesAcceptAdapter.
             imageView.setImageBitmap(theImage);
         }
         TextView textView = viewHolder.nameTextView;
+        TextView description = viewHolder.descriptionView;
         TextView textView1 = viewHolder.numberPlayers;
         TextView rating = viewHolder.ratingView;
         TextView data = viewHolder.dateView;
+
         textView.setText(myItem.getName());
+        description.setText(myItem.getDescription());
         textView1.setText("Jogadores: " +  myItem.getNumberGamers());
         String textRating = getContext().getString(R.string.pretitle_rating);
         String rate = Float.toString(myItem.getRating());
@@ -103,6 +106,7 @@ public class GamesAcceptAdapter extends RecyclerView.Adapter<GamesAcceptAdapter.
         public TextView numberPlayers;
         public TextView ratingView;
         public TextView dateView;
+        public TextView descriptionView;
         public Button selectButton;
         public Button comentsButton;
         public ImageView imageView;
@@ -111,6 +115,7 @@ public class GamesAcceptAdapter extends RecyclerView.Adapter<GamesAcceptAdapter.
             super(itemView);
 
             nameTextView = (TextView) itemView.findViewById(R.id.game_nameTv);
+            descriptionView = (TextView) itemView.findViewById(R.id.game_descriptionTv);
             numberPlayers = (TextView) itemView.findViewById(R.id.number_playersTv);
             selectButton = (Button) itemView.findViewById(R.id.select_button);
             comentsButton = (Button) itemView.findViewById(R.id.comentarios_button);

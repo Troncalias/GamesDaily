@@ -23,12 +23,11 @@ import java.util.ArrayList;
 public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.ViewHolder> {
     private ArrayList<Games> mList;
     private Context mContext;
-    private ViewHolder contactView;
     private Activity mActivity;
 
     public GamesAdapter(Context mContext, ArrayList<Games> mList, Activity activity) {
         this.mList = mList;
-        this.mContext = mContext;;
+        this.mContext = mContext;
         this.mActivity = activity;
     }
 
@@ -59,10 +58,13 @@ public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.ViewHolder> 
             imageView.setImageBitmap(theImage);
         }
         TextView textView = viewHolder.nameTextView;
+        TextView description = viewHolder.descriptionView;
         TextView textView1 = viewHolder.numberPlayers;
         TextView rating = viewHolder.ratingView;
         TextView data = viewHolder.dateView;
+
         textView.setText(myItem.getName());
+        description.setText(myItem.getDescription());
         textView1.setText("Jogadores: " +  myItem.getNumberGamers());
         String textRating = getContext().getString(R.string.pretitle_rating);
         String rate = Float.toString(myItem.getRating());
@@ -107,6 +109,7 @@ public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.ViewHolder> 
         public TextView numberPlayers;
         public TextView ratingView;
         public TextView dateView;
+        public TextView descriptionView;
         public Button selectButton;
         public Button comentsButton;
         public ImageView imageView;
@@ -116,11 +119,12 @@ public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.ViewHolder> 
 
             nameTextView = (TextView) itemView.findViewById(R.id.game_nameTv);
             numberPlayers = (TextView) itemView.findViewById(R.id.number_playersTv);
-            selectButton = (Button) itemView.findViewById(R.id.select_button);
-            comentsButton = (Button) itemView.findViewById(R.id.comentarios_button);
             ratingView = (TextView) itemView.findViewById(R.id.game_ratingTv);
             dateView = (TextView) itemView.findViewById(R.id.date_insercaoTv);
+            descriptionView = (TextView) itemView.findViewById(R.id.game_descriptionTv);
             imageView = (ImageView) itemView.findViewById(R.id.game_imageView);
+            selectButton = (Button) itemView.findViewById(R.id.select_button);
+            comentsButton = (Button) itemView.findViewById(R.id.comentarios_button);
         }
     }
 }
