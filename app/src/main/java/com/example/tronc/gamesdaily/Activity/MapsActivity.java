@@ -98,7 +98,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             mGoogleMaps.addMarker(marker);
             mGoogleMaps.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 18));
         }else{
-            Toast toast = Toast.makeText(mContext, "Os valores que introduziu para o mapa foram rejeitados\nPorfavor edite estes", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(mContext, "Os valores que introduziu para o mapa foram rejeitados\nPor favor edite estes", Toast.LENGTH_SHORT);
             toast.show();
         }
 

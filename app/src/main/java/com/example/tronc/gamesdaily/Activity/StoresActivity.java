@@ -22,17 +22,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.tronc.gamesdaily.Adapter.GamesAdapter;
 import com.example.tronc.gamesdaily.Adapter.StoresAdapter;
 import com.example.tronc.gamesdaily.Data.MyDB;
 import com.example.tronc.gamesdaily.Fragment.HeaderFragment;
+import com.example.tronc.gamesdaily.Models.Chat;
 import com.example.tronc.gamesdaily.Models.Games;
 import com.example.tronc.gamesdaily.Models.Stores;
+import com.example.tronc.gamesdaily.Models.StoresGames;
+import com.example.tronc.gamesdaily.Notifications.MyNotification;
 import com.example.tronc.gamesdaily.R;
 
 import java.io.ByteArrayInputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class StoresActivity extends AppCompatActivity {
 
@@ -70,7 +76,6 @@ public class StoresActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-
     private void setFragments() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         HeaderFragment f = new HeaderFragment();
@@ -83,12 +88,6 @@ public class StoresActivity extends AppCompatActivity {
 
         @Override
         protected ArrayList<Stores> doInBackground(Void... voids) {
-            /**
-             ArrayList<Stores> listStores = (ArrayList<Stores>) sampleDatabase.geral().loadAllStores();
-             for(int a=0; a<listStores.size(); a++){
-             sampleDatabase.geral().deleteStore(listStores.get(a));
-             }**/
-
             ArrayList<Stores> list = (ArrayList<Stores>) sampleDatabase.geral().loadAllStoresAcepted(true);
             return list;
         }
@@ -105,7 +104,7 @@ public class StoresActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         Bundle extras = getIntent().getExtras();
-        if (extras.getString("KEY").equals("admin")) {
+        if (extras.getInt("Type") == 2) {
             getMenuInflater().inflate(R.menu.menu_admin, menu);
         } else {
             getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -163,23 +162,58 @@ public class StoresActivity extends AppCompatActivity {
 
         final EditText tituloChat = (EditText) view.findViewById(R.id.tituloChat);
         final EditText descricao_Chat = (EditText) view.findViewById(R.id.descricaoChat);
-        Button addBtn = (Button) view.findViewById(R.id.btn_add_chat);
-        Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
 
+        Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        Button addBtn = (Button) view.findViewById(R.id.btn_add_chat);
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                AddChat addchat = new AddChat(tituloChat.getText().toString(), descricao_Chat.getText().toString(), dialog);
+                addchat.execute();
+            }
+        });
     }
 
-    private void setClickMenuSearch() {
+    public class AddChat extends AsyncTask<Void, Void, Boolean> {
+        public String titulo;
+        public String descricao;
+        public AlertDialog dialog;
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(StoresActivity.this);
-        View view = getLayoutInflater().inflate(R.layout.dialog_search, null);
+        public AddChat(String t, String d, AlertDialog di) {
+            titulo = t;
+            descricao = d;
+            dialog = di;
+        }
 
-        builder.setView(view);
-        final AlertDialog dialog = builder.show();
+        @Override
+        protected Boolean doInBackground(Void... voids) {
 
-        final EditText tituloChat = (EditText) view.findViewById(R.id.procurar);
-        Button confirmar = (Button) view.findViewById(R.id.btn_confirm);
-        Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
+            java.text.DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date hoje = new Date();
+            String data = dateFormat.format(hoje);
 
+            //int id_game, String Data,String Titulo, String Descricao
+            Chat chat = new Chat(-1, data, titulo, descricao);
+            sampleDatabase.geral().addChat(chat);
+
+            return true;
+        }
+
+        protected void onPostExecute(Boolean bool){
+            Context context = getApplicationContext();
+            CharSequence text = "Chat Adicionado";
+            int duration = Toast.LENGTH_SHORT;
+
+            MyNotification.addChatNotification(StoresActivity.this, titulo, descricao, getString(R.string.notification_add_chat_title), getApplicationContext());
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+            dialog.dismiss();
+        }
     }
 
     @Override
@@ -229,9 +263,9 @@ public class StoresActivity extends AppCompatActivity {
     }
 
 
-    public static void openGames(Activity mActivity) {
+    public static void openGames(Activity mActivity, Stores store) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-        View view = mActivity.getLayoutInflater().inflate(R.layout.dialog_accept, null);
+        View view = mActivity.getLayoutInflater().inflate(R.layout.dialog_accept_simpler, null);
 
         builder.setView(view);
         final AlertDialog dialog = builder.show();
@@ -242,9 +276,14 @@ public class StoresActivity extends AppCompatActivity {
         rvUtilizadores.addItemDecoration(mDividerItemDecoration);
         TextView textView = (TextView) view.findViewById(R.id.tituloTv);
         Button closeBtn = (Button) view.findViewById(R.id.button_close);
-        Button searchButton = (Button) view.findViewById(R.id.button_search);
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
 
-        LoadGames listGames = new LoadGames(mActivity, sampleDatabase);
+        LoadGames listGames = new LoadGames(mActivity, sampleDatabase, store);
         listGames.execute();
 
     }
@@ -261,21 +300,35 @@ public class StoresActivity extends AppCompatActivity {
     public static class LoadGames extends AsyncTask<Void, Void, ArrayList<Games>> {
         public Activity mActivity;
         public MyDB sampleDatabase;
+        public Stores stores;
 
-        public LoadGames(Activity mActivity, MyDB database) {
+        public LoadGames(Activity mActivity, MyDB database, Stores store) {
             this.sampleDatabase = database;
             this.mActivity = mActivity;
+            this.stores = store;
         }
 
         @Override
         protected ArrayList<Games> doInBackground(Void... voids) {
             ArrayList<Games> listGames = (ArrayList<Games>) sampleDatabase.geral().loadAllGamesAcepted(true);
-            return listGames;
+            ArrayList<StoresGames> listAssociados = (ArrayList<StoresGames>) sampleDatabase.geral().loadSotresGamesByStore(stores.getId());
+
+            ArrayList<Games> list = new ArrayList<Games>();
+
+            for(int i=0;i<listGames.size(); i++){
+                for(int y=0; y<listAssociados.size(); y++){
+                    if(listGames.get(i).getId() == listAssociados.get(y).getGame_id()){
+                        list.add(listGames.get(i));
+                        y=listAssociados.size();
+                    }
+                }
+            }
+            return list;
         }
 
         @Override
         protected void onPostExecute(ArrayList<Games> games) {
-            GamesAdapter adapter = new GamesAdapter(mActivity, games, mRefActivity);
+            GamesAdapter adapter = new GamesAdapter(mActivity, games, mRefActivity, user);
             rvUtilizadores.setAdapter(adapter);
             rvUtilizadores.setLayoutManager(new LinearLayoutManager(mActivity));
         }

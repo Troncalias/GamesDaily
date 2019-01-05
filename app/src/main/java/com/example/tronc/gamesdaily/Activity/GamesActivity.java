@@ -3,6 +3,7 @@ package com.example.tronc.gamesdaily.Activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.arch.persistence.room.Room;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -32,6 +33,7 @@ import com.example.tronc.gamesdaily.Models.Chat;
 import com.example.tronc.gamesdaily.Models.Favoritos;
 import com.example.tronc.gamesdaily.Models.Games;
 import com.example.tronc.gamesdaily.Models.Mensage;
+import com.example.tronc.gamesdaily.Notifications.MyNotification;
 import com.example.tronc.gamesdaily.R;
 
 import java.io.ByteArrayInputStream;
@@ -52,11 +54,13 @@ public class GamesActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private static RecyclerView rvUtilizadores;
     private Bundle extras;
+    private static Context mContext;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_games);
         mRefActivity = this;
+        mContext = this;
 
         extras = getIntent().getExtras();
         user = extras.getString("KEY");
@@ -98,7 +102,7 @@ public class GamesActivity extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(ArrayList<Games> games){//Executa como se fosse na principal
-            gAdapterGames = new GamesAdapter(mRefActivity.getApplicationContext(), games, mRefActivity);
+            gAdapterGames = new GamesAdapter(mRefActivity.getApplicationContext(), games, mRefActivity, user);
             mRecyclerView = findViewById(R.id.rvGames);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(mRefActivity.getApplicationContext(), LinearLayoutManager.VERTICAL, false));
             mRecyclerView.setAdapter(gAdapterGames);
@@ -106,7 +110,7 @@ public class GamesActivity extends AppCompatActivity {
         }
     }
 
-    public static void openGame(Games game, final Activity mActivity) {
+    public static void openGame(Games game, final Activity mActivity, final String user) {
         final AlertDialog.Builder builder =  new AlertDialog.Builder(mActivity);
         View view = mActivity.getLayoutInflater().inflate(R.layout.dialog_game, null);
 
@@ -158,7 +162,7 @@ public class GamesActivity extends AppCompatActivity {
         });
     }
 
-    public static void openChat(Games games, final Activity mActivity) {
+    public static void openChat(Games games, final Activity mActivity, final String user) {
         AlertDialog.Builder builder =  new AlertDialog.Builder(mActivity);
         View view = mActivity.getLayoutInflater().inflate(R.layout.dialog_accept, null);
 
@@ -202,8 +206,13 @@ public class GamesActivity extends AppCompatActivity {
         Button aceitar = (Button) view.findViewById(R.id.btn_add_chat);
         aceitar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                AddMensage addm = new AddMensage(mActivity, sampleDatabase, content.getText().toString(), id, user, gAdapterMensages, dialog);
-                addm.execute();
+                if(content.getText().toString().equals("")){
+                    Toast toast = Toast.makeText(mContext, "Introduza uma mensagem", Toast.LENGTH_SHORT);
+                    toast.show();
+                }else{
+                    AddMensage addm = new AddMensage(mActivity, sampleDatabase, content.getText().toString(), id, user, gAdapterMensages, dialog);
+                    addm.execute();
+                }
             }
         });
 
@@ -420,7 +429,7 @@ public class GamesActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         extras = getIntent().getExtras();
-        if(extras.getString("KEY").equals("admin")) {
+        if(extras.getInt("Type") == 2) {
             getMenuInflater().inflate(R.menu.menu_admin, menu);
         }else{
             getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -534,9 +543,58 @@ public class GamesActivity extends AppCompatActivity {
 
         final EditText tituloChat = (EditText) view.findViewById(R.id.tituloChat);
         final EditText descricao_Chat = (EditText) view.findViewById(R.id.descricaoChat);
-        Button addBtn = (Button) view.findViewById(R.id.btn_add_chat);
-        Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
 
+        Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        Button addBtn = (Button) view.findViewById(R.id.btn_add_chat);
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                AddChat addchat = new AddChat(tituloChat.getText().toString(), descricao_Chat.getText().toString(), dialog);
+                addchat.execute();
+            }
+        });
+    }
+
+    public class AddChat extends AsyncTask<Void, Void, Boolean> {
+        public String titulo;
+        public String descricao;
+        public AlertDialog dialog;
+
+        public AddChat(String t, String d, AlertDialog di) {
+            titulo = t;
+            descricao = d;
+            dialog = di;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+
+            java.text.DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date hoje = new Date();
+            String data = dateFormat.format(hoje);
+
+            //int id_game, String Data,String Titulo, String Descricao
+            Chat chat = new Chat(-1, data, titulo, descricao);
+            sampleDatabase.geral().addChat(chat);
+
+            return true;
+        }
+
+        protected void onPostExecute(Boolean bool){
+            Context context = getApplicationContext();
+            CharSequence text = "Chat Adicionado";
+            int duration = Toast.LENGTH_SHORT;
+
+            MyNotification.addChatNotification(GamesActivity.this, titulo, descricao, getString(R.string.notification_add_chat_title), getApplicationContext());
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+            dialog.dismiss();
+        }
     }
 
     @Override

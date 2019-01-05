@@ -1,6 +1,5 @@
 package com.example.tronc.gamesdaily.Adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,22 +12,21 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.tronc.gamesdaily.Activity.GamesActivity;
+import com.example.tronc.gamesdaily.Activity.DefenitionActivity;
 import com.example.tronc.gamesdaily.Models.Games;
 import com.example.tronc.gamesdaily.R;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 
-public class GamesEditAdapter extends RecyclerView.Adapter<GamesEditAdapter.ViewHolder> {
+public class GamesStoresAdapter extends RecyclerView.Adapter<GamesStoresAdapter.ViewHolder> {
     private ArrayList<Games> mList;
     private Context mContext;
-    private Activity mActivity;
+    private boolean add = true;
 
-    public GamesEditAdapter(Context mContext, ArrayList<Games> mList, Activity activity) {
+    public GamesStoresAdapter(Context mContext, ArrayList<Games> mList){
         this.mList = mList;
         this.mContext = mContext;
-        this.mActivity = activity;
     }
 
     private Context getContext() {
@@ -37,12 +35,12 @@ public class GamesEditAdapter extends RecyclerView.Adapter<GamesEditAdapter.View
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public GamesStoresAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         Context context = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate the custom layout
-        View views = inflater.inflate(R.layout.item_game, viewGroup, false);
+        View views = inflater.inflate(R.layout.item_game_add_to_store, viewGroup, false);
 
         // Return a new holder instance
         return new ViewHolder(views);
@@ -77,14 +75,15 @@ public class GamesEditAdapter extends RecyclerView.Adapter<GamesEditAdapter.View
         String textData = getContext().getString(R.string.pretitle_data_insercao);
         data.setText(textData + " " + mydatahora);
 
-        Button selectButton = viewHolder.selectButton;
-        selectButton.setOnClickListener(new View.OnClickListener() {
+        Button confirmar = viewHolder.selectButton;
+        if(add == false){
+            confirmar.setText("Remove");
+        }
+        confirmar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                GamesActivity.openGame(myItem, mActivity);
-
+                DefenitionActivity.decisionGame(myItem, add);
             }
         });
-        Button acept = viewHolder.comentsButton;
     }
 
     @Override
@@ -92,6 +91,15 @@ public class GamesEditAdapter extends RecyclerView.Adapter<GamesEditAdapter.View
         return mList.size();
     }
 
+    public void setList(ArrayList<Games> list){
+        mList.clear();
+        mList.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public void reversAdd(boolean add){
+        this.add = add;
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView nameTextView;
@@ -100,17 +108,13 @@ public class GamesEditAdapter extends RecyclerView.Adapter<GamesEditAdapter.View
         public TextView dateView;
         public TextView descriptionView;
         public Button selectButton;
-        public Button comentsButton;
         public ImageView imageView;
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-
+        public ViewHolder(View views) {
+            super(views);
             nameTextView = (TextView) itemView.findViewById(R.id.game_nameTv);
             descriptionView = (TextView) itemView.findViewById(R.id.game_descriptionTv);
             numberPlayers = (TextView) itemView.findViewById(R.id.number_playersTv);
             selectButton = (Button) itemView.findViewById(R.id.select_button);
-            comentsButton = (Button) itemView.findViewById(R.id.comentarios_button);
             ratingView = (TextView) itemView.findViewById(R.id.game_ratingTv);
             dateView = (TextView) itemView.findViewById(R.id.date_insercaoTv);
             imageView = (ImageView) itemView.findViewById(R.id.game_imageView);

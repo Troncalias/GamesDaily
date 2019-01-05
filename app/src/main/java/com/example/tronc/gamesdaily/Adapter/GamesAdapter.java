@@ -24,11 +24,13 @@ public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.ViewHolder> 
     private ArrayList<Games> mList;
     private Context mContext;
     private Activity mActivity;
+    private String user;
 
-    public GamesAdapter(Context mContext, ArrayList<Games> mList, Activity activity) {
+    public GamesAdapter(Context mContext, ArrayList<Games> mList, Activity activity, String user) {
         this.mList = mList;
         this.mContext = mContext;
         this.mActivity = activity;
+        this.user = user;
     }
 
     private Context getContext() {
@@ -80,14 +82,14 @@ public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.ViewHolder> 
         Button selectButton = viewHolder.selectButton;
         selectButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                GamesActivity.openGame(myItem, mActivity);
+                GamesActivity.openGame(myItem, mActivity, user);
 
             }
         });
         Button comentsButton = viewHolder.comentsButton;
         comentsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                GamesActivity.openChat(myItem, mActivity);
+                GamesActivity.openChat(myItem, mActivity, user);
 
             }
         });

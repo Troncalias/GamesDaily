@@ -68,7 +68,7 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.ViewHolder
         textView1.setText(myItem.getMorada());
         textView2.setText(myItem.getDescricao());
 
-        String mydata = myItem.getDataInsercao().split(" ")[0];
+        final String mydata = myItem.getDataInsercao().split(" ")[0];
         String myhora = myItem.getDataInsercao().split(" ")[1];
         myhora = myhora.split(":")[0] + ":" + myhora.split(":")[1];
         String mydatahora = mydata + " " + myhora;
@@ -86,7 +86,7 @@ public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.ViewHolder
         Button slected = viewHolder.comentsButton;
         slected.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                StoresActivity.openGames(mActivity);
+                StoresActivity.openGames(mActivity, myItem);
             }
         });
         Button mapa = viewHolder.mapaButton;

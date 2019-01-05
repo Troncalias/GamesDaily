@@ -15,11 +15,12 @@ import com.example.tronc.gamesdaily.Models.Favoritos;
 import com.example.tronc.gamesdaily.Models.Games;
 import com.example.tronc.gamesdaily.Models.Mensage;
 import com.example.tronc.gamesdaily.Models.Stores;
+import com.example.tronc.gamesdaily.Models.StoresGames;
 import com.example.tronc.gamesdaily.Models.User;
 
 import java.util.List;
 
-@Database(entities =  {Games.class, User.class, Stores.class, Favoritos.class, Avaliacao.class, Chat.class, Mensage.class}, version = 1)
+@Database(entities =  {Games.class, User.class, Stores.class, Favoritos.class, Avaliacao.class, Chat.class, Mensage.class, StoresGames.class}, version = 1)
 public abstract class MyDB extends RoomDatabase {
     public abstract geralInterface geral();
 
@@ -70,7 +71,6 @@ public abstract class MyDB extends RoomDatabase {
         @Query("SELECT COUNT(id) FROM Games")
         public int getSizeGames();
 
-
         @Delete
         void deleteGame(Games game);
 
@@ -105,35 +105,6 @@ public abstract class MyDB extends RoomDatabase {
 
         /**
          *  Funções que controlam o acesso a base de dados
-         *  para a tabela Favoritos
-         */
-        @Insert(onConflict = OnConflictStrategy.REPLACE)
-        public void addFavoritos(Favoritos favorito);
-
-        @Query("SELECT * FROM Favoritos WHERE username=:name")
-        public List<Favoritos> loadFavesByUser(String name);
-
-        @Query("SELECT * FROM Favoritos WHERE games_id=:game")
-        public List<Favoritos> loadFavesByGame(int game);
-
-        @Query("SELECT * FROM Favoritos WHERE username = :username AND games_id = :id")
-        public List<Favoritos> getIfExistFavorito(String username, int id);
-
-        @Delete
-        public void deleteFavoritos(Favoritos favoritos);
-
-        /**
-         *
-         *
-         **/
-        @Insert(onConflict = OnConflictStrategy.REPLACE)
-        public void addAvaliacao(Avaliacao avaliacao);
-
-        @Query("SELECT * FROM Avaliacao WHERE game_pk=:gameid")
-        public List<Avaliacao> getGameRate(int gameid);
-
-        /**
-         *  Funções que controlam o acesso a base de dados
          *  para a tabela Chats
          */
         @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -161,17 +132,49 @@ public abstract class MyDB extends RoomDatabase {
         @Query("SELECT COUNT(id) FROM Mensagens WHERE id_chat=:id_chat")
         public int getSizeMensagensChatEspecifico(int id_chat);
 
+        /**
+         *  Funções que controlam o acesso a base de dados
+         *  para a tabela Avaliacao
+         */
+        @Insert(onConflict = OnConflictStrategy.REPLACE)
+        public void addAvaliacao(Avaliacao avaliacao);
+
+        @Query("SELECT * FROM Avaliacao WHERE game_pk=:gameid")
+        public List<Avaliacao> getGameRate(int gameid);
 
         /**
          *  Funções que controlam o acesso a base de dados
-         *  para a tabela News especificas da App
+         *  para a tabela Favoritos
          */
-        /**
-         @Insert(onConflict = OnConflictStrategy.REPLACE)
-         public void addNews(News news);
+        @Insert(onConflict = OnConflictStrategy.REPLACE)
+        public void addFavoritos(Favoritos favorito);
 
-         @Query("SELECT * FROM News")
-         public List<News> loadAllNews();
-         **/
+        @Query("SELECT * FROM Favoritos WHERE username=:name")
+        public List<Favoritos> loadFavesByUser(String name);
+
+        @Query("SELECT * FROM Favoritos WHERE games_id=:game")
+        public List<Favoritos> loadFavesByGame(int game);
+
+        @Query("SELECT * FROM Favoritos WHERE username = :username AND games_id = :id")
+        public List<Favoritos> getIfExistFavorito(String username, int id);
+
+        @Delete
+        public void deleteFavoritos(Favoritos favoritos);
+
+        /**
+         *  Funções que controlam o acesso a base de dados
+         *  para a tabela StoresGames
+         */
+        @Insert(onConflict = OnConflictStrategy.REPLACE)
+        public void addStoresGame(StoresGames games);
+
+        @Query("SELECT * FROM StoresGames WHERE store_id=:id_store AND game_id=:id_game")
+        public StoresGames getStoresGame(int id_game, int id_store);
+
+        @Query("SELECT * FROM StoresGames WHERE store_id=:id")
+        public List<StoresGames> loadSotresGamesByStore(int id);
+
+        @Delete
+        public void deleteStoresGames(StoresGames games);
     }
 }

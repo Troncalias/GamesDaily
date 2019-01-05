@@ -56,6 +56,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class NewsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener , Callback<AppNewsContainer>{
     private MyDB sampleDatabase;
     private String user;
+    private int type;
     private static Activity mRefActivity;
     private Toolbar mToolbar;
     private RecyclerView mRecyclerView;
@@ -75,6 +76,7 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
         mRefActivity = this;
         extras = getIntent().getExtras();
         user = extras.getString("KEY");
+        type = extras.getInt("Type");
         sampleDatabase = Room.databaseBuilder(getApplicationContext(), MyDB.class, this.getString(R.string.database_value)).build();
 
         setToolbar();
@@ -213,9 +215,9 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (extras.getInt("Type") == 2) {
-            getMenuInflater().inflate(R.menu.menu_admin, menu);
+            getMenuInflater().inflate(R.menu.menu_news_admin, menu);
         } else {
-            getMenuInflater().inflate(R.menu.menu_main, menu);
+            getMenuInflater().inflate(R.menu.menu_news_main, menu);
         }
         return true;
 
@@ -225,9 +227,6 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_sort:
-                setClickMenuSort();
-                return true;
             case R.id.action_add:
                 setClickMenuAddChat();
                 return true;
@@ -244,22 +243,6 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
             default:
                 return false;
         }
-    }
-
-    private void setClickMenuSort() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(NewsActivity.this);
-        View view = getLayoutInflater().inflate(R.layout.dialog_order, null);
-
-        builder.setView(view);
-        final AlertDialog dialog = builder.show();
-
-        Button idBtn = (Button) view.findViewById(R.id.btn_orderByRating);
-        Button dateBtn = (Button) view.findViewById(R.id.btn_orderStanderd);
-        Button nameBtn = (Button) view.findViewById(R.id.btn_orderByName);
-        Button confirmarBtn = (Button) view.findViewById(R.id.btn_confirmar);
-        Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
-
     }
 
     /**
@@ -329,33 +312,6 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private void setClickMenuSearch() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(NewsActivity.this);
-        View view = getLayoutInflater().inflate(R.layout.dialog_search, null);
-
-        builder.setView(view);
-        final AlertDialog dialog = builder.show();
-
-        final EditText tituloChat = (EditText) view.findViewById(R.id.procurar);
-        Button confirmar = (Button) view.findViewById(R.id.btn_confirm);
-        confirmar.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                /**
-                 * Realizar o sort
-                 * (Por Fazer)
-                 */
-            }
-        });
-        Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-    }
 
 
     @Override
@@ -364,26 +320,31 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_games:
                 Intent i = new Intent(NewsActivity.this, GamesActivity.class);
                 i.putExtra("KEY", user);
+                i.putExtra("Type", type);
                 startActivity(i);
                 break;
             case R.id.nav_chat:
                 Intent e = new Intent(NewsActivity.this, ChatActivity.class);
                 e.putExtra("KEY", user);
+                e.putExtra("Type", type);
                 startActivity(e);
                 break;
             case R.id.nav_store:
                 Intent x = new Intent(NewsActivity.this, StoresActivity.class);
                 x.putExtra("KEY", user);
+                x.putExtra("Type", type);
                 startActivity(x);
                 break;
             case R.id.nav_fav:
                 Intent g = new Intent(NewsActivity.this, FavoritesActivity.class);
                 g.putExtra("KEY", user);
+                g.putExtra("Type", type);
                 startActivity(g);
                 break;
             case R.id.nav_exit:
                 Intent j = new Intent(NewsActivity.this, MainActivity.class);
                 j.putExtra("KEY", user);
+                j.putExtra("Type", type);
                 startActivity(j);
                 break;
         }

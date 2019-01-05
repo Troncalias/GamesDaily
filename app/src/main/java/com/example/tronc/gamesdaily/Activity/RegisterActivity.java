@@ -61,16 +61,18 @@ public class RegisterActivity extends Activity {
         mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mPasswordView.getText().toString().equals(mPasswordConfirm.getText().toString())){
-                    RegistUser regist = new RegistUser(mUserView.getText().toString(), mUserName.getText().toString(),mPasswordView.getText().toString(), mEmailView.getText().toString());
-                    regist.execute();
-                }else{
+                if(!mPasswordView.getText().toString().equals(mPasswordConfirm.getText().toString()) || mUserView.getText().toString().equals("") ||
+                        mUserName.getText().toString().equals("") || mPasswordView.getText().toString().equals("") ||
+                        mEmailView.getText().toString().equals("")){
                     Context context = getApplicationContext();
-                    CharSequence text = "Password não iguais!";
+                    CharSequence text = "Valores introduzidos não aceites";
                     int duration = Toast.LENGTH_SHORT;
 
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
+                }else{
+                    RegistUser regist = new RegistUser(mUserView.getText().toString(), mUserName.getText().toString(),mPasswordView.getText().toString(), mEmailView.getText().toString());
+                    regist.execute();
                 }
             }
         });

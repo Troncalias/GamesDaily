@@ -239,14 +239,6 @@ public class AdminActivity extends AppCompatActivity {
 
         @Override
         protected ArrayList<Games> doInBackground(Void... voids) {
-            java.text.DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-            Date hoje = new Date();
-            String data = dateFormat.format(hoje);
-            //String name, String publicher, String description, String date, byte[] imagem, int numberGamers, float rating, boolean acepted
-            Games game1 = new Games("Tests 1", "Pub1", "Descrpt1", data, null, 0, 0, false);
-            Games game2 = new Games("Tests 2", "Pub1", "Descrpt1", data, null, 0, 0, false);
-            sampleDatabase.geral().addGame(game1);
-            sampleDatabase.geral().addGame(game2);
             ArrayList<Games> list = (ArrayList<Games>) sampleDatabase.geral().loadAllGamesAcepted(false);
             return list;
         }
@@ -333,13 +325,6 @@ public class AdminActivity extends AppCompatActivity {
 
         @Override
         protected ArrayList<Stores> doInBackground(Void... voids) {
-            int i = sampleDatabase.geral().getSizeStores();
-            i++;    String y1 = String.valueOf(i);
-            i++;    String y2 = String.valueOf(i);
-            Stores stores = new Stores("Game Replay " + y1, "Game Replay", "Loja de Jogos Steam", "20/10/2019 10:00", null, "admin", false);
-            sampleDatabase.geral().addStore(stores);
-            stores = new Stores("Games Paços " + y2, "Rua Caminhos de S. Tiago, Ferreira", "Loja de Jogos Local", "30/1/2018 10:00", null, "admin", false);
-            sampleDatabase.geral().addStore(stores);
             ArrayList<Stores> list = (ArrayList<Stores>) sampleDatabase.geral().loadAllStoresAcepted(false);
             return list;
         }
@@ -515,7 +500,7 @@ public class AdminActivity extends AppCompatActivity {
     }
 
     public static void RemoveUser(User myItem) {
-        if(!myItem.getUsername().equals(extras.getString("KEY")) || !myItem.getUsername().equals("Admin")){
+        if(!myItem.getUsername().equals(extras.getString("KEY")) && !myItem.getUsername().equals("Admin")){
             RemoveUser listUser = new RemoveUser(myItem, sampleDatabaseStatic, gAdapterUsers);
             listUser.execute();
         }

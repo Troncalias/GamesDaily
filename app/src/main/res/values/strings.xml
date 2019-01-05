@@ -1,6 +1,6 @@
 <resources>
     <!--String whid name of database-->
-    <string name="database_value">DataBase-2</string>
+    <string name="database_value">DataBase-v1</string>
 
     <string name="app_name">Games&amp;News</string>
     <string name="title_activity_login">Sign in</string>

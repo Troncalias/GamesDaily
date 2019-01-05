@@ -25,7 +25,7 @@
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
-            <EditText
+            <TextView
                 android:id="@+id/nomeUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

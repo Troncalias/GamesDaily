@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "171dddc29d8112e178db37ec6f0eb49c",
+    "identityHash": "913ca120c41b21b01cf9fa1ca56c3173",
     "entities": [
       {
         "tableName": "Games",
@@ -399,11 +399,61 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "StoresGames",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`game_id` INTEGER NOT NULL, `store_id` INTEGER NOT NULL, PRIMARY KEY(`game_id`, `store_id`), FOREIGN KEY(`store_id`) REFERENCES `Stores`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`game_id`) REFERENCES `Games`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "game_id",
+            "columnName": "game_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "store_id",
+            "columnName": "store_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "game_id",
+            "store_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "Stores",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "store_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "Games",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "game_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"171dddc29d8112e178db37ec6f0eb49c\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"913ca120c41b21b01cf9fa1ca56c3173\")"
     ]
   }
 }
