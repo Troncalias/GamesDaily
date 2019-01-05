@@ -6,6 +6,10 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+
+/**
+ * Class que permite estruturar as informações de cada utilizador
+ */
 @Entity( tableName = "User")
 public class User {
     @NonNull

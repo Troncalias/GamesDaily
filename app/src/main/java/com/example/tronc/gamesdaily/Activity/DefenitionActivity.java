@@ -47,9 +47,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class DefenitionActivity extends AppCompatActivity {
-    /**
-     *  Constante que guarda o ID do request do imagepicker
-     */
     private final int IMAGE_PICKER_REQUEST = 100;
     private static MyDB sampleDatabase;
     private static GamesStoresAdapter gAdapterGames;
@@ -61,17 +58,8 @@ public class DefenitionActivity extends AppCompatActivity {
     private static boolean Estado = true;
     private static Context mContext;
 
-    /**
-     * Variavel que indica se uma imagem foi escolhida
-     */
     private boolean imageIsSet;
-    /**
-     * Variavel que guarda a imagem escolhida pelo utilizador ao adicionar anime ou loja
-     */
     private Uri imageUri;
-    /**
-     * Variavel que guarda a imagem no seu estado original
-     */
     private ImageView imageView;
     private Toolbar mToolbar;
 
@@ -79,6 +67,9 @@ public class DefenitionActivity extends AppCompatActivity {
     private static User utilizador;
     private static Stores stores;
 
+    /**
+     * Funções que permitem criar esta atividade
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -159,8 +150,9 @@ public class DefenitionActivity extends AppCompatActivity {
     }
 
 
-
-
+    /**
+     * Funções que executão nesta atividade
+     */
     private void setButtonEditUser() {
         Button editUser = (Button) findViewById(R.id.btn_edit_user);
         editUser.setOnClickListener(new View.OnClickListener() {
@@ -265,9 +257,6 @@ public class DefenitionActivity extends AppCompatActivity {
             Dialog.dismiss();
         }
     }
-
-
-
 
     private void setButtonAddStore() {
         Button addStore = (Button) findViewById(R.id.btn_add_storeD);
@@ -383,9 +372,6 @@ public class DefenitionActivity extends AppCompatActivity {
         }
     }
 
-
-
-
     private void setButtonEditStore() {
         final Button editStore = (Button) findViewById(R.id.btn_edit_storeD);
         editStore.setOnClickListener(new View.OnClickListener() {
@@ -489,9 +475,6 @@ public class DefenitionActivity extends AppCompatActivity {
         }
     }
 
-
-
-
     private void setButtonAddGames() {
         Button addGames = (Button) findViewById(R.id.btn_add_gamesD);
         addGames.setOnClickListener(new View.OnClickListener() {
@@ -587,9 +570,6 @@ public class DefenitionActivity extends AppCompatActivity {
             Dialog.dismiss();
         }
     }
-
-
-
 
     private void setButtonEditGames() {
         Button editGames = (Button) findViewById(R.id.btn_edit_gamesD);
@@ -788,8 +768,6 @@ public class DefenitionActivity extends AppCompatActivity {
         }
     }
 
-
-
     private void openGallery() {
         MainActivity.requestStoragePermissions(mRefActivity);
 
@@ -819,6 +797,11 @@ public class DefenitionActivity extends AppCompatActivity {
         mContext.startActivity(x);
     }
 
+    /**
+     * Funções que permitem criar a barra
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_limpo, menu);

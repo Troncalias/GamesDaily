@@ -6,6 +6,9 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+/**
+ * Class que permite defenir o formato que cada mensagem terá
+ */
 @Entity(tableName = "Mensagens")
 public class Mensage {
     @NonNull

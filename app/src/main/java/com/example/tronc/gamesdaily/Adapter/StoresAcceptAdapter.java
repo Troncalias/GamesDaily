@@ -20,6 +20,9 @@ import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Adapter que permite realizar a aceitação ou regeição de Stores
+ */
 public class StoresAcceptAdapter extends RecyclerView.Adapter<StoresAcceptAdapter.ViewHolder> {
     private List<Stores> mList;
     private Context mContext;

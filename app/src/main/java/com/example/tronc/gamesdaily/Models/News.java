@@ -6,6 +6,9 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+/**
+ * Class usada para defenir o formato que cada noticia terá
+ */
 @Entity(tableName = "News")
 public class News {
 

@@ -24,6 +24,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * Atividade que permite o login do user a aplicação
+ */
 public class LoginActivity extends AppCompatActivity {
 
     //Base de dados completa

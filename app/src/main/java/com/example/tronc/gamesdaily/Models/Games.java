@@ -6,6 +6,9 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+/**
+ * Class que serve como estrutura para guradar todas as informações dos Games
+ */
 @Entity(tableName = "Games")
 public class Games {
     @NonNull

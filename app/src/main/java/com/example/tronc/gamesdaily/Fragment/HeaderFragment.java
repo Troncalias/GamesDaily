@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import com.example.tronc.gamesdaily.R;
 
+/**
+ * Class que executa o fragmento necessário para apresentar o nome da aplicação por actividade
+ */
 public class HeaderFragment extends Fragment {
     private Context mContext;
     private TextView myText;

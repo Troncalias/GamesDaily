@@ -69,6 +69,10 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
     private List<Integer> ids = new ArrayList<>();
     private int idPosition = 0;
 
+    /**
+     * Funções que executão para iniciar a aplicação
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,7 +121,6 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
     }
 
-    //Lista original
     private void setList() {
         nAdapter = new NewsAdapter(this, ListNews);
         mRecyclerView = findViewById(R.id.rvGames);
@@ -126,7 +129,6 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
     }
 
-    //Uso da API
 
     /**
      * Uso da API
@@ -203,7 +205,7 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
 
 
     /**
-     * Barra de menu
+     * Funções que executão com as barras de navegação
      * @return
      */
     @Override
@@ -245,9 +247,6 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    /**
-     * Função que executa quando o utlizador deseja realizar a adição de uma chat na app
-     */
     private void setClickMenuAddChat() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(NewsActivity.this);
@@ -311,8 +310,6 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
             dialog.dismiss();
         }
     }
-
-
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

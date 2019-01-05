@@ -19,6 +19,10 @@ import com.example.tronc.gamesdaily.R;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 
+/**
+ * Adapter que apresenta em lista as informações de cada user resistados na aplicação
+ * e permite executar a remução deste ou permitir ou remover a opção de executar como administrador
+ */
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     private ArrayList<User> mList;

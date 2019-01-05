@@ -6,6 +6,9 @@ import android.os.AsyncTask;
 
 import com.example.tronc.gamesdaily.R;
 
+/**
+ * Class que contêm a função de realizar um tipo de "Loding" quando o utlizador realiza o Login ou Registo
+ */
 public class LoadingAsyncTask extends AsyncTask<String, String, String> {
 
     private Context c;

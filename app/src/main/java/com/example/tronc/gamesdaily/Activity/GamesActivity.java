@@ -56,6 +56,9 @@ public class GamesActivity extends AppCompatActivity {
     private Bundle extras;
     private static Context mContext;
 
+    /**
+     * Funções que servem para iniciar a Actividade
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_games);
@@ -110,6 +113,9 @@ public class GamesActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Funções que permitem executar as funções especificas desta atividade
+     */
     public static void openGame(Games game, final Activity mActivity, final String user) {
         final AlertDialog.Builder builder =  new AlertDialog.Builder(mActivity);
         View view = mActivity.getLayoutInflater().inflate(R.layout.dialog_game, null);
@@ -426,6 +432,9 @@ public class GamesActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Funções que servem para o menu
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         extras = getIntent().getExtras();
@@ -552,8 +561,13 @@ public class GamesActivity extends AppCompatActivity {
         Button addBtn = (Button) view.findViewById(R.id.btn_add_chat);
         addBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                AddChat addchat = new AddChat(tituloChat.getText().toString(), descricao_Chat.getText().toString(), dialog);
-                addchat.execute();
+                if(tituloChat.getText().toString().equals("") || descricao_Chat.getText().toString().equals("")){
+                    Toast toast = Toast.makeText(mContext, "Os valores que introduziu estão incorretos", Toast.LENGTH_SHORT);
+                    toast.show();
+                }else{
+                    AddChat addchat = new AddChat(tituloChat.getText().toString(), descricao_Chat.getText().toString(), dialog);
+                    addchat.execute();
+                }
             }
         });
     }

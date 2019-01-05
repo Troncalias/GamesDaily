@@ -9,6 +9,9 @@ import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+/**
+ * Class que funciona como um registo de Games que um utlizador quer aceder com maior facilidade
+ */
 @Entity(primaryKeys = {"username","games_id"},
         indices = {@Index(value = {"username","games_id"})},
         foreignKeys =  {@ForeignKey(entity = User.class, parentColumns = "username", childColumns = "username"),

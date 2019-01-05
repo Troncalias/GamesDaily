@@ -44,12 +44,17 @@ public class FavoritesActivity extends AppCompatActivity {
     private GamesAdapter gAdapter;
     private Bundle extras;
     private MyDB sampleDatabase;
+    private Context mContext;
 
+    /**
+     * Funç~eos que iniciam a aplicação, executa as funções na actividade Games
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorites);
         mRefActivity = this;
+        mContext = this;
 
         extras = getIntent().getExtras();
         user = extras.getString("KEY");
@@ -110,6 +115,9 @@ public class FavoritesActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Funções que servem para a barra de tarefas
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         Bundle extras = getIntent().getExtras();
@@ -252,8 +260,13 @@ public class FavoritesActivity extends AppCompatActivity {
         Button addBtn = (Button) view.findViewById(R.id.btn_add_chat);
         addBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                AddChat addchat = new AddChat(tituloChat.getText().toString(), descricao_Chat.getText().toString(), dialog);
-                addchat.execute();
+                if(tituloChat.getText().toString().equals("") || descricao_Chat.getText().toString().equals("")){
+                    Toast toast = Toast.makeText(mContext, "Os valores que introduziu estão incorretos", Toast.LENGTH_SHORT);
+                    toast.show();
+                }else{
+                    AddChat addchat = new AddChat(tituloChat.getText().toString(), descricao_Chat.getText().toString(), dialog);
+                    addchat.execute();
+                }
             }
         });
     }

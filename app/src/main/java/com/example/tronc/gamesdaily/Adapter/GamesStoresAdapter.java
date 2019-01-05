@@ -19,6 +19,9 @@ import com.example.tronc.gamesdaily.R;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 
+/**
+ * Adapter que permite realizar a associação e Stores e Games por cada loja
+ */
 public class GamesStoresAdapter extends RecyclerView.Adapter<GamesStoresAdapter.ViewHolder> {
     private ArrayList<Games> mList;
     private Context mContext;

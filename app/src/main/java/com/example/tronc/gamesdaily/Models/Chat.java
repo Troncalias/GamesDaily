@@ -8,6 +8,10 @@ import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 
+/**
+ * Class que defene os formato que os Chats da aplicação terão
+ * se id_game = -1 significa que este não está associado a nenhum jogo
+ */
 @Entity(tableName = "Chats")
 public class Chat {
 

@@ -25,6 +25,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * Atividade que regista o utliazador e o admin caso este ainda não exista
+ */
 public class RegisterActivity extends Activity {
     //Base de dados completa
     private MyDB sampleDatabase;

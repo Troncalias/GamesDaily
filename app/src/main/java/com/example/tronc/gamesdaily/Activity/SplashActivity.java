@@ -8,6 +8,9 @@ import android.view.WindowManager;
 
 import com.example.tronc.gamesdaily.R;
 
+/**
+ * Actividade que apresenta a imagem original no inicio da app
+ */
 public class SplashActivity extends AppCompatActivity {
 
     @Override

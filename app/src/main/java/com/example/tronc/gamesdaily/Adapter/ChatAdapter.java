@@ -16,6 +16,9 @@ import com.example.tronc.gamesdaily.R;
 
 import java.util.ArrayList;
 
+/**
+ * Adapter que apresenta todos os Chats que não estou associados a um Game
+ */
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
     private ArrayList<Chat> mList;
     private Context mContext;

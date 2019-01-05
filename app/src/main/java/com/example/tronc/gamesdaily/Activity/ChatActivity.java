@@ -50,6 +50,10 @@ public class ChatActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private static Context mContext;
 
+    /***
+     * Funções que servem para cira a atividade
+     * @param savedInstanceState
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
@@ -100,6 +104,12 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Funções que executáo na aplicação
+     * @param myItem
+     * @param mActivity
+     * @param user
+     */
     public static void openChat(final Chat myItem, final Activity mActivity, final String user) {
         AlertDialog.Builder builder =  new AlertDialog.Builder(mActivity);
         View view = mActivity.getLayoutInflater().inflate(R.layout.dialog_accept, null);
@@ -224,6 +234,10 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Funções que executem na barra de tarefas
+     * @return
+     */
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
@@ -346,13 +360,18 @@ public class ChatActivity extends AppCompatActivity {
         Button addBtn = (Button) view.findViewById(R.id.btn_add_chat);
         addBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                AddChat addchat = new AddChat(tituloChat.getText().toString(), descricao_Chat.getText().toString(), dialog);
-                addchat.execute();
+                if(tituloChat.getText().toString().equals("") || descricao_Chat.getText().toString().equals("")){
+                    Toast toast = Toast.makeText(mContext, "Os valores que introduziu estão incorretos", Toast.LENGTH_SHORT);
+                    toast.show();
+                }else{
+                    AddChat addchat = new AddChat(tituloChat.getText().toString(), descricao_Chat.getText().toString(), dialog);
+                    addchat.execute();
+                }
             }
         });
     }
 
-    public class AddChat extends AsyncTask<Void, Void, Boolean> {
+    public class AddChat extends AsyncTask<Void, Void, ArrayList<Chat>> {
         public String titulo;
         public String descricao;
         public AlertDialog dialog;
@@ -364,7 +383,7 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Boolean doInBackground(Void... voids) {
+        protected ArrayList<Chat> doInBackground(Void... voids) {
 
             java.text.DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date hoje = new Date();
@@ -374,10 +393,11 @@ public class ChatActivity extends AppCompatActivity {
             Chat chat = new Chat(-1, data, titulo, descricao);
             sampleDatabase.geral().addChat(chat);
 
-            return true;
+            ArrayList<Chat> list = (ArrayList<Chat>) sampleDatabase.geral().loadAllChatsNormal(-1);
+            return list;
         }
 
-        protected void onPostExecute(Boolean bool){
+        protected void onPostExecute(ArrayList<Chat> chats){
             Context context = getApplicationContext();
             CharSequence text = "Chat Adicionado";
             int duration = Toast.LENGTH_SHORT;
@@ -386,6 +406,7 @@ public class ChatActivity extends AppCompatActivity {
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
             dialog.dismiss();
+            gAdapterChat.setList(chats);
         }
     }
 

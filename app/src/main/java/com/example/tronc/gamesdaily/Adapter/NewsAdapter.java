@@ -14,6 +14,9 @@ import com.example.tronc.gamesdaily.R;
 
 import java.util.List;
 
+/**
+ * Adapter que permite apresentar as News da app individualmente com o formato especificado
+ */
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     private List<News> mList;

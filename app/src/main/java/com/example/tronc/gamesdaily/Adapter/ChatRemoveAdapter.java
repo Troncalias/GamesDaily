@@ -15,6 +15,9 @@ import com.example.tronc.gamesdaily.R;
 
 import java.util.ArrayList;
 
+/**
+ * Adapter que permite realizar a remoção de Chats da apicação
+ */
 public class ChatRemoveAdapter extends RecyclerView.Adapter<ChatRemoveAdapter.ViewHolder>{
     private ArrayList<Chat> mList;
     private Context mContext;

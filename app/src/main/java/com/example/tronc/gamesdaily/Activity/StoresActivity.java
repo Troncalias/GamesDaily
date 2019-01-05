@@ -53,6 +53,9 @@ public class StoresActivity extends AppCompatActivity {
     private static String user;
     private static Context mContext;
 
+    /**
+     * Funções que permitem realizar a iniciação desta atividade
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +104,123 @@ public class StoresActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Ações que o utlizador pode realizar dentor desta Actividade
+     */
+    public static void openGame(final Stores stores, Activity mActivity) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+        View view = mActivity.getLayoutInflater().inflate(R.layout.dialog_store, null);
+
+        builder.setView(view);
+        final AlertDialog dialog = builder.show();
+        final ImageView imageView = view.findViewById(R.id.imageView);
+        if (stores.getImagem() != null) {
+            ByteArrayInputStream imageStream = new ByteArrayInputStream(stores.getImagem());
+            Bitmap theImage = BitmapFactory.decodeStream(imageStream);
+            imageView.setImageBitmap(theImage);
+        }
+
+        final TextView nomeTv = (TextView) view.findViewById(R.id.nomeTv);
+        nomeTv.setText(stores.getNome());
+        final TextView dataInsercaoTv = (TextView) view.findViewById(R.id.moradaTv);
+        dataInsercaoTv.setText(stores.getMorada());
+        final TextView ratingTv = (TextView) view.findViewById(R.id.descricaoTv);
+        ratingTv.setText(stores.getDescricao());
+
+        final Button loadmap = (Button) view.findViewById(R.id.pretitle_moradaTv);
+        loadmap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nome = stores.getNome();
+                String descricao = stores.getDescricao();
+                String morada = stores.getMorada();
+                StoresActivity.openMap(morada, nome, descricao);
+            }
+        });
+
+        final Button close = (Button) view.findViewById(R.id.button_cancelBt);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    public static void openGames(Activity mActivity, Stores store) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+        View view = mActivity.getLayoutInflater().inflate(R.layout.dialog_accept_simpler, null);
+
+        builder.setView(view);
+        final AlertDialog dialog = builder.show();
+        builder.setView(view);
+
+        rvUtilizadores = (RecyclerView) view.findViewById(R.id.rvList);
+        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mRefActivity, DividerItemDecoration.VERTICAL);
+        rvUtilizadores.addItemDecoration(mDividerItemDecoration);
+        TextView textView = (TextView) view.findViewById(R.id.tituloTv);
+        Button closeBtn = (Button) view.findViewById(R.id.button_close);
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        LoadGames listGames = new LoadGames(mActivity, sampleDatabase, store);
+        listGames.execute();
+
+    }
+
+    public static void openMap(String m, String n, String d) {
+
+        Intent x = new Intent(mContext, MapsActivity.class);
+        x.putExtra("morada", m);
+        x.putExtra("nome", n);
+        x.putExtra("descricao", d);
+        mContext.startActivity(x);
+    }
+
+    public static class LoadGames extends AsyncTask<Void, Void, ArrayList<Games>> {
+        public Activity mActivity;
+        public MyDB sampleDatabase;
+        public Stores stores;
+
+        public LoadGames(Activity mActivity, MyDB database, Stores store) {
+            this.sampleDatabase = database;
+            this.mActivity = mActivity;
+            this.stores = store;
+        }
+
+        @Override
+        protected ArrayList<Games> doInBackground(Void... voids) {
+            ArrayList<Games> listGames = (ArrayList<Games>) sampleDatabase.geral().loadAllGamesAcepted(true);
+            ArrayList<StoresGames> listAssociados = (ArrayList<StoresGames>) sampleDatabase.geral().loadSotresGamesByStore(stores.getId());
+
+            ArrayList<Games> list = new ArrayList<Games>();
+
+            for(int i=0;i<listGames.size(); i++){
+                for(int y=0; y<listAssociados.size(); y++){
+                    if(listGames.get(i).getId() == listAssociados.get(y).getGame_id()){
+                        list.add(listGames.get(i));
+                        y=listAssociados.size();
+                    }
+                }
+            }
+            return list;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Games> games) {
+            GamesAdapter adapter = new GamesAdapter(mActivity, games, mRefActivity, user);
+            rvUtilizadores.setAdapter(adapter);
+            rvUtilizadores.setLayoutManager(new LinearLayoutManager(mActivity));
+        }
+    }
+
+    /**
+     * Ações que o utlizador pode realizar pelo menu
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         Bundle extras = getIntent().getExtras();
@@ -217,8 +337,13 @@ public class StoresActivity extends AppCompatActivity {
         Button addBtn = (Button) view.findViewById(R.id.btn_add_chat);
         addBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                AddChat addchat = new AddChat(tituloChat.getText().toString(), descricao_Chat.getText().toString(), dialog);
-                addchat.execute();
+                if(tituloChat.getText().toString().equals("") || descricao_Chat.getText().toString().equals("")){
+                    Toast toast = Toast.makeText(mContext, "Os valores que introduziu estão incorretos", Toast.LENGTH_SHORT);
+                    toast.show();
+                }else{
+                    AddChat addchat = new AddChat(tituloChat.getText().toString(), descricao_Chat.getText().toString(), dialog);
+                    addchat.execute();
+                }
             }
         });
     }
@@ -264,117 +389,5 @@ public class StoresActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
-    }
-
-    public static void openGame(final Stores stores, Activity mActivity) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-        View view = mActivity.getLayoutInflater().inflate(R.layout.dialog_store, null);
-
-        builder.setView(view);
-        final AlertDialog dialog = builder.show();
-        final ImageView imageView = view.findViewById(R.id.imageView);
-        if (stores.getImagem() != null) {
-            ByteArrayInputStream imageStream = new ByteArrayInputStream(stores.getImagem());
-            Bitmap theImage = BitmapFactory.decodeStream(imageStream);
-            imageView.setImageBitmap(theImage);
-        }
-
-        final TextView nomeTv = (TextView) view.findViewById(R.id.nomeTv);
-        nomeTv.setText(stores.getNome());
-        final TextView dataInsercaoTv = (TextView) view.findViewById(R.id.moradaTv);
-        dataInsercaoTv.setText(stores.getMorada());
-        final TextView ratingTv = (TextView) view.findViewById(R.id.descricaoTv);
-        ratingTv.setText(stores.getDescricao());
-
-        final Button loadmap = (Button) view.findViewById(R.id.pretitle_moradaTv);
-        loadmap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String nome = stores.getNome();
-                String descricao = stores.getDescricao();
-                String morada = stores.getMorada();
-                StoresActivity.openMap(morada, nome, descricao);
-            }
-        });
-
-        final Button close = (Button) view.findViewById(R.id.button_cancelBt);
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-    }
-
-
-    public static void openGames(Activity mActivity, Stores store) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-        View view = mActivity.getLayoutInflater().inflate(R.layout.dialog_accept_simpler, null);
-
-        builder.setView(view);
-        final AlertDialog dialog = builder.show();
-        builder.setView(view);
-
-        rvUtilizadores = (RecyclerView) view.findViewById(R.id.rvList);
-        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mRefActivity, DividerItemDecoration.VERTICAL);
-        rvUtilizadores.addItemDecoration(mDividerItemDecoration);
-        TextView textView = (TextView) view.findViewById(R.id.tituloTv);
-        Button closeBtn = (Button) view.findViewById(R.id.button_close);
-        closeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        LoadGames listGames = new LoadGames(mActivity, sampleDatabase, store);
-        listGames.execute();
-
-    }
-
-    public static void openMap(String m, String n, String d) {
-
-        Intent x = new Intent(mContext, MapsActivity.class);
-        x.putExtra("morada", m);
-        x.putExtra("nome", n);
-        x.putExtra("descricao", d);
-        mContext.startActivity(x);
-    }
-
-    public static class LoadGames extends AsyncTask<Void, Void, ArrayList<Games>> {
-        public Activity mActivity;
-        public MyDB sampleDatabase;
-        public Stores stores;
-
-        public LoadGames(Activity mActivity, MyDB database, Stores store) {
-            this.sampleDatabase = database;
-            this.mActivity = mActivity;
-            this.stores = store;
-        }
-
-        @Override
-        protected ArrayList<Games> doInBackground(Void... voids) {
-            ArrayList<Games> listGames = (ArrayList<Games>) sampleDatabase.geral().loadAllGamesAcepted(true);
-            ArrayList<StoresGames> listAssociados = (ArrayList<StoresGames>) sampleDatabase.geral().loadSotresGamesByStore(stores.getId());
-
-            ArrayList<Games> list = new ArrayList<Games>();
-
-            for(int i=0;i<listGames.size(); i++){
-                for(int y=0; y<listAssociados.size(); y++){
-                    if(listGames.get(i).getId() == listAssociados.get(y).getGame_id()){
-                        list.add(listGames.get(i));
-                        y=listAssociados.size();
-                    }
-                }
-            }
-            return list;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<Games> games) {
-            GamesAdapter adapter = new GamesAdapter(mActivity, games, mRefActivity, user);
-            rvUtilizadores.setAdapter(adapter);
-            rvUtilizadores.setLayoutManager(new LinearLayoutManager(mActivity));
-        }
     }
 }

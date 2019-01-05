@@ -6,6 +6,9 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+/**
+ * Class que permite guardar todas as informações referentes a Store
+ */
 @Entity(tableName = "Stores")
 public class Stores {
     @NonNull

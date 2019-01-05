@@ -3,6 +3,9 @@ package com.example.tronc.gamesdaily.Models.API;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * Class que permite realizar as funções necessárias para executar o API da Steam
+ */
 public class AppNewsContainer implements Parcelable {
 
     private AppNews appnews;

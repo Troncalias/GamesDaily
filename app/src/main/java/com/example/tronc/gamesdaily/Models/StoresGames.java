@@ -6,6 +6,10 @@ import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
 import android.support.annotation.NonNull;
 
+
+/**
+ * Class que permite fazer o relacionamento entre cada Store e os Games
+ */
 @Entity(primaryKeys = {"game_id", "store_id"},
         foreignKeys =  {@ForeignKey(entity = Stores.class, parentColumns = "id", childColumns = "store_id"),
                 @ForeignKey(entity = Games.class, parentColumns = "id", childColumns = "game_id")},

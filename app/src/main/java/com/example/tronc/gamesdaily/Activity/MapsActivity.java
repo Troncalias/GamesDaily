@@ -25,9 +25,10 @@ import java.util.List;
 
 import com.example.tronc.gamesdaily.R;
 
+/**
+ * Actividade que realização a apresentação do Map ao utlizador dependendo dos valores introduzidos
+ */
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
-
-
     private String morada;
     private String nome;
     private String descricao;

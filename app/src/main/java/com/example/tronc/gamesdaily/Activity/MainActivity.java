@@ -22,11 +22,12 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
-    /**
-     * Constante que guarda o id do ticket de request storage Permission
-     */
     private static final int REQUEST_STORAGE_PERMISSION = 23;
 
+    /**
+     * Funçao que inicia o funcionamento da actividade
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,16 +56,16 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Pede ao user por permições
+     * @param activity
+     */
     public static void requestStoragePermissions(Activity activity) {
         if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_STORAGE_PERMISSION);
         }
     }
 
-    /**
-     * Para verificar se o user esta ligado a Internet pinga o server 8.8.8.8
-     * @return false se nao esta ligado e true se esta ligado
-     */
    /* public static boolean isOnline() {
         Runtime runtime = Runtime.getRuntime();
         try {
@@ -78,13 +79,15 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }*/
 
+    /**
+     * Verefica se existe conequeção a internete
+     * @return
+     */
     private boolean isOnline() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
-
-
 
     /**
      * Define e apresenta o dialog a informar que a internet não está disponível

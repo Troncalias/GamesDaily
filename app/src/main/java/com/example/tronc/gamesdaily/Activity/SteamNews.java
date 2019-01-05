@@ -6,6 +6,9 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
+/**
+ * Actoividade que permite chamas as noticias da steam
+ */
 public interface SteamNews {
 
     @GET(".")

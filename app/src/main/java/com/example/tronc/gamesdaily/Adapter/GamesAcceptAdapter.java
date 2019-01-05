@@ -20,6 +20,9 @@ import com.example.tronc.gamesdaily.R;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 
+/**
+ * Adapter que permite decidir se um Game será aceite ou regeitado
+ */
 public class GamesAcceptAdapter extends RecyclerView.Adapter<GamesAcceptAdapter.ViewHolder> {
     private ArrayList<Games> mList;
     private Context mContext;

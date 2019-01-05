@@ -21,6 +21,10 @@ import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Adapter que apresenta todos as Lojas da aplicação
+ * Permite realizar as funções de cada loja independentemente umas das outras
+ */
 public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.ViewHolder>{
 
     private List<Stores> mList;

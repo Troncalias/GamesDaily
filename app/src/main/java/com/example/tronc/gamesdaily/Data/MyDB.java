@@ -77,7 +77,6 @@ public abstract class MyDB extends RoomDatabase {
         /**
          *  Funções que controlam o acesso a base de dados
          *  para a tabela Stores
-         *
          **/
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         public void addStore(Stores store);

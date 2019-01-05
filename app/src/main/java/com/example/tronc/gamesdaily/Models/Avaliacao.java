@@ -6,6 +6,9 @@ import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
 import android.support.annotation.NonNull;
 
+/**
+ * Class que funciona como registo de avaliações de Users sobre os Games
+ */
 @Entity(primaryKeys = { "user_rate", "game_pk" },
         foreignKeys =  {@ForeignKey(entity = User.class, parentColumns = "username", childColumns = "user_rate"),
                 @ForeignKey(entity = Games.class, parentColumns = "id", childColumns = "game_pk")},

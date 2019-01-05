@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 import java.util.List;
 
+/**
+ * Class que funciona como intermediaria para executar a API da steam, guardando a lista destas news
+ */
 public class AppNews implements Parcelable {
 
     private int appid;

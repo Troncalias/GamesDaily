@@ -13,6 +13,9 @@ import com.example.tronc.gamesdaily.R;
 
 import java.util.ArrayList;
 
+/**
+ * Adapter que apresenta todas as mensagens de um chat especifico
+ */
 public class MensageAdapter extends RecyclerView.Adapter<MensageAdapter.ViewHolder>{
     private ArrayList<Mensage> mList;
     private Context mContext;

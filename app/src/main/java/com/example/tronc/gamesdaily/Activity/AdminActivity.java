@@ -20,7 +20,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,15 +29,12 @@ import android.widget.Toast;
 
 import com.example.tronc.gamesdaily.Adapter.ChatRemoveAdapter;
 import com.example.tronc.gamesdaily.Adapter.GamesAcceptAdapter;
-import com.example.tronc.gamesdaily.Adapter.NewsAcceptAdapter;
 import com.example.tronc.gamesdaily.Adapter.StoresAcceptAdapter;
 import com.example.tronc.gamesdaily.Adapter.UserAdapter;
-import com.example.tronc.gamesdaily.Data.List_News;
 import com.example.tronc.gamesdaily.Data.MyDB;
 import com.example.tronc.gamesdaily.Fragment.HeaderFragment;
 import com.example.tronc.gamesdaily.Models.Chat;
 import com.example.tronc.gamesdaily.Models.Games;
-import com.example.tronc.gamesdaily.Models.News;
 import com.example.tronc.gamesdaily.Models.Stores;
 import com.example.tronc.gamesdaily.Models.User;
 import com.example.tronc.gamesdaily.Notifications.MyNotification;
@@ -67,6 +63,10 @@ public class AdminActivity extends AppCompatActivity {
     private ImageView imageView;
     private Toolbar mToolbar;
 
+    /**
+     * Funções que criam a app
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,6 +130,7 @@ public class AdminActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         AddGame addGame = new AddGame(nomeGame.getText().toString(), descricaoGame.getText().toString(), publicherGame.getText().toString(),dialog);
                         addGame.execute();
+                        imageIsSet = true;
                     }
                 });
 
@@ -173,6 +174,9 @@ public class AdminActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Funções que exutem na app
+     */
     public class AddGame extends AsyncTask<Void, Void, Boolean> {
         public String Titulo;
         public String Descricao;

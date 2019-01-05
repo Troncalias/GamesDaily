@@ -20,6 +20,9 @@ import com.example.tronc.gamesdaily.R;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 
+/**
+ * Adapter que permite apresentar os Games por lista
+ */
 public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.ViewHolder> {
     private ArrayList<Games> mList;
     private Context mContext;
