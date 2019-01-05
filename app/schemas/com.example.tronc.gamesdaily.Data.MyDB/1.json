@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "a00050f56fec7d241426541ed80e54ac",
+    "identityHash": "171dddc29d8112e178db37ec6f0eb49c",
     "entities": [
       {
         "tableName": "Games",
@@ -198,7 +198,7 @@
       },
       {
         "tableName": "Favoritos",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`username` TEXT NOT NULL, `games_id` INTEGER NOT NULL, PRIMARY KEY(`username`, `games_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`username` TEXT NOT NULL, `games_id` INTEGER NOT NULL, PRIMARY KEY(`username`, `games_id`), FOREIGN KEY(`username`) REFERENCES `User`(`username`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`games_id`) REFERENCES `Games`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "username",
@@ -220,41 +220,97 @@
           ],
           "autoGenerate": false
         },
-        "indices": [],
-        "foreignKeys": []
+        "indices": [
+          {
+            "name": "index_Favoritos_username_games_id",
+            "unique": false,
+            "columnNames": [
+              "username",
+              "games_id"
+            ],
+            "createSql": "CREATE  INDEX `index_Favoritos_username_games_id` ON `${TABLE_NAME}` (`username`, `games_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "User",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "username"
+            ],
+            "referencedColumns": [
+              "username"
+            ]
+          },
+          {
+            "table": "Games",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "games_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       },
       {
         "tableName": "Avaliacao",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`value` REAL NOT NULL, `username` TEXT NOT NULL, `game_id` INTEGER NOT NULL, PRIMARY KEY(`username`, `game_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`user_rate` TEXT NOT NULL, `game_pk` INTEGER NOT NULL, `value` REAL NOT NULL, PRIMARY KEY(`user_rate`, `game_pk`), FOREIGN KEY(`user_rate`) REFERENCES `User`(`username`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`game_pk`) REFERENCES `Games`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
-            "fieldPath": "value",
-            "columnName": "value",
-            "affinity": "REAL",
-            "notNull": true
-          },
-          {
             "fieldPath": "username",
-            "columnName": "username",
+            "columnName": "user_rate",
             "affinity": "TEXT",
             "notNull": true
           },
           {
             "fieldPath": "game_id",
-            "columnName": "game_id",
+            "columnName": "game_pk",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "value",
+            "columnName": "value",
+            "affinity": "REAL",
             "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "username",
-            "game_id"
+            "user_rate",
+            "game_pk"
           ],
           "autoGenerate": false
         },
         "indices": [],
-        "foreignKeys": []
+        "foreignKeys": [
+          {
+            "table": "User",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "user_rate"
+            ],
+            "referencedColumns": [
+              "username"
+            ]
+          },
+          {
+            "table": "Games",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "game_pk"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       },
       {
         "tableName": "Chats",
@@ -347,7 +403,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"a00050f56fec7d241426541ed80e54ac\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"171dddc29d8112e178db37ec6f0eb49c\")"
     ]
   }
 }

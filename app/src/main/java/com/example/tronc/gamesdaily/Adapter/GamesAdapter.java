@@ -96,6 +96,11 @@ public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.ViewHolder> 
         return mList.size();
     }
 
+    public void setList(ArrayList<Games> list){
+        mList.clear();
+        mList.addAll(list);
+        notifyDataSetChanged();
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView nameTextView;

@@ -84,8 +84,7 @@ public class LoginActivity extends AppCompatActivity {
             String data = dateFormat.format(hoje);
 
             if(listUsers.size() == 0){
-                User user = new User("admin","admin","admin",data,"admin@gmail.com");
-                user.setTipo_utilizador_id(2);
+                User user = new User("admin","admin","admin",data,"admin@gmail.com", 2);
                 sampleDatabase.geral().addUser(user);
             }
 

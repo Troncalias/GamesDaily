@@ -58,49 +58,43 @@
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:text="Add Game" />
+                android:text="Adicionar Jogo" />
             <Button
                 android:id="@+id/btn_accept_game"
                 android:layout_width="250dp"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_height="wrap_content"
-                android:text="Accept Game" />
+                android:text="Aceitar Jogo" />
             <Button
-                android:id="@+id/btn_add_store"
+                android:id="@+id/btn_remove_game"
                 android:layout_width="250dp"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_height="wrap_content"
-                android:text="Add Store" />
+                android:text="Remover Jogo" />
             <Button
                 android:id="@+id/btn_accept_store"
                 android:layout_width="250dp"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_height="wrap_content"
-                android:text="Accept Store" />
+                android:text="Aceitar Loja" />
             <Button
-                android:id="@+id/btn_add_news"
+                android:id="@+id/btn_remove_store"
                 android:layout_width="250dp"
+                style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_height="wrap_content"
-                android:text="Add News"
-                style="@style/Widget.AppCompat.Button.Colored"/>
-            <Button
-                android:id="@+id/btn_accept_news"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:text="Accept News"
-                style="@style/Widget.AppCompat.Button.Colored"/>
+                android:text="Remover Loja" />
             <Button
                 android:id="@+id/btn_remove_chat"
                 android:layout_width="250dp"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_height="wrap_content"
-                android:text="Remove Chat" />
+                android:text="Remover Chat" />
             <Button
                 android:id="@+id/btn_remove_users"
                 android:layout_width="250dp"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_height="wrap_content"
-                android:text="Remove User" />
+                android:text="Remover User" />
 
 
         </LinearLayout>

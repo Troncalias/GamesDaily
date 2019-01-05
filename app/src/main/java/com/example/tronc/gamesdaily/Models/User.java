@@ -33,6 +33,15 @@ public class User {
         this.email = email;
         this.tipo_utilizador_id= 1;
     }
+    @Ignore
+    public User(String username, String password, String nome, String dataRegisto, String email, int tipo) {
+        this.username = username;
+        this.password = password;
+        this.nome = nome;
+        this.dataRegisto = dataRegisto;
+        this.email = email;
+        this.tipo_utilizador_id= tipo;
+    }
 
     public String getUsername() {
         return username;

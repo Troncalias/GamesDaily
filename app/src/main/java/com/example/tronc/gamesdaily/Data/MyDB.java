@@ -61,8 +61,15 @@ public abstract class MyDB extends RoomDatabase {
         @Query("SELECT * FROM Games WHERE Acepted=:value")
         public List<Games> loadAllGamesAcepted(boolean value);
 
+        @Query("SELECT * FROM Games WHERE Acepted=:value ORDER BY Rating DESC")
+        public List<Games> loadAllGamesOrderScore(boolean value);
+
+        @Query("SELECT * FROM Games WHERE Acepted=:value ORDER BY Name")
+        public List<Games> loadAllGamesOrderName(boolean value);
+
         @Query("SELECT COUNT(id) FROM Games")
         public int getSizeGames();
+
 
         @Delete
         void deleteGame(Games game);
@@ -81,8 +88,8 @@ public abstract class MyDB extends RoomDatabase {
         @Query("SELECT COUNT(id) FROM Stores")
         public int getSizeStores();
 
-        @Query("SELECT * FROM Stores WHERE id=:storeId")
-        public Stores getStoresById(int storeId);
+        @Query("SELECT * FROM Stores WHERE username=:usernam")
+        public List<Stores> getStoresByUser(String usernam);
 
         @Query("SELECT * FROM Stores")
         public List<Stores> loadAllStores();
@@ -104,7 +111,16 @@ public abstract class MyDB extends RoomDatabase {
         public void addFavoritos(Favoritos favorito);
 
         @Query("SELECT * FROM Favoritos WHERE username=:name")
-        public Favoritos loadFavesByUser(String name);
+        public List<Favoritos> loadFavesByUser(String name);
+
+        @Query("SELECT * FROM Favoritos WHERE games_id=:game")
+        public List<Favoritos> loadFavesByGame(int game);
+
+        @Query("SELECT * FROM Favoritos WHERE username = :username AND games_id = :id")
+        public List<Favoritos> getIfExistFavorito(String username, int id);
+
+        @Delete
+        public void deleteFavoritos(Favoritos favoritos);
 
         /**
          *
@@ -113,7 +129,7 @@ public abstract class MyDB extends RoomDatabase {
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         public void addAvaliacao(Avaliacao avaliacao);
 
-        @Query("SELECT * FROM Avaliacao WHERE game_id=:gameid")
+        @Query("SELECT * FROM Avaliacao WHERE game_pk=:gameid")
         public List<Avaliacao> getGameRate(int gameid);
 
         /**
@@ -151,11 +167,11 @@ public abstract class MyDB extends RoomDatabase {
          *  para a tabela News especificas da App
          */
         /**
-        @Insert(onConflict = OnConflictStrategy.REPLACE)
-        public void addNews(News news);
+         @Insert(onConflict = OnConflictStrategy.REPLACE)
+         public void addNews(News news);
 
-        @Query("SELECT * FROM News")
-        public List<News> loadAllNews();
-        **/
+         @Query("SELECT * FROM News")
+         public List<News> loadAllNews();
+         **/
     }
 }

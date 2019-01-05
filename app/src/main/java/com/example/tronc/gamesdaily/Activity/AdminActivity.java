@@ -6,6 +6,9 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -41,6 +44,7 @@ import com.example.tronc.gamesdaily.Models.User;
 import com.example.tronc.gamesdaily.Notifications.MyNotification;
 import com.example.tronc.gamesdaily.R;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -61,6 +65,17 @@ public class AdminActivity extends AppCompatActivity {
     private static RecyclerView rvUtilizadores;
     private static Bundle extras;
 
+    /**
+     * Variavel que indica se uma imagem foi escolhida
+     */
+    private boolean imageIsSet;
+    /**
+     * Variavel que guarda a imagem escolhida pelo utilizador ao adicionar anime ou loja
+     */
+    private Uri imageUri;
+    /**
+     * Variavel que guarda a imagem no seu estado original
+     */
     private ImageView imageView;
     private Toolbar mToolbar;
 
@@ -96,13 +111,13 @@ public class AdminActivity extends AppCompatActivity {
     private void setButtons() {
         setButtonGame();
         setButtonStore();
-        setButtonNews();
         setButtonChats();
         setButtonUsers();
     }
 
     private void setButtonGame(){
-        Button btn_add_game = (Button) findViewById(R.id.btn_add_game);
+
+        final Button btn_add_game = (Button) findViewById(R.id.btn_add_game);
         btn_add_game.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 AlertDialog.Builder builder =  new AlertDialog.Builder(AdminActivity.this);
@@ -114,17 +129,15 @@ public class AdminActivity extends AppCompatActivity {
                 final EditText nomeGame = (EditText) view.findViewById(R.id.tituloGame);
                 final EditText descricaoGame = (EditText) view.findViewById(R.id.descricaoGame);
                 final EditText publicherGame = (EditText) view.findViewById(R.id.publicadorGame);
-                Button button_add_image = (Button) view.findViewById(R.id.button_add_image_game);
+                imageView = (ImageView) view.findViewById(R.id.imageView);
+                final Button button_add_image = (Button) view.findViewById(R.id.button_add_image_game);
                 button_add_image.setOnClickListener(new View.OnClickListener() {
-                    @Override
                     public void onClick(View v) {
                         openGallery();
-
                     }
                 });
 
                 final Button addBtn = (Button) view.findViewById(R.id.btn_add_game_Admin);
-                Button cancelBtn = (Button) view.findViewById(R.id.button_cancel_game_Admin);
                 addBtn.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         AddGame addGame = new AddGame(nomeGame.getText().toString(), descricaoGame.getText().toString(), publicherGame.getText().toString(),dialog);
@@ -132,8 +145,10 @@ public class AdminActivity extends AppCompatActivity {
                     }
                 });
 
+                Button cancelBtn = (Button) view.findViewById(R.id.button_cancel_game_Admin);
                 cancelBtn.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
+                        imageIsSet = false;
                         dialog.dismiss();
                     }
                 });
@@ -146,7 +161,7 @@ public class AdminActivity extends AppCompatActivity {
         btn_accept_game.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 AlertDialog.Builder builder =  new AlertDialog.Builder(AdminActivity.this);
-                View view = getLayoutInflater().inflate(R.layout.dialog_accept, null);
+                View view = getLayoutInflater().inflate(R.layout.dialog_accept_simpler, null);
                 builder.setView(view);
                 final AlertDialog dialog = builder.show();
 
@@ -159,16 +174,6 @@ public class AdminActivity extends AppCompatActivity {
                 closeBtn.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         dialog.dismiss();
-                    }
-                });
-
-                Button searchButton = (Button) view.findViewById(R.id.button_search);
-                searchButton.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        /**
-                         * Realizar o sort
-                         * (Por Fazer)
-                         */
                     }
                 });
 
@@ -199,8 +204,18 @@ public class AdminActivity extends AppCompatActivity {
             Date hoje = new Date();
             String data = dateFormat.format(hoje);
 
-            Games game = new Games(Titulo, Publicher, Descricao, data, null, 0, 0, true);
-            sampleDatabase.geral().addGame(game);
+            Games game;
+            if(imageIsSet){
+                Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] imageBytes = baos.toByteArray();
+                game = new Games(Titulo, Publicher, Descricao, data, imageBytes, 0, 0, true);
+                sampleDatabase.geral().addGame(game);
+            }else{
+                game = new Games(Titulo, Publicher, Descricao, data, null, 0, 0, true);
+                sampleDatabase.geral().addGame(game);
+            }
 
             ArrayList<Games> list = (ArrayList<Games>) sampleDatabase.geral().loadAllGames();
             sampleDatabase.geral().addChat(new Chat(list.get(list.size()-1).getId(), game.getDate(), "Chat de " + game.getName(), "Opiniões do jogo " + game.getName()));
@@ -211,6 +226,7 @@ public class AdminActivity extends AppCompatActivity {
             Context context = getApplicationContext();
             CharSequence text = "Jogo Adicionado";
             int duration = Toast.LENGTH_SHORT;
+            imageIsSet = false;
 
             MyNotification.addGameNotification(AdminActivity.this, Titulo, Descricao, getString(R.string.notification_add_jogo_title), getApplicationContext());
             Toast toast = Toast.makeText(context, text, duration);
@@ -275,32 +291,23 @@ public class AdminActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(ArrayList<Games> list){
+            if(decision){
+                MyNotification.addGameNotification(mRefActivity, game.getName(), game.getDescription(), "Novo Jogo Adicionado", mRefActivity);
+            }else{
+                MyNotification.addGameNotification(mRefActivity, game.getName(), game.getDescription(), "Jogo Não Adicionado", mRefActivity);
+            }
             gAdapter.setList(list);
         }
     }
 
-    private void openGallery() {
-
-
-        MainActivity.requestStoragePermissions(AdminActivity.this);
-
-        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        startActivityForResult(gallery, IMAGE_PICKER_REQUEST);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
     private void setButtonStore(){
+        /**
         Button btn_add_store = (Button) findViewById(R.id.btn_add_store);
         btn_add_store.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 AlertDialog.Builder builder =  new AlertDialog.Builder(AdminActivity.this);
                 View view = getLayoutInflater().inflate(R.layout.dialog_add_store, null);
 
-                builder.setView(view);
                 builder.setView(view);
                 final AlertDialog dialog = builder.show();
                 final EditText nomeLoja = (EditText) view.findViewById(R.id.nomeLoja);
@@ -329,17 +336,18 @@ public class AdminActivity extends AppCompatActivity {
                 Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
                 cancelBtn.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
+                        imageIsSet = false;
                         dialog.dismiss();
                     }
                 });
             }
-        });
+        });**/
 
         Button btn_accept_store = (Button) findViewById(R.id.btn_accept_store);
         btn_accept_store.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 AlertDialog.Builder builder =  new AlertDialog.Builder(AdminActivity.this);
-                View view = getLayoutInflater().inflate(R.layout.dialog_accept, null);
+                View view = getLayoutInflater().inflate(R.layout.dialog_accept_simpler, null);
                 builder.setView(view);
                 final AlertDialog dialog = builder.show();
 
@@ -357,50 +365,10 @@ public class AdminActivity extends AppCompatActivity {
                     }
                 });
 
-                Button searchButton = (Button) view.findViewById(R.id.button_search);
-
                 LoadStores listStores = new LoadStores();
                 listStores.execute();
             }
         });
-    }
-
-    public class AddStore extends AsyncTask<Void, Void, Boolean> {
-        public String Titulo;
-        public String Descricao;
-        public String Publicher;
-        public AlertDialog Dialog;
-
-        public AddStore(String titulo, String descricao, String publicher, AlertDialog dialog) {
-            Titulo = titulo;
-            Descricao = descricao;
-            Publicher = publicher;
-            Dialog = dialog;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... voids) {
-            java.text.DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-            Date hoje = new Date();
-            String data = dateFormat.format(hoje);
-
-            //String nome, String morada, String descricao, String dataInsercao, byte[] imagem, int userId, boolean acepted
-            Stores store = new Stores(Titulo, Descricao, Publicher, data, null, "admin", true);
-            sampleDatabase.geral().addStore(store);
-            return true;
-        }
-
-        protected void onPostExecute(Boolean bool){
-            Context context = getApplicationContext();
-            CharSequence text = "Store Adicionado";
-            int duration = Toast.LENGTH_SHORT;
-
-            MyNotification.addStoreNotification(AdminActivity.this, Titulo, Descricao, getString(R.string.notification_add_loja_title), getApplicationContext());
-
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-            Dialog.dismiss();
-        }
     }
 
     public class LoadStores extends AsyncTask<Void, Void, ArrayList<Stores>> {
@@ -459,57 +427,13 @@ public class AdminActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(ArrayList<Stores> list){
+            if(decision){
+                MyNotification.addStoreNotification(mRefActivity, store.getNome(), store.getDescricao(), "Nova Loja Adicionado", mRefActivity);
+            }else{
+                MyNotification.addStoreNotification(mRefActivity, store.getNome(), store.getDescricao(), "Loja Não Aceite", mRefActivity);
+            }
             gAdapter.setList(list);
         }
-    }
-
-    private void setButtonNews() {
-        Button btn_add_noticia = (Button) findViewById(R.id.btn_add_news);
-        btn_add_noticia.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                AlertDialog.Builder builder =  new AlertDialog.Builder(AdminActivity.this);
-                View view = getLayoutInflater().inflate(R.layout.dialog_add_news, null);
-
-                builder.setView(view);
-                final AlertDialog dialog = builder.show();
-                final EditText tituloEt = (EditText) view.findViewById(R.id.tituloEt);
-                final EditText conteudoEt = (EditText) view.findViewById(R.id.conteudoEt);
-                TextView textView = (TextView) view.findViewById(R.id.tituloTv);
-                textView.setText("Accept Game");
-                Button addBtn = (Button) view.findViewById(R.id.btn_add_noticia);
-                Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
-
-            }
-        });
-
-        Button btn_accept_noticia = (Button) findViewById(R.id.btn_accept_news);
-        btn_accept_noticia.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                AlertDialog.Builder builder =  new AlertDialog.Builder(AdminActivity.this);
-                View view = getLayoutInflater().inflate(R.layout.dialog_accept, null);
-                builder.setView(view);
-                final AlertDialog dialog = builder.show();
-
-                TextView textView = (TextView) view.findViewById(R.id.tituloTv);
-                textView.setText("Accept News");
-                rvUtilizadores = (RecyclerView) view.findViewById(R.id.rvList);
-                DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(AdminActivity.this, DividerItemDecoration.VERTICAL);
-                rvUtilizadores.addItemDecoration(mDividerItemDecoration);
-
-                Button closeBtn = (Button) view.findViewById(R.id.button_close);
-                Button searchButton = (Button) view.findViewById(R.id.button_search);
-
-                setListNews();
-
-            }
-        });
-    }
-
-    private static void setListNews() {
-        ArrayList<News> list = (ArrayList<News>) new List_News().getList_news();
-        NewsAcceptAdapter gAdapter = new NewsAcceptAdapter(mRefActivity, list);
-        rvUtilizadores.setAdapter(gAdapter);
-        rvUtilizadores.setLayoutManager(new LinearLayoutManager(mRefActivity));
     }
 
     private void setButtonChats() {
@@ -517,7 +441,7 @@ public class AdminActivity extends AppCompatActivity {
         btn_add_chat.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 AlertDialog.Builder builder =  new AlertDialog.Builder(AdminActivity.this);
-                View view = getLayoutInflater().inflate(R.layout.dialog_accept, null);
+                View view = getLayoutInflater().inflate(R.layout.dialog_accept_simpler, null);
                 builder.setView(view);
                 final AlertDialog dialog = builder.show();
 
@@ -532,14 +456,6 @@ public class AdminActivity extends AppCompatActivity {
                 closeBtn.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         dialog.dismiss();
-                    }
-                });
-                Button searchButton = (Button) view.findViewById(R.id.button_search);
-                searchButton.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        /**
-                         * Realizar o sort
-                         */
                     }
                 });
 
@@ -594,7 +510,7 @@ public class AdminActivity extends AppCompatActivity {
     }
 
     /**
-     * Falta Search
+     * Funções dedicadas a gestão de users
      */
     private void setButtonUsers() {
         Button btn_utilizadores = (Button) findViewById(R.id.btn_remove_users);
@@ -602,7 +518,7 @@ public class AdminActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder =  new AlertDialog.Builder(AdminActivity.this);
-                View view = getLayoutInflater().inflate(R.layout.dialog_accept, null);
+                View view = getLayoutInflater().inflate(R.layout.dialog_accept_simpler, null);
                 builder.setView(view);
                 final AlertDialog dialog = builder.show();
 
@@ -616,15 +532,6 @@ public class AdminActivity extends AppCompatActivity {
                 closeBtn.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         dialog.dismiss();
-                    }
-                });
-
-                Button searchButton = (Button) view.findViewById(R.id.button_search);
-                searchButton.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        /**
-                         * Realizar o sort
-                         */
                     }
                 });
 
@@ -723,6 +630,27 @@ public class AdminActivity extends AppCompatActivity {
             }
         }
     }
+
+    private void openGallery() {
+        MainActivity.requestStoragePermissions(AdminActivity.this);
+
+        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(gallery, IMAGE_PICKER_REQUEST);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
+
+        if(requestCode == IMAGE_PICKER_REQUEST){
+            if(resultCode == RESULT_OK){
+                imageIsSet = true;
+                imageUri = data.getData();
+                imageView.setImageURI(imageUri);
+            }
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+
     /**
      * Funções da barra de navegação
      * TODAS A FUNCIONAR

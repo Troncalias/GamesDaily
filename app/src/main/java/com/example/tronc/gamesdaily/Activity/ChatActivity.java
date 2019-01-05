@@ -27,17 +27,24 @@ import com.example.tronc.gamesdaily.Models.Chat;
 import com.example.tronc.gamesdaily.Models.Mensage;
 import com.example.tronc.gamesdaily.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
+import java.util.Date;
 
 public class ChatActivity extends AppCompatActivity {
     private static Activity mRefActivity;
+
+    private static MensageAdapter gAdapterMensages;
+    private static ChatAdapter gAdapterChat;
+
+    private String user;
+
+    private static RecyclerView rvUtilizadores;
+    private static Bundle extras;
+    private static MyDB sampleDatabase;
+
     private Toolbar mToolbar;
     private RecyclerView mRecyclerView;
-    private static RecyclerView rvUtilizadores;
-    private ChatAdapter gAdapter;
-    private Bundle extras;
-    private static MyDB sampleDatabase;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,18 +52,15 @@ public class ChatActivity extends AppCompatActivity {
         mRefActivity = this;
         sampleDatabase = Room.databaseBuilder(getApplicationContext(), MyDB.class, this.getString(R.string.database_value)).build();
 
+        extras = getIntent().getExtras();
+        user = extras.getString("KEY");
+
         setToolbar();
         setFragments();
+
         LoadChats listChats = new LoadChats();
         listChats.execute();
 
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        //GamesActivity.LoadContent load = new GamesActivity.LoadContent();
-        //load.execute();
     }
 
     private void setToolbar() {
@@ -74,15 +78,6 @@ public class ChatActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    /**
-    private void setList() {
-        ArrayList<Chat> contacts = (ArrayList<Chat>) new List_Chats().getLista_chates();
-        gAdapter = new ChatAdapter(this.getApplicationContext(), contacts, this);
-        mRecyclerView = findViewById(R.id.rvChat);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        mRecyclerView.setAdapter(gAdapter);
-    }**/
-
     public class LoadChats extends AsyncTask<Void, Void, ArrayList<Chat>> {
 
         @Override
@@ -92,15 +87,15 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(ArrayList<Chat> list){
-            gAdapter = new ChatAdapter(mRefActivity.getApplicationContext(), list, mRefActivity);
+            gAdapterChat = new ChatAdapter(mRefActivity.getApplicationContext(), list, mRefActivity, user);
             mRecyclerView = findViewById(R.id.rvChat);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(mRefActivity, LinearLayoutManager.VERTICAL, false));
-            mRecyclerView.setAdapter(gAdapter);
+            mRecyclerView.setAdapter(gAdapterChat);
             mRecyclerView.addItemDecoration(new DividerItemDecoration(mRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
         }
     }
 
-    public static void openChat(Chat myItem, Activity mActivity) {
+    public static void openChat(final Chat myItem, final Activity mActivity, final String user) {
         AlertDialog.Builder builder =  new AlertDialog.Builder(mActivity);
         View view = mActivity.getLayoutInflater().inflate(R.layout.dialog_accept, null);
 
@@ -111,45 +106,110 @@ public class ChatActivity extends AppCompatActivity {
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mRefActivity, DividerItemDecoration.VERTICAL);
         rvUtilizadores.addItemDecoration(mDividerItemDecoration);
         TextView textView = (TextView) view.findViewById(R.id.tituloTv);
-        Button closeBtn = (Button) view.findViewById(R.id.button_close);
-        Button searchButton = (Button) view.findViewById(R.id.button_search);
 
-        LoadMensages listMensagens = new LoadMensages(mActivity, sampleDatabase);
+        Button closeBtn = (Button) view.findViewById(R.id.button_close);
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        Button searchButton = (Button) view.findViewById(R.id.button_search);
+        searchButton.setText("Add Mensage");
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                AddMensagem(myItem.getId(), mActivity, user);
+            }
+        });
+
+        LoadMensages listMensagens = new LoadMensages(mActivity, sampleDatabase, myItem);
         listMensagens.execute();
     }
 
-    /**
-    private static void setListMensagens() {
-        ArrayList<Mensage> list = (ArrayList<Mensage>) new List_Mensagens().getLista_chates();
-        MensageAdapter gAdapter = new MensageAdapter(mRefActivity, list);
-        rvUtilizadores.setAdapter(gAdapter);
-        rvUtilizadores.setLayoutManager(new LinearLayoutManager(mRefActivity));
-    }**/
+    public static void AddMensagem(final int id, final Activity mActivity, final String user){
+        final AlertDialog.Builder builder =  new AlertDialog.Builder(mActivity);
+        View view = mActivity.getLayoutInflater().inflate(R.layout.dialog_mensage, null);
 
-    public static class LoadMensages extends AsyncTask<Void, Void, ArrayList<Mensage>> {
-        public  Activity mActivity;
+        builder.setView(view);
+        final AlertDialog dialog = builder.show();
+
+        final EditText content = (EditText) view.findViewById(R.id.mensagem_text);
+
+        Button aceitar = (Button) view.findViewById(R.id.btn_add_chat);
+        aceitar.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                AddMensage addm = new AddMensage(mActivity, sampleDatabase, content.getText().toString(), id, user, gAdapterMensages, dialog);
+                addm.execute();
+            }
+        });
+
+        Button anular = (Button) view.findViewById(R.id.button_cancel);
+        anular.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    public static class AddMensage extends AsyncTask<Void, Void, ArrayList<Mensage>> {
+        public Activity mActivity;
         public MyDB sampleDatabase;
+        public String mensage;
+        public int id;
+        public String user;
+        public MensageAdapter gAdapter;
+        public AlertDialog dialog;
 
-        public LoadMensages(Activity mActivity, MyDB sampleDatabase) {
+        public AddMensage(Activity mActivity, MyDB sampleDatabase, String mensage, int id, String user, MensageAdapter gAdapterMensages, AlertDialog dialog) {
             this.mActivity = mActivity;
             this.sampleDatabase = sampleDatabase;
+            this.mensage = mensage;
+            this.id = id;
+            this.user = user;
+            this.gAdapter = gAdapterMensages;
+            this.dialog = dialog;
         }
 
         @Override
         protected ArrayList<Mensage> doInBackground(Void... voids) {
-            int i = sampleDatabase.geral().getSizeGames();
-            i++;    String y1 = String.valueOf(i);
-            i++;    String y2 = String.valueOf(i);
-            Mensage mensagem = new Mensage(001, "log", "Bem vindo a nossa aplicacao", "20/10/2019 10:00");
-            this.sampleDatabase.geral().addMensage(mensagem);
-            this.sampleDatabase.geral().addMensage(mensagem);
-            ArrayList<Mensage> listGames = (ArrayList<Mensage>) sampleDatabase.geral().loadAllMensagens(001);
+            java.text.DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date hoje = new Date();
+            String data = dateFormat.format(hoje);
+
+
+            Mensage mensagem = new Mensage(id, user, mensage, data);
+            sampleDatabase.geral().addMensage(mensagem);
+            ArrayList<Mensage> listGames = (ArrayList<Mensage>) sampleDatabase.geral().loadAllMensagens(id);
             return listGames;
         }
         @Override
-        protected void onPostExecute(ArrayList<Mensage> list){//Executa como se fosse na principal
-            MensageAdapter gAdapter = new MensageAdapter(mRefActivity, list);
-            rvUtilizadores.setAdapter(gAdapter);
+        protected void onPostExecute(ArrayList<Mensage> listMensagens){
+            this.dialog.dismiss();
+            gAdapter.setList(listMensagens);
+        }
+    }
+
+    public static class LoadMensages extends AsyncTask<Void, Void, ArrayList<Mensage>> {
+        public  Activity mActivity;
+        public MyDB sampleDatabase;
+        public Chat chat;
+
+        public LoadMensages(Activity mActivity, MyDB sampleDatabase, Chat myItem) {
+            this.mActivity = mActivity;
+            this.sampleDatabase = sampleDatabase;
+            this.chat = myItem;
+        }
+
+        @Override
+        protected ArrayList<Mensage> doInBackground(Void... voids) {
+            ArrayList<Mensage> listGames = (ArrayList<Mensage>) sampleDatabase.geral().loadAllMensagens(chat.getId());
+            return listGames;
+        }
+        @Override
+        protected void onPostExecute(ArrayList<Mensage> list){
+            gAdapterMensages = new MensageAdapter(mRefActivity, list);
+            rvUtilizadores.setAdapter(gAdapterMensages);
             rvUtilizadores.setLayoutManager(new LinearLayoutManager(mRefActivity));
         }
     }
@@ -185,12 +245,12 @@ public class ChatActivity extends AppCompatActivity {
                 return true;
             case R.id.action_admin:
                 Intent i = new Intent(ChatActivity.this, AdminActivity.class);
-                i.putExtra("KEY",extras.getString("KEY"));
+                i.putExtra("KEY",user);
                 startActivity(i);
                 return true;
             case R.id.action_definitions:
                 Intent y = new Intent(ChatActivity.this, DefenitionActivity.class);
-                y.putExtra("KEY","a");
+                y.putExtra("KEY",user);
                 startActivity(y);
                 return true;
             default:
@@ -206,8 +266,8 @@ public class ChatActivity extends AppCompatActivity {
         builder.setView(view);
         final AlertDialog dialog = builder.show();
 
-        Button idBtn = (Button) view.findViewById(R.id.btn_orderByID);
-        Button dateBtn = (Button) view.findViewById(R.id.btn_orderByDate);
+        Button idBtn = (Button) view.findViewById(R.id.btn_orderByRating);
+        Button dateBtn = (Button) view.findViewById(R.id.btn_orderStanderd);
         Button nameBtn = (Button) view.findViewById(R.id.btn_orderByName);
         Button confirmarBtn = (Button) view.findViewById(R.id.btn_confirmar);
         Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);

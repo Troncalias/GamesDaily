@@ -33,7 +33,6 @@ import com.example.tronc.gamesdaily.R;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 public class StoresActivity extends AppCompatActivity {
 
@@ -45,6 +44,7 @@ public class StoresActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private StoresAdapter sAdapter;
     private Bundle extras;
+    private static String user;
     private static Context mContext;
 
     @Override
@@ -55,6 +55,8 @@ public class StoresActivity extends AppCompatActivity {
         sampleDatabase = Room.databaseBuilder(getApplicationContext(), MyDB.class, this.getString(R.string.database_value)).build();
         mContext = this;
 
+        extras = getIntent().getExtras();
+        user = extras.getString("KEY");
         setToolbar();
         setFragments();
         LoadStores listStores = new LoadStores();
@@ -125,12 +127,12 @@ public class StoresActivity extends AppCompatActivity {
                 return true;
             case R.id.action_admin:
                 Intent i = new Intent(StoresActivity.this, AdminActivity.class);
-                i.putExtra("KEY", extras.getString("KEY"));
+                i.putExtra("KEY", user);
                 startActivity(i);
                 return true;
             case R.id.action_definitions:
                 Intent y = new Intent(StoresActivity.this, DefenitionActivity.class);
-                y.putExtra("KEY", "a");
+                y.putExtra("KEY", user);
                 startActivity(y);
                 return true;
             default:
@@ -146,8 +148,8 @@ public class StoresActivity extends AppCompatActivity {
         builder.setView(view);
         final AlertDialog dialog = builder.show();
 
-        Button idBtn = (Button) view.findViewById(R.id.btn_orderByID);
-        Button dateBtn = (Button) view.findViewById(R.id.btn_orderByDate);
+        Button idBtn = (Button) view.findViewById(R.id.btn_orderByRating);
+        Button dateBtn = (Button) view.findViewById(R.id.btn_orderStanderd);
         Button nameBtn = (Button) view.findViewById(R.id.btn_orderByName);
         Button confirmarBtn = (Button) view.findViewById(R.id.btn_confirmar);
         Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);

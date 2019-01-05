@@ -3,11 +3,17 @@ package com.example.tronc.gamesdaily.Models;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-@Entity(primaryKeys = {"username","games_id"},tableName = "Favoritos")
+@Entity(primaryKeys = {"username","games_id"},
+        indices = {@Index(value = {"username","games_id"})},
+        foreignKeys =  {@ForeignKey(entity = User.class, parentColumns = "username", childColumns = "username"),
+                @ForeignKey(entity = Games.class, parentColumns = "id", childColumns = "games_id")},
+        tableName = "Favoritos")
 public class Favoritos {
 
     @NonNull

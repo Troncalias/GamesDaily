@@ -1,6 +1,6 @@
 <resources>
     <!--String whid name of database-->
-    <string name="database_value">DataBase-DiasFinais-4</string>
+    <string name="database_value">DataBase-1</string>
 
     <string name="app_name">Games&amp;News</string>
     <string name="title_activity_login">Sign in</string>
@@ -60,7 +60,7 @@
     <string name="ordenar">Ordenar</string>
     <string name="button_byDate">By Date</string>
     <string name="button_byName">By Name</string>
-    <string name="button_byID">ById</string>
+    <string name="button_byID">By Date</string>
     <string name="hint_titulo_store">Nome da Loja</string>
     <string name="dialog_add_store_title">Add Store</string>
     <string name="hint_description_store">Descricao da Loja</string>
@@ -89,4 +89,8 @@
     <string name="msg_no_internet">É necessária conexão à internet para utilizar esta app</string>
     <string name="title_no_internet">Conexão à internet perdida</string>
     <string name="button_retry">Voltar a tentar</string>
+    <string name="dialog_add_mensage_title">Adicionar Mensagem</string>
+    <string name="hint_mengage_content">Conteudo</string>
+    <string name="button_byStaderd">By Standerd</string>
+    <string name="button_byRating">By Rating</string>
 </resources>

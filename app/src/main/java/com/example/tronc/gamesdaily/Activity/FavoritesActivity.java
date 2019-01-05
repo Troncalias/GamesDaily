@@ -21,6 +21,7 @@ import android.widget.EditText;
 import com.example.tronc.gamesdaily.Adapter.GamesAdapter;
 import com.example.tronc.gamesdaily.Data.MyDB;
 import com.example.tronc.gamesdaily.Fragment.HeaderFragment;
+import com.example.tronc.gamesdaily.Models.Favoritos;
 import com.example.tronc.gamesdaily.Models.Games;
 import com.example.tronc.gamesdaily.R;
 
@@ -30,6 +31,8 @@ import java.util.ArrayList;
 public class FavoritesActivity extends AppCompatActivity {
 
     private static Activity mRefActivity;
+    private static String user;
+
     private Toolbar mToolbar;
     private RecyclerView mRecyclerView;
     private GamesAdapter gAdapter;
@@ -42,11 +45,14 @@ public class FavoritesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_favorites);
         mRefActivity = this;
 
+        extras = getIntent().getExtras();
+        user = extras.getString("KEY");
+
         sampleDatabase = Room.databaseBuilder(getApplicationContext(), MyDB.class, this.getString(R.string.database_value)).build();
         setToolbar();
         setFragments();
 
-        LoadGames listGames = new LoadGames();
+        LoadGames listGames = new LoadGames(user);
         listGames.execute();
 
 
@@ -67,25 +73,24 @@ public class FavoritesActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    /**
-    private void setList() {
-        List<Games> contacts = (List<Games>) new List_Games().getLista_games();
-        gAdapter = new GamesAdapter(this.getApplicationContext(), (ArrayList<Games>) contacts, mRefActivity);
-        mRecyclerView = findViewById(R.id.rvGames);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        mRecyclerView.setAdapter(gAdapter);
-    }**/
-
     public class LoadGames extends AsyncTask<Void, Void, ArrayList<Games>> {
-
-        @Override
-        protected  void onPreExecute(){
-            super.onPreExecute();
+        public String user;
+        public LoadGames(String user) {
+            this.user = user;
         }
-
         @Override
         protected ArrayList<Games> doInBackground(Void... voids) {
-            ArrayList<Games> listGames = (ArrayList<Games>) sampleDatabase.geral().loadAllGamesAcepted(true);
+            ArrayList<Games> list = (ArrayList<Games>) sampleDatabase.geral().loadAllGamesAcepted(true);
+            ArrayList<Favoritos> listf = (ArrayList<Favoritos>) sampleDatabase.geral().loadFavesByUser(user);
+            ArrayList<Games> listGames = new ArrayList<Games>();
+
+            for(int i=0; i<list.size(); i++){
+                for(int y=0; y<listf.size(); y++){
+                    if(list.get(i).getId() == listf.get(y).getGames_id()){
+                        listGames.add(list.get(i));
+                    }
+                }
+            }
             return listGames;
         }
         @Override
@@ -130,12 +135,12 @@ public class FavoritesActivity extends AppCompatActivity {
                 return true;
             case R.id.action_admin:
                 Intent i = new Intent(FavoritesActivity.this, AdminActivity.class);
-                i.putExtra("KEY",extras.getString("KEY"));
+                i.putExtra("KEY",user);
                 startActivity(i);
                 return true;
             case R.id.action_definitions:
                 Intent y = new Intent(FavoritesActivity.this, DefenitionActivity.class);
-                y.putExtra("KEY","a");
+                y.putExtra("KEY",user);
                 startActivity(y);
                 return true;
             default:
@@ -151,8 +156,8 @@ public class FavoritesActivity extends AppCompatActivity {
         builder.setView(view);
         final AlertDialog dialog = builder.show();
 
-        Button idBtn = (Button) view.findViewById(R.id.btn_orderByID);
-        Button dateBtn = (Button) view.findViewById(R.id.btn_orderByDate);
+        Button idBtn = (Button) view.findViewById(R.id.btn_orderByRating);
+        Button dateBtn = (Button) view.findViewById(R.id.btn_orderStanderd);
         Button nameBtn = (Button) view.findViewById(R.id.btn_orderByName);
         Button confirmarBtn = (Button) view.findViewById(R.id.btn_confirmar);
         Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);

@@ -55,6 +55,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NewsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener , Callback<AppNewsContainer>{
     private MyDB sampleDatabase;
+    private String user;
     private static Activity mRefActivity;
     private Toolbar mToolbar;
     private RecyclerView mRecyclerView;
@@ -73,6 +74,7 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_news);
         mRefActivity = this;
         extras = getIntent().getExtras();
+        user = extras.getString("KEY");
         sampleDatabase = Room.databaseBuilder(getApplicationContext(), MyDB.class, this.getString(R.string.database_value)).build();
 
         setToolbar();
@@ -234,12 +236,12 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             case R.id.action_admin:
                 Intent i = new Intent(NewsActivity.this, AdminActivity.class);
-                i.putExtra("KEY", extras.getString("KEY"));
+                i.putExtra("KEY", user);
                 startActivity(i);
                 return true;
             case R.id.action_definitions:
                 Intent y = new Intent(NewsActivity.this, DefenitionActivity.class);
-                y.putExtra("KEY", "a");
+                y.putExtra("KEY", user);
                 startActivity(y);
                 return true;
             default:
@@ -255,8 +257,8 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
         builder.setView(view);
         final AlertDialog dialog = builder.show();
 
-        Button idBtn = (Button) view.findViewById(R.id.btn_orderByID);
-        Button dateBtn = (Button) view.findViewById(R.id.btn_orderByDate);
+        Button idBtn = (Button) view.findViewById(R.id.btn_orderByRating);
+        Button dateBtn = (Button) view.findViewById(R.id.btn_orderStanderd);
         Button nameBtn = (Button) view.findViewById(R.id.btn_orderByName);
         Button confirmarBtn = (Button) view.findViewById(R.id.btn_confirmar);
         Button cancelBtn = (Button) view.findViewById(R.id.button_cancel);
@@ -364,27 +366,27 @@ public class NewsActivity extends AppCompatActivity implements NavigationView.On
         switch (menuItem.getItemId()){
             case R.id.nav_games:
                 Intent i = new Intent(NewsActivity.this, GamesActivity.class);
-                i.putExtra("KEY", extras.getString("KEY"));
+                i.putExtra("KEY", user);
                 startActivity(i);
                 break;
             case R.id.nav_chat:
                 Intent e = new Intent(NewsActivity.this, ChatActivity.class);
-                e.putExtra("KEY", extras.getString("KEY"));
+                e.putExtra("KEY", user);
                 startActivity(e);
                 break;
             case R.id.nav_store:
                 Intent x = new Intent(NewsActivity.this, StoresActivity.class);
-                x.putExtra("KEY", extras.getString("KEY"));
+                x.putExtra("KEY", user);
                 startActivity(x);
                 break;
             case R.id.nav_fav:
                 Intent g = new Intent(NewsActivity.this, FavoritesActivity.class);
-                g.putExtra("KEY", extras.getString("KEY"));
+                g.putExtra("KEY", user);
                 startActivity(g);
                 break;
             case R.id.nav_exit:
                 Intent j = new Intent(NewsActivity.this, MainActivity.class);
-                j.putExtra("KEY", extras.getString("KEY"));
+                j.putExtra("KEY", user);
                 startActivity(j);
                 break;
         }

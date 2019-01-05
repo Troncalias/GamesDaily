@@ -20,12 +20,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
     private ArrayList<Chat> mList;
     private Context mContext;
     private Activity mActivity;
-    private ViewHolder contactView;
+    private String user;
 
-    public ChatAdapter(Context mContext, ArrayList<Chat> mList, Activity activity) {
+    public ChatAdapter(Context mContext, ArrayList<Chat> mList, Activity activity, String user) {
         this.mList = mList;
         this.mContext = mContext;
         this.mActivity = activity;
+        this.user = user;
     }
 
     private Context getContext() {
@@ -65,8 +66,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
         Button buttao = viewHolder.Butao;
         buttao.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ChatActivity.openChat(myItem, mActivity);
-
+                ChatActivity.openChat(myItem, mActivity, user);
             }
         });
 

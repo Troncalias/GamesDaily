@@ -64,6 +64,11 @@ public class MensageAdapter extends RecyclerView.Adapter<MensageAdapter.ViewHold
         return mList.size();
     }
 
+    public void setList(ArrayList<Mensage> list){
+        mList.clear();
+        mList.addAll(list);
+        notifyDataSetChanged();
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView Titulo;

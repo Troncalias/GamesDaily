@@ -23,12 +23,11 @@ import java.util.ArrayList;
 public class GamesEditAdapter extends RecyclerView.Adapter<GamesEditAdapter.ViewHolder> {
     private ArrayList<Games> mList;
     private Context mContext;
-    private ViewHolder contactView;
     private Activity mActivity;
 
     public GamesEditAdapter(Context mContext, ArrayList<Games> mList, Activity activity) {
         this.mList = mList;
-        this.mContext = mContext;;
+        this.mContext = mContext;
         this.mActivity = activity;
     }
 
@@ -82,6 +81,7 @@ public class GamesEditAdapter extends RecyclerView.Adapter<GamesEditAdapter.View
 
             }
         });
+        Button acept = viewHolder.comentsButton;
     }
 
     @Override
@@ -96,6 +96,7 @@ public class GamesEditAdapter extends RecyclerView.Adapter<GamesEditAdapter.View
         public TextView ratingView;
         public TextView dateView;
         public Button selectButton;
+        public Button comentsButton;
         public ImageView imageView;
 
         public ViewHolder(@NonNull View itemView) {
@@ -104,6 +105,7 @@ public class GamesEditAdapter extends RecyclerView.Adapter<GamesEditAdapter.View
             nameTextView = (TextView) itemView.findViewById(R.id.game_nameTv);
             numberPlayers = (TextView) itemView.findViewById(R.id.number_playersTv);
             selectButton = (Button) itemView.findViewById(R.id.select_button);
+            comentsButton = (Button) itemView.findViewById(R.id.comentarios_button);
             ratingView = (TextView) itemView.findViewById(R.id.game_ratingTv);
             dateView = (TextView) itemView.findViewById(R.id.date_insercaoTv);
             imageView = (ImageView) itemView.findViewById(R.id.game_imageView);
